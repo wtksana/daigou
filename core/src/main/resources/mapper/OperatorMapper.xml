@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daigou.core.dao.OperatorMapper">
+    <!-- Result Map-->
+    <resultMap id="baseResultMap" type="com.daigou.core.domain.Operator">
+        <result column="uuid" property="uuid"/>
+        <result column="name" property="name"/>
+        <result column="pwd" property="pwd"/>
+        <result column="real_name" property="realName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- user table all fields -->
+    <sql id="base_column_list">
+        uuid,name,pwd,real_name,mobile,create_time,status,remark
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="findOperatorByUuid" resultMap="baseResultMap" parameterType="String">
+        select
+        <include refid="base_column_list"/>
+        from sys_operator where uuid = #{uuid}
+    </select>
+</mapper>
