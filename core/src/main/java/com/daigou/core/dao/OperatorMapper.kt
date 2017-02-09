@@ -7,6 +7,6 @@ import com.daigou.core.domain.Operator
  */
 interface OperatorMapper {
 
-    fun findOperatorByUuid(uuid: String): Operator
+    fun findOperatorByUuid(uuid: String): Operator?
 
 }

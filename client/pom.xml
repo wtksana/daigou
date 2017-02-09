@@ -10,6 +10,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>client</artifactId>
-
+    <dependencies>
+        <dependency>
+            <groupId>no.tornado</groupId>
+            <artifactId>tornadofx</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.daigou</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.daigou</groupId>
+            <artifactId>domain</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 </project>
