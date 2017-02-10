@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>client</artifactId>
+    <artifactId>dg-client</artifactId>
     <dependencies>
         <dependency>
             <groupId>no.tornado</groupId>
@@ -18,12 +18,12 @@
         </dependency>
         <dependency>
             <groupId>com.daigou</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>dg-common</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.daigou</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>dg-domain</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

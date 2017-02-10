@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>server</artifactId>
+    <artifactId>dg-server</artifactId>
     <packaging>war</packaging>
     <dependencies>
         <dependency>
             <groupId>com.daigou</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>dg-core</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common</artifactId>
+    <artifactId>dg-common</artifactId>
 
     <dependencies>
         <!-- JSON begin -->

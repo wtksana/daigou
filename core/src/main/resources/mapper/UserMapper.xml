@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daigou.core.dao.UserMapper">
+    <!-- Result Map-->
+    <resultMap id="baseResultMap" type="com.daigou.core.domain.User">
+        <result column="uuid" property="uuid"/>
+        <result column="wechat" property="wechat"/>
+        <result column="real_name" property="realName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="address" property="address"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- user table all fields -->
+    <sql id="base_column_list">
+        uuid,wechat,real_name,mobile,address,status,remark,create_time
+    </sql>
+
+    <!-- 根据id查询 -->
+    <select id="getUserListBy" resultMap="baseResultMap" parameterType="com.daigou.core.domain.Pages">
+        select
+        <include refid="base_column_list"/>
+        from dg_user where 1=1
+        <if test="option != null and option != ''">
+            and (wechat like CONCAT('%','${option}','%' ) or real_name like CONCAT('%','${option}','%' ) or mobile like CONCAT('%','${option}','%' ))
+        </if>
+        limit #{row} offset #{offset}
+    </select>
+
+</mapper>
