@@ -16,7 +16,8 @@ open class UserServiceImpl : UserService {
     @Autowired
     private val userMapper: UserMapper? = null
 
-    override fun getUserListBy(pages: Pages): List<User>? {
-        return userMapper!!.getUserListBy(pages)
+    override fun getUserListBy(pages: Pages): Pages {
+        pages.data = userMapper!!.getUserListBy(pages)
+        return pages
     }
 }

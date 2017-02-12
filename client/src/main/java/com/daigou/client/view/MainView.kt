@@ -1,6 +1,7 @@
 package com.daigou.client.view
 
 import com.daigou.client.controller.OperatorCtrl
+import com.daigou.client.view.user.UserListView
 import javafx.scene.layout.BorderPane
 import tornadofx.View
 import tornadofx.menu
@@ -12,7 +13,7 @@ import tornadofx.menuitem
  */
 class MainView : View("代购系统") {
     val operatorCtrl: OperatorCtrl by inject()
-    val userView: UserView by inject()
+    val userListView: UserListView by inject()
     override val root: BorderPane by fxml("/fxml/main.fxml")
 
     init {
@@ -20,7 +21,11 @@ class MainView : View("代购系统") {
         with(root) {
             top = menubar {
                 menu("客户") {
-                    menuitem("客户列表").setOnAction { center = userView.root }
+                    menuitem("客户列表").setOnAction {
+                        if (center != userListView.root) {
+                            center = userListView.root
+                        }
+                    }
                     menuitem("添加客户").setOnAction { }
                 }
             }

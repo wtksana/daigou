@@ -1,5 +1,6 @@
 package com.daigou.client.controller
 
+import com.daigou.client.model.Pages
 import com.daigou.client.model.User
 import com.daigou.client.model.UserModel
 import javafx.collections.FXCollections
@@ -20,13 +21,20 @@ class UserCtrl : Controller() {
         api.baseURI = "http://127.0.0.1:8080"
     }
 
-    fun getUserList(page: Int): Boolean {
-        val path = "/user/userList.html?page=$page&row=1"
+    fun getUserList(page: Int, row: Int): Boolean {
+        val path = "/user/userList.html?page=$page&row=$row"
         val rt = api.post(path)
         if (rt.ok()) {
-            userList = rt.one().getJsonArray("data").toModel<User>()
+            val pages = rt.one().getJsonObject("data").toModel<Pages>()
+            if (pages.data != null) {
+                userList = pages.data.toModel<User>()
+            } else {
+                userList = FXCollections.observableArrayList<User>()
+            }
             return true
         }
         return false
     }
+
+
 }

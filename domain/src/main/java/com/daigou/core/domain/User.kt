@@ -13,7 +13,7 @@ data class User(var uuid: String = "",
                 var address: String = "",
                 var status: Int = 0,
                 var remark: String = "",
-                var createTime: Date = Date()
+                var createTime: Date? = null
 ) : Serializable {
     private val serialVersionUID = 1L
 }

@@ -1,11 +1,11 @@
 package com.daigou.client.model
 
 import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
-import java.util.*
+import java.text.SimpleDateFormat
 import javax.json.JsonObject
+import javax.json.JsonValue
 
 /**
  * Created by wt on 2017/2/10.
@@ -32,7 +32,7 @@ class User : JsonModel {
     val remarkProperty = SimpleStringProperty()
     var remark by remarkProperty
 
-    val createTimeProperty = SimpleObjectProperty<Date>()
+    val createTimeProperty = SimpleStringProperty()
     var createTime by createTimeProperty
 
     override fun updateModel(json: JsonObject) {
@@ -44,7 +44,7 @@ class User : JsonModel {
             address = string("address")
             status = int("status")!!
             remark = string("remark")
-            createTime = Date(getLong("createTime"))
+            createTime = dateStr(get("createTime"))
         }
     }
 }
@@ -58,4 +58,13 @@ class UserModel : ItemViewModel<User>() {
     val status = bind { item?.statusProperty }
     val remark = bind { item?.remarkProperty }
     val createTime = bind { item?.createTimeProperty }
+}
+
+fun dateStr(date: JsonValue?): String {
+    if (date == null) {
+        return ""
+    }
+    val format = SimpleDateFormat("yyyy-MM-dd hh:mm")
+    val str = format.format(date.toString().toLong())
+    return str
 }

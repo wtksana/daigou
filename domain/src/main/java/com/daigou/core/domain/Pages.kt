@@ -7,8 +7,14 @@ import java.io.Serializable
  */
 data class Pages(var page: Int = 0,
                  var row: Int = 20,
-                 var option: String = ""
+                 var option: String = "",
+                 var total: Int = 0,
+                 var data: Any? = null
 ) : Serializable {
     private val serialVersionUID = 1L
-    var offset = page * row
+    var offset = 0
+        get():Int {
+            val page = if (page > 0) page - 1 else page
+            return page * row
+        }
 }

@@ -8,6 +8,6 @@ import com.daigou.core.domain.User
  */
 interface UserMapper {
 
-    fun getUserListBy(pages: Pages): List<User>?
+    fun getUserListBy(pages: Pages): List<User>
 
 }

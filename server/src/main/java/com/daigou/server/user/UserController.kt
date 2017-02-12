@@ -20,9 +20,9 @@ class UserController : BaseController() {
 
     @RequestMapping("/user/userList")
     fun userList(pages: Pages): Any {
-        val userList = userService!!.getUserListBy(pages)
-        if (userList != null) {
-            return success(userList)
+        val pages = userService!!.getUserListBy(pages)
+        if (pages.data != null) {
+            return success(pages)
         } else {
             return fail()
         }

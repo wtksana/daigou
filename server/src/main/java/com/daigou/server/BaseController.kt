@@ -1,5 +1,7 @@
 package com.daigou.server
 
+import com.daigou.core.domain.Pages
+
 /**
  * Created by wt on 2017/2/9.
  */
@@ -8,6 +10,8 @@ abstract class BaseController {
     protected val MSG = "msg"
     protected val DATA = "data"
     protected val URL = "url"
+    protected val PAGES = "pages"
+
 
     protected fun success(): Map<String, Any> {
         val rst = hashMapOf<String, Any>()
