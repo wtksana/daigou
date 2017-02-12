@@ -6,7 +6,7 @@ import tornadofx.*
 /**
  * Created by wt on 2017/2/12.
  */
-class UserDetailView : View() {
+class UserDetailView : Fragment() {
     override val root = Form()
     val userCtrl: UserCtrl by inject()
 
@@ -30,6 +30,9 @@ class UserDetailView : View() {
                 field("手机号：") {
                     textfield {
                         bind(userCtrl.selectedUser.mobile)
+                        validator {
+                            if (it.isNullOrBlank()) error("手机号不能为空") else null
+                        }
                     }
                 }
                 field("地址：") {
@@ -38,8 +41,13 @@ class UserDetailView : View() {
                     }
                 }
                 field("备注：") {
-                    textfield {
+                    textarea {
                         bind(userCtrl.selectedUser.remark)
+                    }
+                }
+                button("保存") {
+                    setOnAction {
+                        userCtrl.selectedUser.commit()
                     }
                 }
             }
