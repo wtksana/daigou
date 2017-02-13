@@ -1,13 +1,13 @@
 package com.daigou.core.dao
 
-import com.daigou.core.domain.Pages
 import com.daigou.core.domain.User
+import com.daigou.core.util.Pages
 
 /**
  * Created by wt on 2017/2/10.
  */
 interface UserMapper {
 
-    fun getUserListBy(pages: Pages): List<User>
+    fun getUserListBy(pages: Pages<User>): List<User>
 
 }

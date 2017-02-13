@@ -87,11 +87,18 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.8.6</version>
         </dependency>
+        <!-- mybatis 分页插件 start -->
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>${jsqlparser.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
-            <version>5.0.0</version>
+            <version>${pagehelper.version}</version>
         </dependency>
+        <!-- mybatis 分页插件 end -->
     </dependencies>
 
 </project>

@@ -4,32 +4,23 @@ import com.daigou.client.model.Pages
 import com.daigou.client.model.User
 import com.daigou.client.model.UserModel
 import javafx.collections.FXCollections
-import tornadofx.Controller
-import tornadofx.Rest
 import tornadofx.toModel
 
 /**
  * Created by wt on 2017/2/10.
  */
-class UserCtrl : Controller() {
-    private val api: Rest by inject()
+class UserCtrl : BaseCtrl<User>() {
 
     val selectedUser = UserModel()
-    var userList = FXCollections.observableArrayList<User>()
-
-    init {
-        api.baseURI = "http://127.0.0.1:8080"
-    }
-
-    fun getUserList(page: Int, row: Int): Boolean {
-        val path = "/user/userList.html?page=$page&row=$row"
+    override fun getList(page: Int, row: Int, option: String): Boolean {
+        val path = "/user/userList.html?page=$page&row=$row&option=$option"
         val rt = api.post(path)
         if (rt.ok()) {
-            val pages = rt.one().getJsonObject("data").toModel<Pages>()
+            pages = rt.one().getJsonObject("data").toModel<Pages>()
             if (pages.data != null) {
-                userList = pages.data.toModel<User>()
+                list = pages.data.toModel<User>()
             } else {
-                userList = FXCollections.observableArrayList<User>()
+                list = FXCollections.observableArrayList<User>()
             }
             return true
         }

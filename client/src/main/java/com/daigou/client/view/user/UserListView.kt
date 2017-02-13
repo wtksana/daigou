@@ -20,8 +20,7 @@ class UserListView : View() {
     val userDetail = UserDetailView()
     //    val userTable: TableView<User> by fxid("userTable")
     val userTable = TableView<User>()
-    val row = 20
-    val pagesTool = PagesTool()
+    val pagesTool = PagesTool(userCtrl,userTable)
     val add = Button("添加")
 
     init {
@@ -45,6 +44,7 @@ class UserListView : View() {
             }
             columnResizePolicy = SmartResize.POLICY
             bindSelected(userCtrl.selectedUser)
+
         }
         with(userDetail.root) {
             anchorpaneConstraints {
@@ -55,31 +55,12 @@ class UserListView : View() {
         }
         with(pagesTool) {
             this += add
-            page.setOnKeyReleased { e ->
-                if (e.code == KeyCode.ENTER) {
-                    userList(page.text.toInt(), 20)
-                }
-            }
         }
         with(root) {
             this += userTable
             this += userDetail
             this += pagesTool
         }
-        userList(1, row)
-
     }
 
-
-    fun userList(page: Int, row: Int) {
-        runAsync {
-            userCtrl.getUserList(page, row)
-        } ui { rst ->
-            if (rst) {
-                userTable.items = userCtrl.userList
-                userTable.refresh()
-            }
-        }
-
-    }
 }

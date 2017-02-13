@@ -1,7 +1,8 @@
 package com.daigou.server.user
 
-import com.daigou.core.domain.Pages
+import com.daigou.core.domain.User
 import com.daigou.core.service.UserService
+import com.daigou.core.util.Pages
 import com.daigou.server.BaseController
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +20,7 @@ class UserController : BaseController() {
     private val userService: UserService? = null
 
     @RequestMapping("/user/userList")
-    fun userList(pages: Pages): Any {
+    fun userList(pages: Pages<User>): Any {
         val pages = userService!!.getUserListBy(pages)
         if (pages.data != null) {
             return success(pages)

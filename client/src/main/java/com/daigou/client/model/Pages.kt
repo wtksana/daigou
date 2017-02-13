@@ -1,6 +1,7 @@
 package com.daigou.client.model
 
 import javafx.beans.property.SimpleIntegerProperty
+import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
@@ -20,8 +21,11 @@ class Pages : JsonModel {
     val optionProperty = SimpleStringProperty()
     var option: String? by optionProperty
 
-    val totalProperty = SimpleIntegerProperty()
+    val totalProperty = SimpleLongProperty()
     var total by totalProperty
+
+    val totalPageProperty = SimpleLongProperty()
+    var totalPage by totalPageProperty
 
     val dataProperty = SimpleObjectProperty<JsonArray>()
     var data by dataProperty
@@ -30,9 +34,20 @@ class Pages : JsonModel {
         with(json) {
             page = int("page")!!
             row = int("row")!!
-            total = int("total")!!
+            total = long("total")!!
+            totalPage = long("totalPage")!!
             option = string("option")
             data = jsonArray("data")
         }
     }
+
+}
+
+class PagesModel : ItemViewModel<Pages>() {
+    val page = bind { item?.pageProperty }
+    val row = bind { item?.rowProperty }
+    val option = bind { item?.optionProperty }
+    val total = bind { item?.totalProperty }
+    val totalPage = bind { item?.totalPageProperty }
+    val data = bind { item?.dataProperty }
 }

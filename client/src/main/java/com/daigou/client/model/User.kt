@@ -47,6 +47,15 @@ class User : JsonModel {
             createTime = dateStr(get("createTime"))
         }
     }
+
+    fun dateStr(date: JsonValue?): String {
+        if (date == null) {
+            return ""
+        }
+        val format = SimpleDateFormat("yyyy-MM-dd hh:mm")
+        val str = format.format(date.toString().toLong())
+        return str
+    }
 }
 
 class UserModel : ItemViewModel<User>() {
@@ -60,11 +69,3 @@ class UserModel : ItemViewModel<User>() {
     val createTime = bind { item?.createTimeProperty }
 }
 
-fun dateStr(date: JsonValue?): String {
-    if (date == null) {
-        return ""
-    }
-    val format = SimpleDateFormat("yyyy-MM-dd hh:mm")
-    val str = format.format(date.toString().toLong())
-    return str
-}

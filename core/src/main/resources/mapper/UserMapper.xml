@@ -28,7 +28,6 @@
         <if test="option != null and option != ''">
             and (wechat like CONCAT('%','${option}','%' ) or real_name like CONCAT('%','${option}','%' ) or mobile like CONCAT('%','${option}','%' ))
         </if>
-        limit #{row} offset #{offset}
     </select>
 
 </mapper>
