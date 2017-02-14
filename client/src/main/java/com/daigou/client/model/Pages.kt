@@ -41,6 +41,13 @@ class Pages : JsonModel {
         }
     }
 
+    constructor(page: Int, row: Int) {
+        this.page = page
+        this.row = row
+    }
+
+    constructor()
+
 }
 
 class PagesModel : ItemViewModel<Pages>() {

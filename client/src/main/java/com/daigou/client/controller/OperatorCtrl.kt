@@ -1,5 +1,6 @@
 package com.daigou.client.controller
 
+import com.daigou.common.util.UrlConstant
 import tornadofx.Controller
 import tornadofx.Rest
 
@@ -11,7 +12,7 @@ class OperatorCtrl : Controller() {
     private val api: Rest by inject()
 
     init {
-        api.baseURI = "http://127.0.0.1:8080"
+        api.baseURI = UrlConstant.server_url
     }
 
     fun login(name: String, pwd: String): Boolean {

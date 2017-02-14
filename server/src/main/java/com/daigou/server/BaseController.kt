@@ -1,7 +1,5 @@
 package com.daigou.server
 
-import com.daigou.core.domain.Pages
-
 /**
  * Created by wt on 2017/2/9.
  */

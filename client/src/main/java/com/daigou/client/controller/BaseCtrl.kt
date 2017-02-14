@@ -1,6 +1,7 @@
 package com.daigou.client.controller
 
 import com.daigou.client.model.Pages
+import com.daigou.common.util.UrlConstant
 import javafx.collections.FXCollections
 import tornadofx.Controller
 import tornadofx.Rest
@@ -11,10 +12,10 @@ import tornadofx.Rest
 abstract class BaseCtrl<T> : Controller() {
     protected val api: Rest by inject()
     var list = FXCollections.observableArrayList<T>()
-    var pages = Pages()
+    var pages = Pages(1, 20)
 
     init {
-        api.baseURI = "http://127.0.0.1:8080"
+        api.baseURI = UrlConstant.server_url
     }
 
     abstract fun getList(page: Int, row: Int, option: String): Boolean

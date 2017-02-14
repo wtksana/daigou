@@ -24,7 +24,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         }
     }
 
-    val previous = button("上一页") {
+    val previous = button("←") {
         setOnMouseClicked { e ->
             if (e.button == MouseButton.PRIMARY) {
                 val previous = page.text.toInt() - 1
@@ -52,7 +52,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         }
     }
 
-    val next = button("下一页") {
+    val next = button("→") {
         setOnMouseClicked { e ->
             if (e.button == MouseButton.PRIMARY) {
                 val next = page.text.toInt() + 1
@@ -73,9 +73,10 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
             prefHeight = 40.0
             anchorpaneConstraints {
                 bottomAnchor = 0.0
-                leftAnchor = 0.0
-                rightAnchor = 0.0
+                leftAnchor = 1.0
+                rightAnchor = 1.0
             }
+
         }
         option
         previous

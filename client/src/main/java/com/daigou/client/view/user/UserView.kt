@@ -1,22 +1,25 @@
 package com.daigou.client.view.user
 
 import com.daigou.client.controller.UserCtrl
+import com.daigou.client.model.UserModel
+import com.daigou.core.domain.User
 import tornadofx.*
 
 /**
  * Created by wt on 2017/2/12.
  */
-class UserDetailView : Fragment() {
+class UserView : Fragment() {
     override val root = Form()
     val userCtrl: UserCtrl by inject()
+    val newUser = UserModel()
 
     init {
-        title = "编辑"
+        title = "新增"
         with(root) {
             fieldset {
                 field("微信号：") {
                     textfield {
-                        bind(userCtrl.selectedUser.wechat)
+                        bind(newUser.wechat)
                         validator {
                             if (it.isNullOrBlank()) error("微信号不能为空") else null
                         }
@@ -24,12 +27,12 @@ class UserDetailView : Fragment() {
                 }
                 field("姓名：") {
                     textfield {
-                        bind(userCtrl.selectedUser.realName)
+                        bind(newUser.realName)
                     }
                 }
                 field("手机号：") {
                     textfield {
-                        bind(userCtrl.selectedUser.mobile)
+                        bind(newUser.mobile)
                         validator {
                             if (it.isNullOrBlank()) error("手机号不能为空") else null
                         }
@@ -37,17 +40,20 @@ class UserDetailView : Fragment() {
                 }
                 field("地址：") {
                     textfield {
-                        bind(userCtrl.selectedUser.address)
+                        bind(newUser.address)
                     }
                 }
                 field("备注：") {
                     textarea {
-                        bind(userCtrl.selectedUser.remark)
+                        bind(newUser.remark)
                     }
                 }
                 button("保存") {
                     setOnAction {
-                        userCtrl.selectedUser.commit()
+                        if (newUser.commit()) {
+                            userCtrl.addUser(newUser)
+                            newUser.itemProperty.set(User())
+                        }
                     }
                 }
             }

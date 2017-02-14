@@ -21,7 +21,7 @@
     </sql>
 
     <!-- 根据id查询 -->
-    <select id="getUserListBy" resultMap="baseResultMap" parameterType="com.daigou.core.domain.Pages">
+    <select id="getUserListBy" resultMap="baseResultMap" parameterType="com.daigou.core.util.Pages">
         select
         <include refid="base_column_list"/>
         from dg_user where 1=1
