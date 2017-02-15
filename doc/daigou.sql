@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2017-02-09 18:06:54
+Date: 2017-02-15 18:22:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,12 +21,13 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `dg_goods`;
 CREATE TABLE `dg_goods` (
   `uuid` varchar(32) NOT NULL,
-  `type` int(10) DEFAULT NULL COMMENT '商品类型',
+  `type` varchar(20) DEFAULT '0' COMMENT '商品类型',
   `name` varchar(32) DEFAULT NULL COMMENT '商品名称',
-  `price` decimal(10,2) DEFAULT NULL COMMENT '售价',
-  `bid` decimal(10,2) DEFAULT NULL COMMENT '进价',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '售价',
+  `bid` decimal(10,2) DEFAULT '0.00' COMMENT '进价',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `status` tinyint(1) DEFAULT NULL COMMENT '状态 1：正常 2：删除',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态 1：正常 0：删除',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`uuid`),
   UNIQUE KEY `idx_uuid` (`uuid`) USING BTREE
@@ -35,20 +36,22 @@ CREATE TABLE `dg_goods` (
 -- ----------------------------
 -- Records of dg_goods
 -- ----------------------------
+INSERT INTO `dg_goods` VALUES ('007da1178b0341f6bbf0c7b2806ce9e', '包', '爱上啊', '100.55', '120.55', '2017-02-15 17:17:21', null, '1', null);
 
 -- ----------------------------
 -- Table structure for dg_goods_type
 -- ----------------------------
 DROP TABLE IF EXISTS `dg_goods_type`;
 CREATE TABLE `dg_goods_type` (
-  `type` int(10) NOT NULL COMMENT '类型',
-  `title` varchar(255) DEFAULT NULL COMMENT '类型名称',
+  `type` varchar(20) NOT NULL COMMENT '类型',
   PRIMARY KEY (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品类型表';
 
 -- ----------------------------
 -- Records of dg_goods_type
 -- ----------------------------
+INSERT INTO `dg_goods_type` VALUES ('包');
+INSERT INTO `dg_goods_type` VALUES ('化妆品');
 
 -- ----------------------------
 -- Table structure for dg_order
@@ -58,14 +61,14 @@ CREATE TABLE `dg_order` (
   `uuid` varchar(32) NOT NULL COMMENT '主键',
   `user_uuid` varchar(32) DEFAULT NULL COMMENT '用户id',
   `goods_uuid` varchar(32) DEFAULT NULL COMMENT '商品uuid',
-  `quantity` int(10) DEFAULT NULL COMMENT '数量',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `op_uuid` varchar(32) DEFAULT NULL COMMENT '操作员uuid',
-  `status` tinyint(1) DEFAULT NULL COMMENT '状态 1：下单 2：完成 0删除',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `quantity` int(10) DEFAULT '0' COMMENT '数量',
   `done_time` datetime DEFAULT NULL COMMENT '订单完成时间',
-  PRIMARY KEY (`uuid`),
-  UNIQUE KEY `idx_uuid` (`uuid`) USING BTREE
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `op_uuid` varchar(32) DEFAULT NULL COMMENT '操作员uuid',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态 1：下单 2：完成 0：删除',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
@@ -82,16 +85,66 @@ CREATE TABLE `dg_user` (
   `real_name` varchar(20) DEFAULT NULL COMMENT '真实姓名',
   `mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
   `address` varchar(255) DEFAULT NULL COMMENT '地址',
-  `status` tinyint(1) DEFAULT NULL COMMENT '状态 1：正常 2：删除',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态 1：正常 0：删除',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`uuid`),
-  UNIQUE KEY `idx_uuid` (`uuid`) USING BTREE
+  KEY `idx_uuid` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户表';
 
 -- ----------------------------
 -- Records of dg_user
 -- ----------------------------
+INSERT INTO `dg_user` VALUES ('0057907c7eb7440c96b705648b1d6f76', '阿斯达', '哦哦', '13012341234', '的所发生的', '1', '是的', '2017-02-10 16:03:59', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('00712ff78b0341f6bbf0c7b28065ce9e', '啊实打实的5', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007da1178b0341f6bbf0c7b28065ce9e', '啊实打实的14', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007dafas8b0341f6bbf0c7b28065ce9e', '啊实打实的16', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff12b0341f6bbf0c7b28065ce9e', '啊实打实的3', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff7823341f6bbf0c7b28065ce9e', '啊实打实的8', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff7876341f6bbf0c7b28065ce9e', '啊实打实的10', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0121f6bbf0c7b28065ce9e', '啊实打实的4', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0141f23bf0c7b28065ce9e', '啊实打实的6', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f22bf0c7b28065ce9e', '啊实打实的13', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6bb54c7b28065ce9e', '啊实打实的9', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6bbf0c7538065ce9e', '啊实打实的12', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6bbf0c7b28065c12e', '啊实打实的11', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6bbf0c7b28065ce9e', '啊实打实的', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6bbf0c7bzx065ce9e', '啊实打实的22', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6bth0c7b28065ce9e', '啊实打实的21', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6qwf0c7b28065ce9e', '啊实打实的26', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341f6xcf0c7b28065ce9e', '啊实打实的18', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341fczbf0c7b28065ce9e', '啊实打实的23', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341qw12f0c7b28065ce9e', '啊实打实的1', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0341vwbbf0c7b28065ce9e', '啊实打实的20', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b034326bbf0c7b28065ce9e', '啊实打实的7', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b034as6bbf0c7b28065ce9e', '啊实打实的17', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b034eh6bbf0c7b28065ce9e', '啊实打实的30', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b03qff6bbf0c7b28065ce9e', '啊实打实的19', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b03qwf6bbf0c7b28065ce9e', '啊实打实的27', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b0my1f6bbf0c7b28065ce9e', '啊实打实的25', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78b1241f6bbf0c7b28065ce9e', '啊实打实的2', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78bxr41f6bbf0c7b28065ce9e', '啊实打实的29', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007daff78qf341f6bbf0c7b28065ce9e', '啊实打实的24', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('007dafht8b0341f6bbf0c7b28065ce9e', '啊实打实的28', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('071daff78b0341f6bbf0c7b28065ce9e', '啊实打实的15', '哈哈', '13012345678', '撒大声地阿斯达爱上', '1', '阿斯达爱上', '2017-02-10 16:03:37', '2017-02-15 10:20:38');
+INSERT INTO `dg_user` VALUES ('0d179c8eae7d44d9ba5167c459d7e988', 'dasdasd', '123123', '134123123123', 'adasdasd', '1', '12132312', '2017-02-15 14:19:55', null);
+INSERT INTO `dg_user` VALUES ('1310abaf51dd4ba9862c96ad789d3539', '412rdf1d1dwe', 'sfasdfsdf', '14131423', 'casdcsc', '1', null, '2017-02-15 14:16:25', null);
+INSERT INTO `dg_user` VALUES ('2bf7293fb37b47278b318dfb0b78bc99', 'asasdads11212312', '12e12d1', '12361234124', 'sccac', '1', '121212', '2017-02-15 14:03:18', null);
+INSERT INTO `dg_user` VALUES ('2d9b2f3572f74bcda0cd27b62ad8f738', '14314fsdfasdf1', null, '12345123412', null, '1', null, '2017-02-15 14:12:05', null);
+INSERT INTO `dg_user` VALUES ('30d16e006cf44fa0a5d61c9f745541a7', 'dasdasd', '123123', '134123123123', 'adasdasd', '1', '12132312', '2017-02-15 14:18:38', null);
+INSERT INTO `dg_user` VALUES ('3225dfd23a9445f2b5a49506601573fd', 'dasdadad', null, '131313562135', null, '1', null, '2017-02-15 14:26:55', null);
+INSERT INTO `dg_user` VALUES ('3a01ca2099d44e008f6d19f25d7f2a7e', 'fasdfsdf', 'da', '313131', 'asdasd', '1', null, '2017-02-15 14:40:15', null);
+INSERT INTO `dg_user` VALUES ('3f5ac11f2bce4fcd8da03c300b51a5ba', 'aa4a1241234', null, '1313', null, '1', null, '2017-02-15 14:42:54', null);
+INSERT INTO `dg_user` VALUES ('6a8c6c76a95d4daaa490a9a9c052642c', '13123112sdadas123', '12321312', 'dasdasd123', 'asdasdasd', '1', 'asdasdasd', '2017-02-15 14:23:17', null);
+INSERT INTO `dg_user` VALUES ('711a693dcc064eb3806f8d745d44704f', 'dasdasd', '123123', '134123123123', 'adasdasd', '1', '12132312', '2017-02-15 14:19:59', null);
+INSERT INTO `dg_user` VALUES ('a6ae7f73193b4549b6e617fb8b019fdf', '14314fsssdfasdf1', '1243123', '12345123412', 'sdfasdas', '1', 'cascascasc', '2017-02-15 14:12:32', null);
+INSERT INTO `dg_user` VALUES ('bd179289f9f445f0a30c0f9eb877e15e', '14314fsssdfasdf1', '1243123', '12345123412', 'sdfasdas', '1', 'cascascasc', '2017-02-15 14:13:14', null);
+INSERT INTO `dg_user` VALUES ('d11a36e0645a47919c3ed2b2831208a8', '14243dsfsafsd111', 'fsaffsdf', '12412341234', 'sdfsdf', '1', '', '2017-02-15 14:25:19', '2017-02-15 15:22:50');
+INSERT INTO `dg_user` VALUES ('e3fc0977acd94218b6d0d7e7a28fe026', 'asdasd1', null, '114124', null, '1', null, '2017-02-15 14:24:03', null);
+INSERT INTO `dg_user` VALUES ('f3385883ced841cea2d2c06b54bcaeb0', 'dasdasd22222111', '123123', '134123123123', 'adasdasd', '1', '12132312', '2017-02-15 14:19:51', '2017-02-15 15:02:40');
+INSERT INTO `dg_user` VALUES ('f3440b7858e247c1aeed4cc44870744a', 'fasdasd', 'fds', '312312313', 'ad', '1', null, '2017-02-15 14:34:26', null);
+INSERT INTO `dg_user` VALUES ('ffcfa410ead641b6ad75649144909780', 'asASsS', null, '1331313131', null, '1', null, '2017-02-15 14:55:43', null);
 
 -- ----------------------------
 -- Table structure for sys_operator
