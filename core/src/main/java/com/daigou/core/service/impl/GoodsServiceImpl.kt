@@ -1,8 +1,8 @@
 package com.daigou.core.service.impl
 
-import com.daigou.core.dao.UserMapper
-import com.daigou.core.domain.User
-import com.daigou.core.service.UserService
+import com.daigou.core.dao.GoodsMapper
+import com.daigou.core.domain.Goods
+import com.daigou.core.service.GoodsService
 import com.daigou.core.util.Pages
 import com.github.pagehelper.Page
 import com.github.pagehelper.PageHelper
@@ -10,24 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 /**
- * Created by wt on 2017/2/10.
+ * Created by wt on 2017/2/15.
  */
 @Service
-open class UserServiceImpl : UserService {
-
+open class GoodsServiceImpl : GoodsService {
     @Autowired
-    private val mapper: UserMapper? = null
+    private val mapper: GoodsMapper? = null
 
-    override fun save(model: User): Boolean {
-        if (model.uuid.isNullOrBlank() || model.wechat.isNullOrBlank()) {
+    override fun save(model: Goods): Boolean {
+        if (model.uuid.isNullOrBlank() || model.name.isNullOrBlank()) {
             return false
         }
         mapper!!.save(model)
         return true
     }
 
-    override fun update(model: User): Boolean {
-        if (model.uuid.isNullOrBlank() || model.wechat.isNullOrBlank()) {
+    override fun update(model: Goods): Boolean {
+        if (model.uuid.isNullOrBlank() || model.name.isNullOrBlank()) {
             return false
         }
         mapper!!.update(model)
@@ -42,21 +41,25 @@ open class UserServiceImpl : UserService {
         return true
     }
 
-    override fun getByUuid(uuid: String): User? {
+    override fun getByUuid(uuid: String): Goods? {
         if (uuid.isBlank()) {
             return null
         }
         return mapper!!.getByUuid(uuid)
     }
 
-    override fun countByModel(model: User): Int {
+    override fun countByModel(model: Goods): Int {
         return mapper!!.countByModel(model)
     }
 
-    override fun getListByPages(pages: Pages<User>): Pages<User> {
-        PageHelper.startPage<User>(pages.page, pages.row, pages.order)
+    override fun getListByPages(pages: Pages<Goods>): Pages<Goods> {
+        PageHelper.startPage<Goods>(pages.page, pages.row, pages.order)
         val list = mapper!!.getListByPages(pages)
-        val pages = Pages(list as Page<User>)
+        val pages = Pages(list as Page<Goods>)
         return pages
+    }
+
+    override fun getGoodsTypes(): List<String> {
+        return mapper!!.getGoodsTypes()
     }
 }

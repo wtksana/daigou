@@ -1,11 +1,11 @@
 package com.daigou.client.controller
 
 import com.alibaba.fastjson.JSONArray
+import com.daigou.client.model.GoodsModel
 import com.daigou.client.model.Pages
-import com.daigou.client.model.UserModel
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
-import com.daigou.core.domain.User
+import com.daigou.core.domain.Goods
 import javafx.collections.FXCollections
 import tornadofx.observable
 import tornadofx.toModel
@@ -14,7 +14,7 @@ import tornadofx.toModel
 /**
  * Created by wt on 2017/2/10.
  */
-class UserCtrl : BaseCtrl<User>() {
+class GoodsCtrl : BaseCtrl<Goods>() {
 
     override fun getList(page: Int, row: Int, option: String): Boolean {
         val data = hashMapOf<String, String>()
@@ -22,32 +22,32 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("row", row.toString())
         data.put("option", option)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_list + params)
+        val response = api.get(UrlConstant.goods_list + params)
         if (response.ok()) {
             val result = getResult(response)
-            if(!result.result){
+            if (!result.result) {
                 return false
             }
             pages = result.data.toModel<Pages>()
             if (pages.data != null) {
-                list = JSONArray.parseArray(pages.data.toString(), User::class.java).observable()
+                list = JSONArray.parseArray(pages.data.toString(), Goods::class.java).observable()
             } else {
-                list = FXCollections.observableArrayList<User>()
+                list = FXCollections.observableArrayList<Goods>()
             }
             return true
         }
         return false
     }
 
-    fun addUser(model: UserModel): Boolean {
+    fun addGoods(model: GoodsModel): Boolean {
         val data = hashMapOf<String, String>()
-        data.put("wechat", model.wechat.value)
-        data.put("realName", model.realName.value)
-        data.put("mobile", model.mobile.value)
-        data.put("address", model.address.value)
+        data.put("type", model.type.value)
+        data.put("name", model.name.value)
+        data.put("price", model.price.value.toString())
+        data.put("bid", model.bid.value.toString())
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_add + params)
+        val response = api.get(UrlConstant.goods_add + params)
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
@@ -57,16 +57,16 @@ class UserCtrl : BaseCtrl<User>() {
         return false
     }
 
-    fun editUser(model: UserModel): Boolean {
+    fun editGoods(model: GoodsModel): Boolean {
         val data = hashMapOf<String, String>()
         data.put("uuid", model.uuid.value)
-        data.put("wechat", model.wechat.value)
-        data.put("realName", model.realName.value)
-        data.put("mobile", model.mobile.value)
-        data.put("address", model.address.value)
+        data.put("type", model.type.value)
+        data.put("name", model.name.value)
+        data.put("price", model.price.value.toString())
+        data.put("bid", model.bid.value.toString())
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_edit + params)
+        val response = api.get(UrlConstant.goods_edit + params)
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
@@ -74,5 +74,17 @@ class UserCtrl : BaseCtrl<User>() {
             }
         }
         return false
+    }
+
+    fun getGoodsTypes(): List<String> {
+        val response = api.get(UrlConstant.goods_types)
+        if (response.ok()) {
+            val result = response.one()
+            if (result.getBoolean("result")) {
+                val types = JSONArray.parseArray(result.getJsonArray("data").toString(), String::class.java)
+                return types
+            }
+        }
+        return emptyList()
     }
 }

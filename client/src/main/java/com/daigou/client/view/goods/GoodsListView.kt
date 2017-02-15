@@ -1,10 +1,10 @@
 package com.daigou.client.view.user
 
-import com.daigou.client.controller.UserCtrl
-import com.daigou.client.model.UserModel
+import com.daigou.client.controller.GoodsCtrl
+import com.daigou.client.model.GoodsModel
 import com.daigou.client.view.PagesTool
 import com.daigou.common.util.DateUtil
-import com.daigou.core.domain.User
+import com.daigou.core.domain.Goods
 import javafx.scene.control.TableView
 import javafx.stage.Modality
 import javafx.stage.StageStyle
@@ -14,17 +14,17 @@ import tornadofx.*
 /**
  * Created by wt on 2017/2/10.
  */
-class UserListView : View() {
+class GoodsListView : View() {
     override val root = anchorpane {
         prefHeight = 575.0
         prefWidth = 800.0
     }
-    val userCtrl: UserCtrl by inject()
+    val ctrl: GoodsCtrl by inject()
     val detailForm = Form()
     //    val userTable: TableView<User> by fxid("userTable")
-    val tableView = TableView<User>()
-    val pagesTool = PagesTool(userCtrl, tableView)
-    val selectedUser = UserModel()
+    val tableView = TableView<Goods>()
+    val pagesTool = PagesTool(ctrl, tableView)
+    val selectedGoods = GoodsModel()
 
     init {
         initTableView()
@@ -32,7 +32,7 @@ class UserListView : View() {
         with(pagesTool) {
             button("+") {
                 setOnAction {
-                    UserView().openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, true, primaryStage)
+                    GoodsView().openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, true, primaryStage)
                 }
             }
             with(root) {
@@ -50,12 +50,13 @@ class UserListView : View() {
 
     fun initTableView() {
         with(tableView) {
-            column("微信号", User::wechat).weigthedWidth(1)
-            column("姓名", User::realName).weigthedWidth(1)
-            column("手机号", User::mobile)
+            column("名称", Goods::name).weigthedWidth(1)
+            column("类别", Goods::type)
+            column("售价", Goods::price)
+            column("进价", Goods::bid)
 //            column("地址", User::addressProperty)
 //            column("备注", User::remarkProperty)
-            column("添加时间", User::createTime).cellFormat {
+            column("添加时间", Goods::createTime).cellFormat {
                 text = DateUtil.dateStr4(it)
             }
             anchorpaneConstraints {
@@ -65,61 +66,64 @@ class UserListView : View() {
                 topAnchor = 0.0
             }
             columnResizePolicy = SmartResize.POLICY
-            bindSelected(selectedUser)
+            bindSelected(selectedGoods)
         }
     }
 
     fun initDetailForm() {
         with(detailForm) {
             fieldset {
-                field("微信号：") {
+                field("类别：") {
+                    choicebox<String> {
+                        runAsync {
+                            ctrl.getGoodsTypes()
+                        } ui { rst ->
+                            rst.forEach {
+                                items.add(it)
+                            }
+                        }
+                        bind(selectedGoods.type)
+                    }
+                }
+                field("名称：") {
                     textfield {
-                        bind(selectedUser.wechat)
+                        bind(selectedGoods.name)
+                    }
+                }
+                field("售价：") {
+                    textfield {
+                        bind(selectedGoods.price)
                         validator {
-                            if (it.isNullOrBlank()) error("微信号不能为空") else null
+                            if (it.isNullOrBlank()) error("") else null
                         }
                     }
                 }
-                field("姓名：") {
+                field("进价：") {
                     textfield {
-                        bind(selectedUser.realName)
-                    }
-                }
-                field("手机号：") {
-                    textfield {
-                        bind(selectedUser.mobile)
-                        validator {
-                            if (it.isNullOrBlank()) error("手机号不能为空") else null
-                        }
-                    }
-                }
-                field("地址：") {
-                    textfield {
-                        bind(selectedUser.address)
+                        bind(selectedGoods.bid)
                     }
                 }
                 field("备注：") {
                     textarea {
-                        bind(selectedUser.remark)
+                        bind(selectedGoods.remark)
                     }
                 }
                 button("保存") {
                     setOnAction {
-                        if (selectedUser.commit() && !selectedUser.uuid.value.isNullOrEmpty()) {
+                        if (selectedGoods.commit() && !selectedGoods.uuid.value.isNullOrEmpty()) {
                             runAsync {
-                                userCtrl.editUser(selectedUser)
+                                ctrl.editGoods(selectedGoods)
                             } ui { rst ->
                                 if (rst) {
-                                    Notifications.create().text("保存成功！").owner(this).showWarning()
+                                    closeModal()
+                                    Notifications.create().text("保存成功！").owner(primaryStage).showWarning()
                                 } else {
                                     Notifications.create().text("保存失败！").owner(this).showError()
                                 }
                             }
                         }
-
                     }
                 }
-
             }
 
             anchorpaneConstraints {

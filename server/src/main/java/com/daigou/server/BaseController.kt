@@ -8,7 +8,6 @@ abstract class BaseController {
     protected val MSG = "msg"
     protected val DATA = "data"
     protected val URL = "url"
-    protected val PAGES = "pages"
 
 
     protected fun success(): Map<String, Any> {

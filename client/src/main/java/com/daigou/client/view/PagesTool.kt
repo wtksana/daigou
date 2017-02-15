@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
 import tornadofx.*
 
+
 /**
  * Created by wt on 2017/2/11.
  */
@@ -68,6 +69,14 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         text = "共0页"
     }
 
+    val refresh = button("=") {
+        setOnMouseClicked { e ->
+            if (e.button == MouseButton.PRIMARY) {
+                getList()
+            }
+        }
+    }
+
     init {
         with(root) {
             prefHeight = 40.0
@@ -83,6 +92,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         page
         next
         totalPage
+        refresh
         getList()
     }
 

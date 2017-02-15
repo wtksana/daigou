@@ -6,14 +6,15 @@ import java.util.*
 /**
  * Created by wt on 2017/2/10.
  */
-data class User(var uuid: String = "",
-                var wechat: String = "",
-                var realName: String = "",
-                var mobile: String = "",
-                var address: String = "",
-                var status: Int = 0,
-                var remark: String = "",
-                var createTime: Date? = null
+data class User(var uuid: String? = "",
+                var wechat: String? = "",
+                var realName: String? = "",
+                var mobile: String? = "",
+                var address: String? = "",
+                var status: Int = 1,
+                var remark: String? = "",
+                var createTime: Date? = null,
+                var updateTime: Date? = null
 ) : Serializable {
     private val serialVersionUID = 1L
 }

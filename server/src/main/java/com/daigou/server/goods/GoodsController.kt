@@ -1,8 +1,8 @@
 package com.daigou.server.user
 
 import com.daigou.common.util.UrlConstant
-import com.daigou.core.domain.User
-import com.daigou.core.service.UserService
+import com.daigou.core.domain.Goods
+import com.daigou.core.service.GoodsService
 import com.daigou.core.util.Pages
 import com.daigou.server.BaseController
 import org.slf4j.LoggerFactory
@@ -16,15 +16,15 @@ import java.util.*
  * Created by wt on 2017/2/10.
  */
 @Controller
-class UserController : BaseController() {
+class GoodsController : BaseController() {
     val Log = LoggerFactory.getLogger(javaClass)!!
 
     @Autowired
-    private val service: UserService? = null
+    private val service: GoodsService? = null
 
-    @RequestMapping(UrlConstant.user_list)
+    @RequestMapping(UrlConstant.goods_list)
     @ResponseBody
-    fun userList(pages: Pages<User>): Any {
+    fun goodsList(pages: Pages<Goods>): Any {
         val pages = service!!.getListByPages(pages)
         if (pages.data != null) {
             return success(pages)
@@ -33,11 +33,12 @@ class UserController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.user_add)
+    @RequestMapping(UrlConstant.goods_add)
     @ResponseBody
-    fun userAdd(user: User): Any {
-        user.uuid = UUID.randomUUID().toString().replace("-", "")
-        val rs = service!!.save(user)
+    fun goodsAdd(model: Goods): Any {
+        model.uuid = UUID.randomUUID().toString().replace("-", "")
+        Log.info(model.uuid)
+        val rs = service!!.save(model)
         if (rs) {
             return success()
         } else {
@@ -45,12 +46,23 @@ class UserController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.user_edit)
+    @RequestMapping(UrlConstant.goods_edit)
     @ResponseBody
-    fun userEdit(user: User): Any {
-        val rs = service!!.update(user)
+    fun goodsEdit(model: Goods): Any {
+        val rs = service!!.update(model)
         if (rs) {
             return success()
+        } else {
+            return fail()
+        }
+    }
+
+    @RequestMapping(UrlConstant.goods_types)
+    @ResponseBody
+    fun goodsTypes(): Any {
+        val rs = service!!.getGoodsTypes()
+        if (rs.isNotEmpty()) {
+            return success(rs)
         } else {
             return fail()
         }

@@ -1,60 +1,62 @@
 package com.daigou.client.view.user
 
-import com.daigou.client.controller.UserCtrl
-import com.daigou.client.model.UserModel
-import com.daigou.core.domain.User
+import com.daigou.client.controller.GoodsCtrl
+import com.daigou.client.model.GoodsModel
+import com.daigou.core.domain.Goods
 import org.controlsfx.control.Notifications
 import tornadofx.*
 
 /**
  * Created by wt on 2017/2/12.
  */
-class UserView : Fragment() {
+class GoodsView : Fragment() {
     override val root = Form()
-    val ctrl: UserCtrl by inject()
-    val newUser = UserModel()
+    val ctrl: GoodsCtrl by inject()
+    val newGoods = GoodsModel()
 
     init {
         title = "新增"
         with(root) {
-            newUser.itemProperty.set(User())
+            newGoods.itemProperty.set(Goods())
             fieldset {
-                field("微信号：") {
+                field("类别：") {
+                    choicebox<String> {
+                        runAsync {
+                            ctrl.getGoodsTypes()
+                        } ui { rst ->
+                            items.setAll(rst)
+                        }
+                        bind(newGoods.type)
+                    }
+                }
+                field("名称：") {
                     textfield {
-                        bind(newUser.wechat)
+                        bind(newGoods.name)
+                    }
+                }
+                field("售价：") {
+                    textfield {
+                        bind(newGoods.price)
                         validator {
-                            if (it.isNullOrBlank()) error("微信号不能为空") else null
+                            if (it.isNullOrBlank()) error("") else null
                         }
                     }
                 }
-                field("姓名：") {
+                field("进价：") {
                     textfield {
-                        bind(newUser.realName)
-                    }
-                }
-                field("手机号：") {
-                    textfield {
-                        bind(newUser.mobile)
-                        validator {
-                            if (it.isNullOrBlank()) error("手机号不能为空") else null
-                        }
-                    }
-                }
-                field("地址：") {
-                    textfield {
-                        bind(newUser.address)
+                        bind(newGoods.bid)
                     }
                 }
                 field("备注：") {
                     textarea {
-                        bind(newUser.remark)
+                        bind(newGoods.remark)
                     }
                 }
                 button("保存") {
                     setOnAction {
-                        if (newUser.commit()) {
+                        if (newGoods.commit()) {
                             runAsync {
-                                ctrl.addUser(newUser)
+                                ctrl.addGoods(newGoods)
                             } ui { rst ->
                                 if (rst) {
                                     closeModal()

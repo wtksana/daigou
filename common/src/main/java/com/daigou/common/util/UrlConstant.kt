@@ -6,5 +6,10 @@ package com.daigou.common.util
 object UrlConstant {
     const val server_url = "http://127.0.0.1:8080"
     const val user_list = "/user/userList"
-    const val user_add = "/user/addUser"
+    const val user_add = "/user/userAdd"
+    const val user_edit = "/user/userEdit"
+    const val goods_list = "/goods/goodsList"
+    const val goods_add = "/goods/goodsAdd"
+    const val goods_edit = "/goods/goodsEdit"
+    const val goods_types = "/goods/goodsTypes"
 }

@@ -22,6 +22,8 @@ class Pages<T> : Serializable {
 
     var option: String = ""
 
+    val order = "create_time desc"
+
     constructor(list: List<T>, total: Long, page: Int, row: Int) {
         this.data = list
         this.total = total
