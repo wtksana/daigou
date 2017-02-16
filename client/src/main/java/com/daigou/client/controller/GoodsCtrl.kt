@@ -6,8 +6,6 @@ import com.daigou.client.model.Pages
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.Goods
-import javafx.collections.FXCollections
-import tornadofx.observable
 import tornadofx.toModel
 
 
@@ -30,9 +28,9 @@ class GoodsCtrl : BaseCtrl<Goods>() {
             }
             pages = result.data.toModel<Pages>()
             if (pages.data != null) {
-                list = JSONArray.parseArray(pages.data.toString(), Goods::class.java).observable()
+                items = JSONArray.parseArray(pages.data.toString(), Goods::class.java)
             } else {
-                list = FXCollections.observableArrayList<Goods>()
+                items = emptyList()
             }
             return true
         }
@@ -48,13 +46,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_add + params)
-        if (response.ok()) {
-            val result = getResult(response)
-            if (result.result) {
-                return true
-            }
-        }
-        return false
+        return result(response)
     }
 
     fun editGoods(model: GoodsModel): Boolean {
@@ -67,17 +59,11 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_edit + params)
-        if (response.ok()) {
-            val result = getResult(response)
-            if (result.result) {
-                return true
-            }
-        }
-        return false
+        return result(response)
     }
 
-    fun getGoodsTypes(): List<String> {
-        val response = api.get(UrlConstant.goods_types)
+    fun getGoodsTypeList(): List<String> {
+        val response = api.get(UrlConstant.goods_type_list)
         if (response.ok()) {
             val result = response.one()
             if (result.getBoolean("result")) {
@@ -86,5 +72,14 @@ class GoodsCtrl : BaseCtrl<Goods>() {
             }
         }
         return emptyList()
+    }
+
+    fun editGoodsType(old: String, new: String): Boolean {
+        val data = hashMapOf<String, String>()
+        data.put("old", old)
+        data.put("new", new)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.goods_edit + params)
+        return result(response)
     }
 }

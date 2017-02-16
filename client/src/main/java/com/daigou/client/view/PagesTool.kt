@@ -48,7 +48,9 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         }
         setOnKeyReleased { e ->
             if (e.code == KeyCode.ENTER) {
-                getList()
+                if (text.toInt() <= ctrl.pages.totalPage) {
+                    getList()
+                }
             }
         }
     }
@@ -57,7 +59,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         setOnMouseClicked { e ->
             if (e.button == MouseButton.PRIMARY) {
                 val next = page.text.toInt() + 1
-                if (next > 0) {
+                if (next <= ctrl.pages.totalPage) {
                     page.text = next.toString()
                     getList()
                 }
@@ -101,7 +103,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
             ctrl.getList(page.text.toInt(), 20, option.text)
         } ui { rst ->
             if (rst) {
-                table.items = ctrl.list
+                table.items = ctrl.items.observable()
                 table.refresh()
                 totalPage.text = "共${ctrl.pages.totalPage}页"
             }

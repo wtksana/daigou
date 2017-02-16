@@ -10,6 +10,8 @@ interface GoodsMapper : BaseMapper<Goods> {
 
     fun getListByPages(pages: Pages<Goods>): List<Goods>
 
-    fun getGoodsTypes(): List<String>
+    fun getGoodsTypeList(): List<String>
+
+    fun goodsTypeEdit(old: String, new: String): Int
 
 }

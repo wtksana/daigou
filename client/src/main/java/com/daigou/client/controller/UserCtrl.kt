@@ -6,8 +6,6 @@ import com.daigou.client.model.UserModel
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.User
-import javafx.collections.FXCollections
-import tornadofx.observable
 import tornadofx.toModel
 
 
@@ -25,14 +23,14 @@ class UserCtrl : BaseCtrl<User>() {
         val response = api.get(UrlConstant.user_list + params)
         if (response.ok()) {
             val result = getResult(response)
-            if(!result.result){
+            if (!result.result) {
                 return false
             }
             pages = result.data.toModel<Pages>()
             if (pages.data != null) {
-                list = JSONArray.parseArray(pages.data.toString(), User::class.java).observable()
+                items = JSONArray.parseArray(pages.data.toString(), User::class.java)
             } else {
-                list = FXCollections.observableArrayList<User>()
+                items = emptyList()
             }
             return true
         }
@@ -48,13 +46,7 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.user_add + params)
-        if (response.ok()) {
-            val result = getResult(response)
-            if (result.result) {
-                return true
-            }
-        }
-        return false
+        return result(response)
     }
 
     fun editUser(model: UserModel): Boolean {
@@ -67,12 +59,6 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.user_edit + params)
-        if (response.ok()) {
-            val result = getResult(response)
-            if (result.result) {
-                return true
-            }
-        }
-        return false
+        return result(response)
     }
 }

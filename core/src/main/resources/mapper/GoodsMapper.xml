@@ -9,6 +9,7 @@
         <result column="type" property="type"/>
         <result column="name" property="name"/>
         <result column="price" property="price"/>
+        <result column="counter" property="counter"/>
         <result column="bid" property="bid"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -18,7 +19,7 @@
 
     <!-- dg_goods table all fields -->
     <sql id="base_column_list">
-        uuid,type,name,price,bid,create_time,update_time,status,remark
+        uuid,type,name,price,counter,bid,create_time,update_time,status,remark
     </sql>
 
     <!-- 查询条件 -->
@@ -34,10 +35,13 @@
             <if test="name != null and name != '' and name != ''">
                 and name = #{name}
             </if>
-            <if test="price != null and price != ''">
+            <if test="price != null">
                 and price = #{price}
             </if>
-            <if test="bid != null and bid != ''">
+            <if test="counter != null">
+                and counter = #{counter}
+            </if>
+            <if test="bid != null">
                 and bid = #{bid}
             </if>
             <if test="createTime != null and createTime != ''">
@@ -46,7 +50,7 @@
             <if test="updateTime != null and updateTime != ''">
                 and update_time = #{updateTime}
             </if>
-            <if test="status != null and status != ''">
+            <if test="status != null">
                 and status = #{status}
             </if>
             <if test="remark != null and remark != '' and remark != ''">
@@ -68,6 +72,9 @@
             </if>
             <if test="price != null  ">
                 price,
+            </if>
+            <if test="counter != null  ">
+                counter,
             </if>
             <if test="bid != null  ">
                 bid,
@@ -92,6 +99,9 @@
             <if test="price != null  ">
                 #{price},
             </if>
+            <if test="counter != null  ">
+                #{counter},
+            </if>
             <if test="bid != null  ">
                 #{bid},
             </if>
@@ -108,7 +118,7 @@
 
     <!-- 根据id，修改记录-->
     <update id="update" parameterType="com.daigou.core.domain.Goods">
-        update dg_goods set type=#{type},name=#{name},price=#{price},bid=#{bid},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
+        update dg_goods set type=#{type},name=#{name},price=#{price},counter=#{counter},bid=#{bid},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
     </update>
 
     <!-- 删除记录 -->

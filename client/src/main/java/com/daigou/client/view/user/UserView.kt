@@ -50,6 +50,11 @@ class UserView : Fragment() {
                         bind(newUser.remark)
                     }
                 }
+                field("推荐人：") {
+                    textfield {
+                        bind(newUser.inviteUser)
+                    }
+                }
                 button("保存") {
                     setOnAction {
                         if (newUser.commit()) {

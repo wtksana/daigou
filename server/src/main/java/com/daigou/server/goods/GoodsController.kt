@@ -57,14 +57,27 @@ class GoodsController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.goods_types)
+    @RequestMapping(UrlConstant.goods_type_list)
     @ResponseBody
-    fun goodsTypes(): Any {
-        val rs = service!!.getGoodsTypes()
+    fun goodsTypeList(): Any {
+        val rs = service!!.getGoodsTypeList()
         if (rs.isNotEmpty()) {
             return success(rs)
         } else {
             return fail()
         }
     }
+
+    @RequestMapping(UrlConstant.goods_type_edit)
+    @ResponseBody
+    fun goodsTypeEdit(old: String, new: String): Any {
+        val rs = service!!.goodsTypeEdit(old, new)
+        if (rs > 0) {
+            return success()
+        } else {
+            return fail()
+        }
+    }
+
+
 }

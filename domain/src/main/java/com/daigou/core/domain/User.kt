@@ -13,6 +13,7 @@ data class User(var uuid: String? = "",
                 var address: String? = "",
                 var status: Int = 1,
                 var remark: String? = "",
+                var inviteUser: String? = "",
                 var createTime: Date? = null,
                 var updateTime: Date? = null
 ) : Serializable {

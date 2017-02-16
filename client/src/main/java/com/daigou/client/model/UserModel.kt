@@ -16,5 +16,6 @@ class UserModel : ItemViewModel<User>() {
     val mobile = bind { SimpleStringProperty(item?.mobile) }
     val address = bind { SimpleStringProperty(item?.address) }
     val remark = bind { SimpleStringProperty(item?.remark) }
+    val inviteUser = bind { SimpleStringProperty(item?.inviteUser) }
     val createTime = bind { SimpleObjectProperty<Date>(item?.createTime) }
 }

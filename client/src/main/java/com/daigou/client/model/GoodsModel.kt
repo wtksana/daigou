@@ -15,6 +15,7 @@ class GoodsModel : ItemViewModel<Goods>() {
     val type = bind { SimpleStringProperty(item?.type) }
     val name = bind { SimpleStringProperty(item?.name) }
     val price = bind { SimpleDoubleProperty(item?.price ?: 0.00) }
+    val counter = bind { SimpleDoubleProperty(item?.counter ?: 0.00) }
     val bid = bind { SimpleDoubleProperty(item?.bid ?: 0.00) }
     val remark = bind { SimpleStringProperty(item?.remark) }
     val createTime = bind { SimpleObjectProperty<Date>(item?.createTime) }

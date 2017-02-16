@@ -21,7 +21,6 @@ class UserListView : View() {
     }
     val userCtrl: UserCtrl by inject()
     val detailForm = Form()
-    //    val userTable: TableView<User> by fxid("userTable")
     val tableView = TableView<User>()
     val pagesTool = PagesTool(userCtrl, tableView)
     val selectedUser = UserModel()
@@ -101,6 +100,11 @@ class UserListView : View() {
                 field("备注：") {
                     textarea {
                         bind(selectedUser.remark)
+                    }
+                }
+                field("推荐人：") {
+                    textfield {
+                        bind(selectedUser.inviteUser)
                     }
                 }
                 button("保存") {
