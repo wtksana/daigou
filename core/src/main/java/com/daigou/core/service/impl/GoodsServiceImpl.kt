@@ -8,6 +8,7 @@ import com.github.pagehelper.Page
 import com.github.pagehelper.PageHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 /**
  * Created by wt on 2017/2/15.
@@ -18,9 +19,10 @@ open class GoodsServiceImpl : GoodsService {
     private val mapper: GoodsMapper? = null
 
     override fun save(model: Goods): Boolean {
-        if (model.uuid.isNullOrBlank() || model.name.isNullOrBlank()) {
+        if (model.name.isNullOrBlank()) {
             return false
         }
+        model.uuid = UUID.randomUUID().toString().replace("-", "")
         mapper!!.save(model)
         return true
     }
@@ -57,13 +59,5 @@ open class GoodsServiceImpl : GoodsService {
         val list = mapper!!.getListByPages(pages)
         val pages = Pages(list as Page<Goods>)
         return pages
-    }
-
-    override fun getGoodsTypeList(): List<String> {
-        return mapper!!.getGoodsTypeList()
-    }
-
-    override fun goodsTypeEdit(old: String, new: String):Int {
-        return mapper!!.goodsTypeEdit(old,new)
     }
 }

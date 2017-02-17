@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 class OperatorController : BaseController() {
-    val Log = LoggerFactory.getLogger(javaClass)!!
 
     @Autowired
     private val operatorService: OperatorService? = null

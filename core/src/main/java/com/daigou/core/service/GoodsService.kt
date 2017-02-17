@@ -8,19 +8,15 @@ import com.daigou.core.util.Pages
  */
 interface GoodsService {
 
-    fun save(goods: Goods): Boolean
+    fun save(model: Goods): Boolean
 
-    fun update(goods: Goods): Boolean
+    fun update(model: Goods): Boolean
 
     fun deleteByUuid(uuid: String): Boolean
 
     fun getByUuid(uuid: String): Goods?
 
-    fun countByModel(goods: Goods): Int
+    fun countByModel(model: Goods): Int
 
     fun getListByPages(pages: Pages<Goods>): Pages<Goods>
-
-    fun getGoodsTypeList(): List<String>
-
-    fun goodsTypeEdit(old: String, new: String): Int
 }

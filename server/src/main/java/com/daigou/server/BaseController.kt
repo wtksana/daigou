@@ -1,9 +1,14 @@
 package com.daigou.server
 
+import org.slf4j.LoggerFactory
+
 /**
  * Created by wt on 2017/2/9.
  */
 abstract class BaseController {
+
+    protected val Log = LoggerFactory.getLogger(this.javaClass)!!
+
     protected val RESULT = "result"
     protected val MSG = "msg"
     protected val DATA = "data"

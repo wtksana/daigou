@@ -5,19 +5,16 @@ import com.daigou.core.domain.User
 import com.daigou.core.service.UserService
 import com.daigou.core.util.Pages
 import com.daigou.server.BaseController
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import java.util.*
 
 /**
  * Created by wt on 2017/2/10.
  */
 @Controller
 class UserController : BaseController() {
-    val Log = LoggerFactory.getLogger(javaClass)!!
 
     @Autowired
     private val service: UserService? = null
@@ -36,7 +33,6 @@ class UserController : BaseController() {
     @RequestMapping(UrlConstant.user_add)
     @ResponseBody
     fun userAdd(user: User): Any {
-        user.uuid = UUID.randomUUID().toString().replace("-", "")
         val rs = service!!.save(user)
         if (rs) {
             return success()

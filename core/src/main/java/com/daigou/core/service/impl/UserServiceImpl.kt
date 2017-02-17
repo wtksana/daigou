@@ -8,6 +8,7 @@ import com.github.pagehelper.Page
 import com.github.pagehelper.PageHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 /**
  * Created by wt on 2017/2/10.
@@ -19,9 +20,10 @@ open class UserServiceImpl : UserService {
     private val mapper: UserMapper? = null
 
     override fun save(model: User): Boolean {
-        if (model.uuid.isNullOrBlank() || model.wechat.isNullOrBlank()) {
+        if (model.wechat.isNullOrBlank()) {
             return false
         }
+        model.uuid = UUID.randomUUID().toString().replace("-", "")
         mapper!!.save(model)
         return true
     }
