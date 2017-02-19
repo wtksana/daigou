@@ -1,8 +1,7 @@
 package com.daigou.client.view.goods
 
 import com.daigou.client.controller.GoodsCtrl
-import javafx.beans.property.SimpleStringProperty
-import javafx.scene.control.cell.TextFieldListCell
+import com.daigou.core.domain.GoodsType
 import tornadofx.*
 
 /**
@@ -10,7 +9,6 @@ import tornadofx.*
  */
 class GoodsTypeView : View() {
     val ctrl: GoodsCtrl by inject()
-    val selectType = SimpleStringProperty()
     override val root = borderpane {
         prefHeight = 400.0
         prefWidth = 300.0
@@ -19,17 +17,15 @@ class GoodsTypeView : View() {
     init {
         title = "类别管理"
         with(root) {
-            top = listview<String> {
-                isEditable = true
-                cellFactory = TextFieldListCell.forListView()
-                setOnEditCommit {
-                    println(selectType.value)
-                    items[it.index] = it.newValue
+            center = tableview<GoodsType> {
+                columnResizePolicy = SmartResize.POLICY
+                enableCellEditing()
+                column("类别", GoodsType::type).useTextField {
+                    it.rowValue.type = it.newValue
                 }
-                bindSelected(selectType)
-//                setOnEditCancel {
-//                    println(2)
-//                }
+                onEditCommit {
+                    ctrl.editGoodsType(it.uuid ?: "", it.type ?: "")
+                }
                 runAsync {
                     ctrl.getGoodsTypeList()
                 } ui { rst ->

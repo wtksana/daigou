@@ -12,20 +12,19 @@ import tornadofx.toModel
  */
 abstract class BaseCtrl<T> : Controller() {
     protected val api: Rest by inject()
-    var items = emptyList<T>()
     var pages = Pages(1, 20)
 
     init {
         api.baseURI = UrlConstant.server_url
     }
 
-    abstract fun getList(page: Int, row: Int, option: String): Boolean
+    abstract fun getList(page: Int, row: Int, option: String): List<T>
 
     fun getResult(response: Rest.Response): Result {
         return response.one().toModel<Result>()
     }
 
-    fun result(response: Rest.Response):Boolean{
+    fun result(response: Rest.Response): Boolean {
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {

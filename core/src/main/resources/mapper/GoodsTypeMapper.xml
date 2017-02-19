@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daigou.core.dao.GoodsTypeMapper">
+    <!-- Result Map-->
+    <resultMap id="baseResultMap" type="com.daigou.core.domain.GoodsType">
+        <result column="uuid" property="uuid"/>
+        <result column="type" property="type"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- dg_goods table all fields -->
+    <sql id="base_column_list">
+        uuid,type,create_time,update_time,status
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="base_where_clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="uuid != null and uuid != '' and uuid != ''">
+                and uuid = #{uuid}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                and update_time = #{updateTime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="save" parameterType="com.daigou.core.domain.Goods">
+        insert into dg_goods_type (
+        <trim suffixOverrides=",">
+            uuid ,
+            <if test="type != null  and type != '' ">
+                type,
+            </if>
+            <if test="status != null  ">
+                status,
+            </if>
+            create_time,
+        </trim>
+        ) values (
+        <trim suffixOverrides=",">
+            #{uuid} ,
+            <if test="type != null  and type != '' ">
+                #{type},
+            </if>
+            <if test="status != null  ">
+                #{status},
+            </if>
+            now(),
+        </trim>
+        )
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.daigou.core.domain.GoodsType">
+        update dg_goods_type set type=#{type},update_time=now(),status=#{status} where uuid=#{uuid}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByUuid" parameterType="com.daigou.core.domain.GoodsType">
+        update dg_goods_type set status=0 where uuid = #{uuid}
+    </delete>
+
+    <!-- 根据id查询 商品表 -->
+    <select id="getByUuid" resultMap="baseResultMap" parameterType="com.daigou.core.domain.GoodsType">
+        select
+        <include refid="base_column_list"/>
+        from dg_goods_type where uuid = #{uuid}
+    </select>
+
+    <!-- 商品表 列表总数-->
+    <select id="countByModel" resultType="java.lang.Integer" parameterType="com.daigou.core.domain.GoodsType">
+        select count(1) from dg_goods_type
+        <include refid="base_where_clause"/>
+    </select>
+
+    <!-- 根据pages查询 -->
+    <select id="getListByPages" resultMap="baseResultMap" parameterType="com.daigou.core.util.Pages">
+        select
+        <include refid="base_column_list"/>
+        from dg_goods_type where 1=1
+        <if test="option != null and option != ''">
+            and type=#{option}
+        </if>
+    </select>
+
+    <select id="getAll" resultType="com.daigou.core.domain.GoodsType">
+        select * from dg_goods_type
+    </select>
+
+</mapper>

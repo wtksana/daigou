@@ -61,11 +61,8 @@ open class GoodsTypeServiceImpl : GoodsTypeService {
         return pages
     }
 
-    override fun getGoodsTypeList(): List<String> {
-        return mapper!!.getGoodsTypeList()
+    override fun getAll(): List<GoodsType> {
+        return mapper!!.getAll()
     }
 
-    override fun goodsTypeEdit(old: String, new: String): Int {
-        return mapper!!.goodsTypeEdit(old, new)
-    }
 }

@@ -14,7 +14,7 @@ import tornadofx.toModel
  */
 class UserCtrl : BaseCtrl<User>() {
 
-    override fun getList(page: Int, row: Int, option: String): Boolean {
+    override fun getList(page: Int, row: Int, option: String): List<User> {
         val data = hashMapOf<String, String>()
         data.put("page", page.toString())
         data.put("row", row.toString())
@@ -23,18 +23,14 @@ class UserCtrl : BaseCtrl<User>() {
         val response = api.get(UrlConstant.user_list + params)
         if (response.ok()) {
             val result = getResult(response)
-            if (!result.result) {
-                return false
+            if (result.result) {
+                pages = result.data.toModel<Pages>()
+                if (pages.data != null) {
+                    return JSONArray.parseArray(pages.data.toString(), User::class.java)
+                }
             }
-            pages = result.data.toModel<Pages>()
-            if (pages.data != null) {
-                items = JSONArray.parseArray(pages.data.toString(), User::class.java)
-            } else {
-                items = emptyList()
-            }
-            return true
         }
-        return false
+        return emptyList()
     }
 
     fun addUser(model: UserModel): Boolean {

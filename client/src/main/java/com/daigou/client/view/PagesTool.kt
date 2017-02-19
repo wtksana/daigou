@@ -102,11 +102,9 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         runAsync {
             ctrl.getList(page.text.toInt(), 20, option.text)
         } ui { rst ->
-            if (rst) {
-                table.items = ctrl.items.observable()
-                table.refresh()
-                totalPage.text = "共${ctrl.pages.totalPage}页"
-            }
+            table.items = rst.observable()
+            table.refresh()
+            totalPage.text = "共${ctrl.pages.totalPage}页"
         }
     }
 

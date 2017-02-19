@@ -25,7 +25,7 @@ class GoodsView : Fragment() {
                         runAsync {
                             ctrl.getGoodsTypeList()
                         } ui { rst ->
-                            items.setAll(rst)
+                            items.setAll(rst.map { it.type })
                         }
                         bind(newGoods.type)
                     }

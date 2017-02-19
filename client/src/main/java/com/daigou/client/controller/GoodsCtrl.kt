@@ -6,6 +6,7 @@ import com.daigou.client.model.Pages
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.Goods
+import com.daigou.core.domain.GoodsType
 import tornadofx.toModel
 
 
@@ -14,7 +15,7 @@ import tornadofx.toModel
  */
 class GoodsCtrl : BaseCtrl<Goods>() {
 
-    override fun getList(page: Int, row: Int, option: String): Boolean {
+    override fun getList(page: Int, row: Int, option: String): List<Goods> {
         val data = hashMapOf<String, String>()
         data.put("page", page.toString())
         data.put("row", row.toString())
@@ -23,18 +24,14 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         val response = api.get(UrlConstant.goods_list + params)
         if (response.ok()) {
             val result = getResult(response)
-            if (!result.result) {
-                return false
+            if (result.result) {
+                pages = result.data.toModel<Pages>()
+                if (pages.data != null) {
+                    return JSONArray.parseArray(pages.data.toString(), Goods::class.java)
+                }
             }
-            pages = result.data.toModel<Pages>()
-            if (pages.data != null) {
-                items = JSONArray.parseArray(pages.data.toString(), Goods::class.java)
-            } else {
-                items = emptyList()
-            }
-            return true
         }
-        return false
+        return emptyList()
     }
 
     fun addGoods(model: GoodsModel): Boolean {
@@ -62,24 +59,24 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         return result(response)
     }
 
-    fun getGoodsTypeList(): List<String> {
+    fun getGoodsTypeList(): List<GoodsType> {
         val response = api.get(UrlConstant.goods_type_list)
         if (response.ok()) {
             val result = response.one()
             if (result.getBoolean("result")) {
-                val types = JSONArray.parseArray(result.getJsonArray("data").toString(), String::class.java)
+                val types = JSONArray.parseArray(result.getJsonArray("data").toString(), GoodsType::class.java)
                 return types
             }
         }
         return emptyList()
     }
 
-    fun editGoodsType(old: String, new: String): Boolean {
+    fun editGoodsType(uuid: String, type: String): Boolean {
         val data = hashMapOf<String, String>()
-        data.put("old", old)
-        data.put("new", new)
+        data.put("uuid", uuid)
+        data.put("type", type)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_edit + params)
+        val response = api.get(UrlConstant.goods_type_edit + params)
         return result(response)
     }
 }

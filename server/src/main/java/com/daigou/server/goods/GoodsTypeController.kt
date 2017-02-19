@@ -1,6 +1,7 @@
 package com.daigou.server.goods
 
 import com.daigou.common.util.UrlConstant
+import com.daigou.core.domain.GoodsType
 import com.daigou.core.service.GoodsTypeService
 import com.daigou.server.BaseController
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,7 @@ class GoodsTypeController : BaseController() {
     @RequestMapping(UrlConstant.goods_type_list)
     @ResponseBody
     fun goodsTypeList(): Any {
-        val rs = service!!.getGoodsTypeList()
+        val rs = service!!.getAll()
         if (rs.isNotEmpty()) {
             return success(rs)
         } else {
@@ -30,9 +31,9 @@ class GoodsTypeController : BaseController() {
 
     @RequestMapping(UrlConstant.goods_type_edit)
     @ResponseBody
-    fun goodsTypeEdit(old: String, new: String): Any {
-        val rs = service!!.goodsTypeEdit(old, new)
-        if (rs > 0) {
+    fun goodsTypeEdit(goodsType: GoodsType): Any {
+        val rs = service!!.update(goodsType)
+        if (rs) {
             return success()
         } else {
             return fail()

@@ -81,9 +81,7 @@ class GoodsListView : View() {
                         runAsync {
                             ctrl.getGoodsTypeList()
                         } ui { rst ->
-                            rst.forEach {
-                                items.add(it)
-                            }
+                            items.addAll(rst.map { it.type })
                         }
                         bind(selectedGoods.type)
                     }
