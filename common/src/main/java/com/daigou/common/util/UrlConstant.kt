@@ -13,4 +13,5 @@ object UrlConstant {
     const val goods_edit = "/goods/goodsEdit"
     const val goods_type_list = "/goods/goodsTypeList"
     const val goods_type_edit = "/goods/goodsTypeEdit"
+    const val goods_type_add = "/goods/goodsTypeAdd"
 }

@@ -7,6 +7,8 @@ import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.Goods
 import com.daigou.core.domain.GoodsType
+import javafx.collections.FXCollections
+import tornadofx.observable
 import tornadofx.toModel
 
 
@@ -77,6 +79,14 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("type", type)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_type_edit + params)
+        return result(response)
+    }
+
+    fun addGoodsType(type: String): Boolean {
+        val data = hashMapOf<String, String>()
+        data.put("type", type)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.goods_type_add + params)
         return result(response)
     }
 }

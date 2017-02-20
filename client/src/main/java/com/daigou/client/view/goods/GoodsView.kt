@@ -2,7 +2,10 @@ package com.daigou.client.view.user
 
 import com.daigou.client.controller.GoodsCtrl
 import com.daigou.client.model.GoodsModel
+import com.daigou.client.view.goods.GoodsTypeView
 import com.daigou.core.domain.Goods
+import javafx.stage.Modality
+import javafx.stage.StageStyle
 import org.controlsfx.control.Notifications
 import tornadofx.*
 
@@ -21,18 +24,34 @@ class GoodsView : Fragment() {
             newGoods.itemProperty.set(Goods())
             fieldset {
                 field("类别：") {
-                    choicebox<String> {
-                        runAsync {
-                            ctrl.getGoodsTypeList()
-                        } ui { rst ->
-                            items.setAll(rst.map { it.type })
-                        }
+                    var type = textfield {
+                        prefWidth = 80.0
+                        isEditable = false
                         bind(newGoods.type)
+                        validator {
+                            if (it.isNullOrEmpty()) {
+                                error("请选择类型")
+                            } else {
+                                null
+                            }
+                        }
+                    }
+                    button("选择") {
+                        setOnAction {
+                            GoodsTypeView(type).openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, false, primaryStage)
+                        }
                     }
                 }
                 field("名称：") {
                     textfield {
                         bind(newGoods.name)
+                        validator {
+                            if (it.isNullOrEmpty()) {
+                                error("请输入名称")
+                            } else {
+                                null
+                            }
+                        }
                     }
                 }
                 field("售价：") {

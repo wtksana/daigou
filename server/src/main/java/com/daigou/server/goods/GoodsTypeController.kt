@@ -40,4 +40,15 @@ class GoodsTypeController : BaseController() {
         }
     }
 
+    @RequestMapping(UrlConstant.goods_type_add)
+    @ResponseBody
+    fun goodsTypeAdd(goodsType: GoodsType): Any {
+        val rs = service!!.save(goodsType)
+        if (rs) {
+            return success()
+        } else {
+            return fail()
+        }
+    }
+
 }

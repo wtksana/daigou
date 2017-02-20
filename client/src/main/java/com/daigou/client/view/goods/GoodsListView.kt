@@ -6,6 +6,7 @@ import com.daigou.client.view.PagesTool
 import com.daigou.client.view.goods.GoodsTypeView
 import com.daigou.common.util.DateUtil
 import com.daigou.core.domain.Goods
+import javafx.beans.value.ObservableValue
 import javafx.scene.control.TableView
 import javafx.stage.Modality
 import javafx.stage.StageStyle
@@ -21,7 +22,6 @@ class GoodsListView : View() {
         prefWidth = 800.0
     }
     val ctrl: GoodsCtrl by inject()
-    val goodsTypsView: GoodsTypeView by inject()
     val detailForm = Form()
     val tableView = TableView<Goods>()
     val pagesTool = PagesTool(ctrl, tableView)
@@ -77,23 +77,34 @@ class GoodsListView : View() {
         with(detailForm) {
             fieldset {
                 field("类别：") {
-                    choicebox<String> {
-                        runAsync {
-                            ctrl.getGoodsTypeList()
-                        } ui { rst ->
-                            items.addAll(rst.map { it.type })
-                        }
+                    var type = textfield {
+                        prefWidth = 80.0
+                        isEditable = false
                         bind(selectedGoods.type)
+                        validator {
+                            if (it.isNullOrEmpty()) {
+                                error("请选择类型")
+                            } else {
+                                null
+                            }
+                        }
                     }
-                    button("管理类别") {
+                    button("选择") {
                         setOnAction {
-                            goodsTypsView.openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, false, primaryStage)
+                            GoodsTypeView(type).openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, false, primaryStage)
                         }
                     }
                 }
                 field("名称：") {
                     textfield {
                         bind(selectedGoods.name)
+                        validator {
+                            if (it.isNullOrEmpty()) {
+                                error("请输入名称")
+                            } else {
+                                null
+                            }
+                        }
                     }
                 }
                 field("售价：") {

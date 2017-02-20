@@ -5,7 +5,6 @@ import com.daigou.core.domain.Goods
 import com.daigou.core.service.GoodsService
 import com.daigou.core.util.Pages
 import com.daigou.server.BaseController
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -34,7 +33,6 @@ class GoodsController : BaseController() {
     @RequestMapping(UrlConstant.goods_add)
     @ResponseBody
     fun goodsAdd(model: Goods): Any {
-        Log.info(model.uuid)
         val rs = service!!.save(model)
         if (rs) {
             return success()
@@ -46,6 +44,7 @@ class GoodsController : BaseController() {
     @RequestMapping(UrlConstant.goods_edit)
     @ResponseBody
     fun goodsEdit(model: Goods): Any {
+        Log.info("model.uuid: ${model.uuid}")
         val rs = service!!.update(model)
         if (rs) {
             return success()
