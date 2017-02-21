@@ -52,6 +52,7 @@ class UserView : Fragment() {
                 }
                 field("推荐人：") {
                     textfield {
+                        promptText = "手机号"
                         bind(newUser.inviteUser)
                     }
                 }

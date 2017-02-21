@@ -6,6 +6,9 @@ import com.daigou.client.view.PagesTool
 import com.daigou.common.util.DateUtil
 import com.daigou.core.domain.User
 import javafx.scene.control.TableView
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.TransferMode
+import javafx.scene.paint.Color
 import javafx.stage.Modality
 import javafx.stage.StageStyle
 import org.controlsfx.control.Notifications
@@ -65,6 +68,13 @@ class UserListView : View() {
             }
             columnResizePolicy = SmartResize.POLICY
             bindSelected(selectedUser)
+//            setOnDragDetected { e ->
+//                val db = startDragAndDrop(TransferMode.COPY)
+//                val content = ClipboardContent()
+//                content.putString(selectedUser.mobile.value)
+//                db.setContent(content)
+//                e.consume()
+//            }
         }
     }
 
@@ -104,7 +114,38 @@ class UserListView : View() {
                 }
                 field("推荐人：") {
                     textfield {
+                        promptText = "手机号"
                         bind(selectedUser.inviteUser)
+//                        setOnDragOver { e ->
+//                            if (e.dragboard.hasString()) {
+//                                e.acceptTransferModes(TransferMode.COPY)
+//                            }
+//                            e.consume()
+//                        }
+//                        setOnDragEntered { e ->
+//                            if (e.dragboard.hasString()) {
+//                                this.style {
+//                                    backgroundColor += Color.SKYBLUE
+//                                }
+//                            }
+//                            e.consume()
+//                        }
+//                        setOnDragExited { e ->
+//                            if (e.dragboard.hasString()) {
+//                                this.style {
+//
+//                                }
+//                            }
+//                            e.consume()
+//                        }
+//                        setOnDragDropped { e ->
+//                            val db = e.dragboard
+//                            if (db.hasString()) {
+//                                text = db.string
+//                            }
+//                            e.isDropCompleted = true
+//                            e.consume()
+//                        }
                     }
                 }
                 button("保存") {

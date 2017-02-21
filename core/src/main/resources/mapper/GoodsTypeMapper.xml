@@ -21,7 +21,7 @@
     <sql id="base_where_clause">
         where 1=1
         <trim suffixOverrides=",">
-            <if test="uuid != null and uuid != '' and uuid != ''">
+            <if test="uuid != null and uuid != ''">
                 and uuid = #{uuid}
             </if>
             <if test="type != null and type != ''">
@@ -72,12 +72,12 @@
     </update>
 
     <!-- 删除记录 -->
-    <delete id="deleteByUuid" parameterType="com.daigou.core.domain.GoodsType">
+    <delete id="deleteByUuid" parameterType="String">
         update dg_goods_type set status=0 where uuid = #{uuid}
     </delete>
 
     <!-- 根据id查询 商品表 -->
-    <select id="getByUuid" resultMap="baseResultMap" parameterType="com.daigou.core.domain.GoodsType">
+    <select id="getByUuid" resultMap="baseResultMap" parameterType="String">
         select
         <include refid="base_column_list"/>
         from dg_goods_type where uuid = #{uuid}
