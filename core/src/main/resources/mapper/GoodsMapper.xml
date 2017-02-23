@@ -6,6 +6,7 @@
     <!-- Result Map-->
     <resultMap id="baseResultMap" type="com.daigou.core.domain.Goods">
         <result column="uuid" property="uuid"/>
+        <result column="type_uuid" property="typeUuid"/>
         <result column="type" property="type"/>
         <result column="name" property="name"/>
         <result column="price" property="price"/>
@@ -19,7 +20,7 @@
 
     <!-- dg_goods table all fields -->
     <sql id="base_column_list">
-        uuid,type,name,price,counter,bid,create_time,update_time,status,remark
+        uuid,type_uuid,name,price,counter,bid,create_time,update_time,status,remark
     </sql>
 
     <!-- 查询条件 -->
@@ -29,8 +30,8 @@
             <if test="uuid != null and uuid != ''">
                 and uuid = #{uuid}
             </if>
-            <if test="type != null and type != ''">
-                and type = #{type}
+            <if test="typeUuid != null and typeUuid != ''">
+                and type_uuid = #{typeUuid}
             </if>
             <if test="name != null and name != ''">
                 and name = #{name}
@@ -64,8 +65,8 @@
         insert into dg_goods (
         <trim suffixOverrides=",">
             uuid ,
-            <if test="type != null  and type != '' ">
-                type,
+            <if test="typeUuid != null  and typeUuid != '' ">
+                type_uuid,
             </if>
             <if test="name != null  and name != '' ">
                 name,
@@ -90,8 +91,8 @@
         ) values (
         <trim suffixOverrides=",">
             #{uuid} ,
-            <if test="type != null  and type != '' ">
-                #{type},
+            <if test="typeUuid != null  and typeUuid != '' ">
+                #{typeUuid},
             </if>
             <if test="name != null  and name != '' ">
                 #{name},
@@ -118,7 +119,7 @@
 
     <!-- 根据id，修改记录-->
     <update id="update" parameterType="com.daigou.core.domain.Goods">
-        update dg_goods set type=#{type},name=#{name},price=#{price},counter=#{counter},bid=#{bid},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
+        update dg_goods set type_uuid=#{typeUuid},name=#{name},price=#{price},counter=#{counter},bid=#{bid},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
     </update>
 
     <!-- 删除记录 -->
@@ -142,10 +143,11 @@
     <!-- 根据pages查询 -->
     <select id="getListByPages" resultMap="baseResultMap" parameterType="com.daigou.core.util.Pages">
         select
-        <include refid="base_column_list"/>
-        from dg_goods where 1=1
+        g.uuid,g.type_uuid,g.name,g.price,g.counter,g.bid,g.create_time,g.update_time,g.status,g.remark,t.type
+        from dg_goods g left join dg_goods_type t on g.type_uuid = t.uuid
+        where 1=1
         <if test="option != null and option != ''">
-            and (name like CONCAT('%','${option}','%' ) or type=#{option} )
+            and (g.name like CONCAT('%','${option}','%' ) or t.type=#{option} )
         </if>
     </select>
 

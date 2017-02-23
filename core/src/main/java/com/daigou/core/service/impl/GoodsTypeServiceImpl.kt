@@ -22,7 +22,9 @@ open class GoodsTypeServiceImpl : GoodsTypeService {
         if (model.type.isNullOrBlank()) {
             return false
         }
-        model.uuid = UUID.randomUUID().toString().replace("-", "")
+        if (model.uuid.isNullOrBlank()) {
+            model.uuid = UUID.randomUUID().toString().replace("-", "")
+        }
         mapper!!.save(model)
         return true
     }

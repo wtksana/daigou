@@ -7,8 +7,6 @@ import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.Goods
 import com.daigou.core.domain.GoodsType
-import javafx.collections.FXCollections
-import tornadofx.observable
 import tornadofx.toModel
 
 
@@ -38,10 +36,11 @@ class GoodsCtrl : BaseCtrl<Goods>() {
 
     fun addGoods(model: GoodsModel): Boolean {
         val data = hashMapOf<String, String>()
-        data.put("type", model.type.value)
+        data.put("typeUuid", model.typeUuid.value)
         data.put("name", model.name.value)
         data.put("price", model.price.value.toString())
         data.put("bid", model.bid.value.toString())
+        data.put("counter", model.counter.value.toString())
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_add + params)
@@ -51,10 +50,11 @@ class GoodsCtrl : BaseCtrl<Goods>() {
     fun editGoods(model: GoodsModel): Boolean {
         val data = hashMapOf<String, String>()
         data.put("uuid", model.uuid.value)
-        data.put("type", model.type.value)
+        data.put("typeUuid", model.typeUuid.value)
         data.put("name", model.name.value)
         data.put("price", model.price.value.toString())
         data.put("bid", model.bid.value.toString())
+        data.put("counter", model.counter.value.toString())
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_edit + params)
@@ -82,9 +82,10 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         return result(response)
     }
 
-    fun addGoodsType(type: String): Boolean {
+    fun addGoodsType(type: GoodsType): Boolean {
         val data = hashMapOf<String, String>()
-        data.put("type", type)
+        data.put("uuid", type.uuid ?: "")
+        data.put("type", type.type ?: "")
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_type_add + params)
         return result(response)

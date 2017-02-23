@@ -19,16 +19,18 @@ open class OrderServiceImpl : OrderService {
     private val mapper: OrderMapper? = null
 
     override fun save(model: Order): Boolean {
-        if (model.userUuid.isNullOrBlank() || model.goodsUuid.isNullOrBlank() || model.quantity < 1) {
+        if (model.userUuid.isNullOrBlank() || model.account < 0) {
             return false
         }
-        model.uuid = UUID.randomUUID().toString().replace("-", "")
+        if (model.uuid.isNullOrBlank()) {
+            model.uuid = UUID.randomUUID().toString().replace("-", "")
+        }
         mapper!!.save(model)
         return true
     }
 
     override fun update(model: Order): Boolean {
-        if (model.uuid.isNullOrBlank() || model.userUuid.isNullOrBlank() || model.goodsUuid.isNullOrBlank() || model.quantity < 1) {
+        if (model.uuid.isNullOrBlank() || model.userUuid.isNullOrBlank() || model.account < 0) {
             return false
         }
         mapper!!.update(model)

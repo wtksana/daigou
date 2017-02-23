@@ -24,7 +24,7 @@ class GoodsView : Fragment() {
             newGoods.itemProperty.set(Goods())
             fieldset {
                 field("类别：") {
-                    var type = textfield {
+                    textfield {
                         prefWidth = 80.0
                         isEditable = false
                         bind(newGoods.type)
@@ -38,7 +38,7 @@ class GoodsView : Fragment() {
                     }
                     button("选择") {
                         setOnAction {
-                            GoodsTypeView(type).openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, false, primaryStage)
+                            GoodsTypeView(newGoods).openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, false, primaryStage)
                         }
                     }
                 }

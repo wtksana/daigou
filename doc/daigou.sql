@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2017-02-17 11:55:15
+Date: 2017-02-23 18:10:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,11 +21,11 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `dg_goods`;
 CREATE TABLE `dg_goods` (
   `uuid` varchar(32) NOT NULL,
-  `type` varchar(20) DEFAULT '0' COMMENT '商品类型',
+  `type_uuid` varchar(32) DEFAULT '0' COMMENT '商品类型',
   `name` varchar(32) DEFAULT NULL COMMENT '商品名称',
   `price` decimal(10,2) DEFAULT '0.00' COMMENT '售价',
   `bid` decimal(10,2) DEFAULT '0.00' COMMENT '进价',
-  `counter` decimal(10,2) DEFAULT NULL,
+  `counter` decimal(10,2) DEFAULT '0.00' COMMENT '专柜价',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `status` tinyint(1) DEFAULT '1' COMMENT '状态 1：正常 0：删除',
@@ -37,7 +37,8 @@ CREATE TABLE `dg_goods` (
 -- ----------------------------
 -- Records of dg_goods
 -- ----------------------------
-INSERT INTO `dg_goods` VALUES ('007da1178b0341f6bbf0c7b2806ce9e', '化妆品', '爱上啊', '150.55', '120.55', '0.00', '2017-02-15 17:17:21', '2017-02-16 10:57:15', '1', '');
+INSERT INTO `dg_goods` VALUES ('007da1178b0341f6bbf0c7b2806ce9e', '2726a734414a40a392cb1837e91d8799', '爱上啊', '150.55', '120.55', '110.01', '2017-02-15 17:17:21', '2017-02-23 15:52:55', '1', '');
+INSERT INTO `dg_goods` VALUES ('9f3724bf5a7140a983aba8dbffb7a005', '3e6ea40386c644efb3f4c1fad2c36f84', '大保健', '111.00', '110.00', '222.00', '2017-02-23 15:54:29', null, '1', '一把大保健');
 
 -- ----------------------------
 -- Table structure for dg_goods_type
@@ -55,9 +56,13 @@ CREATE TABLE `dg_goods_type` (
 -- ----------------------------
 -- Records of dg_goods_type
 -- ----------------------------
-INSERT INTO `dg_goods_type` VALUES ('1212', 'asd', null, null, null);
-INSERT INTO `dg_goods_type` VALUES ('22', '包', null, null, null);
-INSERT INTO `dg_goods_type` VALUES ('233', '化妆品', null, null, null);
+INSERT INTO `dg_goods_type` VALUES ('1212', 'asd', '0', '2017-02-20 10:09:59', null);
+INSERT INTO `dg_goods_type` VALUES ('22', '包12', '0', '2017-02-20 10:09:59', '2017-02-20 11:37:25');
+INSERT INTO `dg_goods_type` VALUES ('233', '化妆品1', '0', '2017-02-20 10:09:59', null);
+INSERT INTO `dg_goods_type` VALUES ('2726a734414a40a392cb1837e91d8799', '衣服', '1', '2017-02-23 15:51:59', null);
+INSERT INTO `dg_goods_type` VALUES ('3e6ea40386c644efb3f4c1fad2c36f84', '保健品', '1', '2017-02-23 15:54:05', null);
+INSERT INTO `dg_goods_type` VALUES ('6aaebf878145409fad81ecc02a63e8c7', '化妆品', '1', '2017-02-20 15:32:23', null);
+INSERT INTO `dg_goods_type` VALUES ('ae31ba9588e846b8a9c19d937e79b3b3', '包', '1', '2017-02-20 15:30:56', null);
 
 -- ----------------------------
 -- Table structure for dg_order
@@ -66,19 +71,36 @@ DROP TABLE IF EXISTS `dg_order`;
 CREATE TABLE `dg_order` (
   `uuid` varchar(32) NOT NULL COMMENT '主键',
   `user_uuid` varchar(32) DEFAULT NULL COMMENT '用户id',
-  `goods_uuid` varchar(32) DEFAULT NULL COMMENT '商品uuid',
-  `quantity` int(10) DEFAULT '0' COMMENT '数量',
+  `account` decimal(10,2) DEFAULT '0.00' COMMENT '总价',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `done_time` datetime DEFAULT NULL COMMENT '订单完成时间',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `op_uuid` varchar(32) DEFAULT NULL COMMENT '操作员uuid',
   `status` tinyint(1) DEFAULT '1' COMMENT '状态 1：下单 2：完成 0：删除',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of dg_order
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for dg_order_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `dg_order_detail`;
+CREATE TABLE `dg_order_detail` (
+  `uuid` varchar(32) NOT NULL COMMENT '主键',
+  `order_uuid` varchar(32) DEFAULT NULL COMMENT '订单uuid',
+  `goods_uuid` varchar(32) DEFAULT NULL COMMENT '商品uuid',
+  `quantity` int(10) DEFAULT '0' COMMENT '商品数量',
+  `account` decimal(10,2) DEFAULT '0.00' COMMENT '总价',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态 1：下单 2：完成 0：删除',
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of dg_order_detail
 -- ----------------------------
 
 -- ----------------------------

@@ -7,6 +7,7 @@ import java.util.*
  * Created by wt on 2017/2/15.
  */
 data class Goods(var uuid: String? = "",
+                 var typeUuid: String? = "",
                  var type: String? = "",
                  var name: String? = "",
                  var price: Double = 0.00,

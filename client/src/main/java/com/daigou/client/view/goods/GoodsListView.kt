@@ -77,7 +77,7 @@ class GoodsListView : View() {
         with(detailForm) {
             fieldset {
                 field("类别：") {
-                    var type = textfield {
+                    textfield {
                         prefWidth = 80.0
                         isEditable = false
                         bind(selectedGoods.type)
@@ -91,7 +91,7 @@ class GoodsListView : View() {
                     }
                     button("选择") {
                         setOnAction {
-                            GoodsTypeView(type).openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, false, primaryStage)
+                            GoodsTypeView(selectedGoods).openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, false, primaryStage)
                         }
                     }
                 }

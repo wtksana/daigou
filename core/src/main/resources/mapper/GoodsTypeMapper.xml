@@ -100,7 +100,7 @@
     </select>
 
     <select id="getAll" resultType="com.daigou.core.domain.GoodsType">
-        select * from dg_goods_type
+        select * from dg_goods_type where status = 1
     </select>
 
 </mapper>

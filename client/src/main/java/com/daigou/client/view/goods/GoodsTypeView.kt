@@ -1,19 +1,19 @@
 package com.daigou.client.view.goods
 
 import com.daigou.client.controller.GoodsCtrl
+import com.daigou.client.model.GoodsModel
 import com.daigou.client.model.GoodsTypeModel
 import com.daigou.core.domain.GoodsType
-import javafx.scene.control.TextField
 import org.controlsfx.control.Notifications
 import tornadofx.*
+import java.util.*
 
 /**
  * Created by wt on 2017/2/16.
  */
-class GoodsTypeView(var t: TextField) : Fragment() {
+class GoodsTypeView(var t: GoodsModel) : Fragment() {
     val ctrl: GoodsCtrl by inject()
     val selectedType = GoodsTypeModel()
-    val newType = GoodsType()
 
     override val root = borderpane {
         prefHeight = 300.0
@@ -47,8 +47,9 @@ class GoodsTypeView(var t: TextField) : Fragment() {
             setOnAction {
                 val newType = GoodsType()
                 newType.type = type.text
+                newType.uuid = UUID.randomUUID().toString().replace("-", "")
                 runAsync {
-                    ctrl.addGoodsType(type.text)
+                    ctrl.addGoodsType(newType)
                 } ui { rst ->
                     if (rst) {
                         typeTable.items.add(newType)
@@ -62,7 +63,8 @@ class GoodsTypeView(var t: TextField) : Fragment() {
         button("√") {
             disableProperty().bind(selectedType.empty)
             setOnAction {
-                t.text = selectedType.type.value
+                t.typeUuid.value = selectedType.uuid.value
+                t.type.value = selectedType.type.value
                 closeModal()
             }
         }

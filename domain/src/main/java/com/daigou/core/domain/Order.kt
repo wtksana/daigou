@@ -8,14 +8,14 @@ import java.util.*
  */
 data class Order(var uuid: String? = "",
                  var userUuid: String? = "",
-                 var goodsUuid: String? = "",
+                 var account: Double = 0.00,
                  var opUuid: String? = "",
-                 var quantity: Int = 0,
                  var status: Int = 1,
                  var remark: String? = "",
                  var doneTime: Date? = null,
                  var createTime: Date? = null,
-                 var updateTime: Date? = null
+                 var updateTime: Date? = null,
+                 var detail: List<OrderDetail>
 ) : Serializable {
     private val serialVersionUID = 1L
 }

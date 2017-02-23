@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daigou.core.dao.OrderDetailMapper">
+    <!-- Result Map-->
+    <resultMap id="baseResultMap" type="com.daigou.core.domain.OrderDetail">
+        <result column="uuid" property="uuid"/>
+        <result column="order_uuid" property="orderUuid"/>
+        <result column="goods_uuid" property="goodsUuid"/>
+        <result column="quantity" property="quantity"/>
+        <result column="account" property="account"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- dg_goods table all fields -->
+    <sql id="base_column_list">
+        uuid,order_uuid,goods_uuid,quantity,account,status
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="base_where_clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="uuid != null and uuid != ''">
+                and uuid = #{uuid}
+            </if>
+            <if test="orderUuid != null and orderUuid != ''">
+                and order_uuid = #{orderUuid}
+            </if>
+            <if test="goodsUuid != null and goodsUuid != ''">
+                and goods_uuid = #{goodsUuid}
+            </if>
+            <if test="quantity != null">
+                and quantity = #{quantity}
+            </if>
+            <if test="account != null">
+                and account = #{account}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="save" parameterType="com.daigou.core.domain.OrderDetail">
+        insert into dg_order_detail (
+        <trim suffixOverrides=",">
+            uuid ,
+            <if test="orderUuid != null  and orderUuid != '' ">
+                order_uuid,
+            </if>
+            <if test="goodsUuid != null  and goodsUuid != '' ">
+                goods_uuid,
+            </if>
+            <if test="quantity != null  ">
+                quantity,
+            </if>
+            <if test="account != null  ">
+                account,
+            </if>
+            <if test="status != null  ">
+                status,
+            </if>
+        </trim>
+        ) values (
+        <trim suffixOverrides=",">
+            #{uuid} ,
+            <if test="orderUuid != null  and orderUuid != '' ">
+                #{orderUuid},
+            </if>
+            <if test="goodsUuid != null  and goodsUuid != '' ">
+                #{goodsUuid},
+            </if>
+            <if test="quantity != null  ">
+                #{quantity},
+            </if>
+            <if test="account != null  ">
+                #{account},
+            </if>
+            <if test="status != null  ">
+                #{status},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.daigou.core.domain.OrderDetail">
+        update dg_order_detail set order_uuid=#{orderUuid},goods_uuid=#{goodsUuid},quantity=#{quantity},account=#{account},status=#{status} where uuid=#{uuid}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByUuid" parameterType="String">
+        update dg_order_detail set status=0 where uuid = #{uuid}
+    </delete>
+
+    <!-- 根据id查询 -->
+    <select id="getByUuid" resultMap="baseResultMap" parameterType="String">
+        select
+        <include refid="base_column_list"/>
+        from dg_order_detail where uuid = #{uuid}
+    </select>
+
+    <!-- 商品表 列表总数-->
+    <select id="countByModel" resultType="java.lang.Integer" parameterType="com.daigou.core.domain.OrderDetail">
+        select count(1) from dg_order_detail
+        <include refid="base_where_clause"/>
+    </select>
+
+    <!-- 根据orderUuid查询 -->
+    <select id="getListByOrderUuid" resultType="com.daigou.core.domain.OrderDetail" parameterType="String">
+        select * from dg_order_detail where order_uuid = #{orderUuid}
+    </select>
+
+</mapper>
