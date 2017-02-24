@@ -8,6 +8,7 @@
         <result column="uuid" property="uuid"/>
         <result column="order_uuid" property="orderUuid"/>
         <result column="goods_uuid" property="goodsUuid"/>
+        <result column="goodsName" property="goodsName"/>
         <result column="quantity" property="quantity"/>
         <result column="account" property="account"/>
         <result column="status" property="status"/>
@@ -111,7 +112,11 @@
 
     <!-- 根据orderUuid查询 -->
     <select id="getListByOrderUuid" resultType="com.daigou.core.domain.OrderDetail" parameterType="String">
-        select * from dg_order_detail where order_uuid = #{orderUuid}
+        select
+        d.uuid,d.order_uuid,d.goods_uuid,d.quantity,d.account,d.status,g.name as goodsName
+        from dg_order_detail d
+        left join dg_goods g on g.uuid = d.goods_uuid
+        where d.order_uuid = #{orderUuid} and d.status = 1
     </select>
 
 </mapper>

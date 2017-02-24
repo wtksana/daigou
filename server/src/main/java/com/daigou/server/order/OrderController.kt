@@ -22,9 +22,9 @@ class OrderController : BaseController() {
     @RequestMapping(UrlConstant.order_list)
     @ResponseBody
     fun orderList(pages: Pages<Order>): Any {
-        val pages = service!!.getListByPages(pages)
-        if (pages.data != null) {
-            return success(pages)
+        val newPages = service!!.getListByPages(pages)
+        if (newPages.data != null) {
+            return success(newPages)
         } else {
             return fail()
         }

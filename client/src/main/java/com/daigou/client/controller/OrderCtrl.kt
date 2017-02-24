@@ -1,7 +1,9 @@
 package com.daigou.client.controller
 
 import com.alibaba.fastjson.JSONArray
+import com.daigou.client.model.OrderModel
 import com.daigou.client.model.Pages
+import com.daigou.client.model.UserModel
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.Order
@@ -31,4 +33,25 @@ class OrderCtrl : BaseCtrl<Order>() {
         return emptyList()
     }
 
+    fun addOrder(model: OrderModel): Boolean {
+        val data = hashMapOf<String, String>()
+        data.put("userUuid", model.userUuid.value)
+        data.put("account", model.account.value.toString())
+        data.put("mobile", model.remark.value)
+//        data.put("detail", model.detail)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.order_add + params)
+        return result(response)
+    }
+
+    fun editOrder(model: OrderModel): Boolean {
+        val data = hashMapOf<String, String>()
+        data.put("userUuid", model.userUuid.value)
+        data.put("account", model.account.value.toString())
+        data.put("mobile", model.remark.value)
+//        data.put("detail", model.detail)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.order_edit + params)
+        return result(response)
+    }
 }

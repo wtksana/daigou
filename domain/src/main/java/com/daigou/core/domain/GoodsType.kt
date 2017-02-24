@@ -6,7 +6,7 @@ import java.util.*
 /**
  * Created by wt on 2017/2/17.
  */
-data class GoodsType(var uuid: String? = "",
+data class GoodsType(var uuid: String = "",
                      var type: String? = "",
                      var status: Int = 1,
                      var createTime: Date? = null,

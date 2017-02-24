@@ -7,7 +7,8 @@ import java.util.*
  * Created by wt on 2017/2/10.
  */
 data class User(var uuid: String? = "",
-                var wechat: String? = "",
+                var userName: String? = "",
+                var pwd: String? = "",
                 var realName: String? = "",
                 var mobile: String? = "",
                 var address: String? = "",

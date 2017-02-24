@@ -11,7 +11,8 @@ import java.util.*
  */
 class UserModel : ItemViewModel<User>() {
     val uuid = bind { SimpleStringProperty(item?.uuid) }
-    val wechat = bind { SimpleStringProperty(item?.wechat) }
+    val userName = bind { SimpleStringProperty(item?.userName) }
+    val pwd = bind { SimpleStringProperty(item?.pwd) }
     val realName = bind { SimpleStringProperty(item?.realName) }
     val mobile = bind { SimpleStringProperty(item?.mobile) }
     val address = bind { SimpleStringProperty(item?.address) }

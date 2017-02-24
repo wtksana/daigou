@@ -84,8 +84,8 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
             prefHeight = 40.0
             anchorpaneConstraints {
                 bottomAnchor = 0.0
-                leftAnchor = 1.0
-                rightAnchor = 1.0
+                leftAnchor = 0.0
+                rightAnchor = 0.0
             }
 
         }

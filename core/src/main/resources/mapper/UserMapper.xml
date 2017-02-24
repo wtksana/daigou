@@ -6,7 +6,8 @@
     <!-- Result Map-->
     <resultMap id="baseResultMap" type="com.daigou.core.domain.User">
         <result column="uuid" property="uuid"/>
-        <result column="wechat" property="wechat"/>
+        <result column="user_name" property="userName"/>
+        <result column="pwd" property="pwd"/>
         <result column="real_name" property="realName"/>
         <result column="mobile" property="mobile"/>
         <result column="address" property="address"/>
@@ -19,7 +20,7 @@
 
     <!-- user table all fields -->
     <sql id="base_column_list">
-        uuid,wechat,real_name,mobile,address,status,remark,invite_user,create_time,update_time
+        uuid,user_name,pwd,real_name,mobile,address,status,remark,invite_user,create_time,update_time
     </sql>
 
     <!-- 查询条件 -->
@@ -29,8 +30,11 @@
             <if test="uuid != null and uuid != '' ">
                 and uuid = #{uuid}
             </if>
-            <if test="wechat != null and wechat != '' ">
-                and wechat = #{wechat}
+            <if test="userName != null and userName != '' ">
+                and user_name = #{userName}
+            </if>
+            <if test="pwd != null and pwd != '' ">
+                and pwd = #{pwd}
             </if>
             <if test="realName != null and realName != '' ">
                 and real_name = #{realName}
@@ -64,8 +68,11 @@
         insert into dg_user (
         <trim suffixOverrides=",">
             uuid ,
-            <if test="wechat != null  and wechat != '' ">
-                wechat,
+            <if test="userName != null  and userName != '' ">
+                user_name,
+            </if>
+            <if test="pwd != null  and pwd != '' ">
+                pwd,
             </if>
             <if test="realName != null  and realName != '' ">
                 real_name,
@@ -90,8 +97,11 @@
         ) values (
         <trim suffixOverrides=",">
             #{uuid} ,
-            <if test="wechat != null  and wechat != '' ">
-                #{wechat},
+            <if test="userName != null  and userName != '' ">
+                #{userName},
+            </if>
+            <if test="pwd != null  and pwd != '' ">
+                #{pwd},
             </if>
             <if test="realName != null  and realName != '' ">
                 #{realName},
@@ -118,7 +128,7 @@
 
     <!-- 根据id，修改记录-->
     <update id="update" parameterType="com.daigou.core.domain.User">
-        update dg_user set wechat=#{wechat},real_name=#{realName},mobile=#{mobile},address=#{address},status=#{status},remark=#{remark},invite_User=#{inviteUser},update_time=now() where uuid=#{uuid}
+        update dg_user set user_name=#{userName},pwd=#{pwd},real_name=#{realName},mobile=#{mobile},address=#{address},status=#{status},remark=#{remark},invite_User=#{inviteUser},update_time=now() where uuid=#{uuid}
     </update>
 
     <!-- 删除记录 -->
@@ -145,7 +155,7 @@
         <include refid="base_column_list"/>
         from dg_user where 1=1
         <if test="option != null and option != ''">
-            and (wechat like CONCAT('%','${option}','%' ) or real_name like CONCAT('%','${option}','%' ) or mobile like CONCAT('%','${option}','%' ))
+            and (user_name like CONCAT('%','${option}','%' ) or real_name like CONCAT('%','${option}','%' ) or mobile like CONCAT('%','${option}','%' ))
         </if>
     </select>
 

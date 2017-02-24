@@ -20,7 +20,7 @@ open class UserServiceImpl : UserService {
     private val mapper: UserMapper? = null
 
     override fun save(model: User): Boolean {
-        if (model.wechat.isNullOrBlank()) {
+        if (model.userName.isNullOrBlank()) {
             return false
         }
         model.uuid = UUID.randomUUID().toString().replace("-", "")
@@ -29,7 +29,7 @@ open class UserServiceImpl : UserService {
     }
 
     override fun update(model: User): Boolean {
-        if (model.uuid.isNullOrBlank() || model.wechat.isNullOrBlank()) {
+        if (model.uuid.isNullOrBlank() || model.userName.isNullOrBlank()) {
             return false
         }
         mapper!!.update(model)
@@ -58,7 +58,7 @@ open class UserServiceImpl : UserService {
     override fun getListByPages(pages: Pages<User>): Pages<User> {
         PageHelper.startPage<User>(pages.page, pages.row, pages.order)
         val list = mapper!!.getListByPages(pages)
-        val pages = Pages(list as Page<User>)
-        return pages
+        val newPages = Pages(list as Page<User>)
+        return newPages
     }
 }

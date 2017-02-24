@@ -27,7 +27,7 @@ class GoodsTypeView(var t: GoodsModel) : Fragment() {
         }
         onEditCommit {
             selectedType.commit()
-            ctrl.editGoodsType(it.uuid ?: "", it.type ?: "")
+            ctrl.editGoodsType(it.uuid, it.type.orEmpty())
         }
         bindSelected(selectedType)
         columnResizePolicy = SmartResize.POLICY

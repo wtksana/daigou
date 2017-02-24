@@ -2,6 +2,7 @@ package com.daigou.client.view
 
 import com.daigou.client.controller.OperatorCtrl
 import com.daigou.client.view.user.GoodsListView
+import com.daigou.client.view.user.OrderListView
 import com.daigou.client.view.user.UserListView
 import javafx.scene.text.Text
 import tornadofx.View
@@ -16,6 +17,7 @@ class MainView : View("代购系统") {
     val operatorCtrl: OperatorCtrl by inject()
     val userListView: UserListView by inject()
     val goodsListView: GoodsListView by inject()
+    val orderListView: OrderListView by inject()
     override val root = borderpane {
         minHeight = 600.0
         minWidth = 800.0
@@ -36,8 +38,8 @@ class MainView : View("代购系统") {
             }
             with(order) {
                 setOnMouseClicked {
-                    if (center != userListView.root) {
-                        center = userListView.root
+                    if (center != orderListView.root) {
+                        center = orderListView.root
                     }
                 }
             }

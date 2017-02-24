@@ -17,11 +17,12 @@ class UserView : Fragment() {
     init {
         title = "新增"
         with(root) {
+            prefWidth = 300.0
             newUser.itemProperty.set(User())
             fieldset {
                 field("微信号：") {
                     textfield {
-                        bind(newUser.wechat)
+                        bind(newUser.userName)
                         validator {
                             if (it.isNullOrBlank()) error("微信号不能为空") else null
                         }
@@ -48,6 +49,7 @@ class UserView : Fragment() {
                 field("备注：") {
                     textarea {
                         bind(newUser.remark)
+                        prefHeight = 50.0
                     }
                 }
                 field("推荐人：") {

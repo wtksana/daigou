@@ -22,9 +22,9 @@ class UserController : BaseController() {
     @RequestMapping(UrlConstant.user_list)
     @ResponseBody
     fun userList(pages: Pages<User>): Any {
-        val pages = service!!.getListByPages(pages)
-        if (pages.data != null) {
-            return success(pages)
+        val newPages = service!!.getListByPages(pages)
+        if (newPages.data != null) {
+            return success(newPages)
         } else {
             return fail()
         }

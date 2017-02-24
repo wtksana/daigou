@@ -1,5 +1,6 @@
 package com.daigou.core.service.impl
 
+import com.daigou.core.dao.OrderDetailMapper
 import com.daigou.core.dao.OrderMapper
 import com.daigou.core.domain.Order
 import com.daigou.core.service.OrderService
@@ -17,6 +18,8 @@ import java.util.*
 open class OrderServiceImpl : OrderService {
     @Autowired
     private val mapper: OrderMapper? = null
+    @Autowired
+    private val orderDetailMapper: OrderDetailMapper? = null
 
     override fun save(model: Order): Boolean {
         if (model.userUuid.isNullOrBlank() || model.account < 0) {
@@ -59,7 +62,13 @@ open class OrderServiceImpl : OrderService {
     override fun getListByPages(pages: Pages<Order>): Pages<Order> {
         PageHelper.startPage<Order>(pages.page, pages.row, pages.order)
         val list = mapper!!.getListByPages(pages)
-        val pages = Pages(list as Page<Order>)
-        return pages
+        if (list.isNotEmpty()) {
+            for (order in list) {
+                val detail = orderDetailMapper!!.getListByOrderUuid(order.uuid)
+                order.detail = detail
+            }
+        }
+        val newPages = Pages(list as Page<Order>)
+        return newPages
     }
 }

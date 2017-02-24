@@ -15,6 +15,7 @@ import java.util.*
 class OrderModel : ItemViewModel<Order>() {
     val uuid = bind { SimpleStringProperty(item?.uuid) }
     val userUuid = bind { SimpleStringProperty(item?.userUuid) }
+    val userName = bind { SimpleStringProperty(item?.userName) }
     val account = bind { SimpleDoubleProperty(item?.account ?: 0.00) }
     val opUuid = bind { SimpleStringProperty(item?.opUuid) }
     val status = bind { SimpleIntegerProperty(item?.status ?: 1) }

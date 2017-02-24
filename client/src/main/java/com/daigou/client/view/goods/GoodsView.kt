@@ -21,6 +21,7 @@ class GoodsView : Fragment() {
     init {
         title = "新增"
         with(root) {
+            prefWidth = 300.0
             newGoods.itemProperty.set(Goods())
             fieldset {
                 field("类别：") {
@@ -93,6 +94,7 @@ class GoodsView : Fragment() {
                 field("备注：") {
                     textarea {
                         bind(newGoods.remark)
+                        prefHeight = 50.0
                     }
                 }
                 button("保存") {

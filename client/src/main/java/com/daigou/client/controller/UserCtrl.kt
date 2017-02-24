@@ -35,7 +35,7 @@ class UserCtrl : BaseCtrl<User>() {
 
     fun addUser(model: UserModel): Boolean {
         val data = hashMapOf<String, String>()
-        data.put("wechat", model.wechat.value)
+        data.put("userName", model.userName.value)
         data.put("realName", model.realName.value)
         data.put("mobile", model.mobile.value)
         data.put("address", model.address.value)
@@ -48,7 +48,7 @@ class UserCtrl : BaseCtrl<User>() {
     fun editUser(model: UserModel): Boolean {
         val data = hashMapOf<String, String>()
         data.put("uuid", model.uuid.value)
-        data.put("wechat", model.wechat.value)
+        data.put("userName", model.userName.value)
         data.put("realName", model.realName.value)
         data.put("mobile", model.mobile.value)
         data.put("address", model.address.value)

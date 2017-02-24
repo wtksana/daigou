@@ -3,6 +3,7 @@ package com.daigou.client.view.user
 import com.daigou.client.controller.GoodsCtrl
 import com.daigou.client.model.GoodsModel
 import com.daigou.client.view.PagesTool
+import com.daigou.client.view.goods.GoodsPagesView
 import com.daigou.client.view.goods.GoodsTypeView
 import com.daigou.common.util.DateUtil
 import com.daigou.core.domain.Goods
@@ -23,53 +24,29 @@ class GoodsListView : View() {
     }
     val ctrl: GoodsCtrl by inject()
     val detailForm = Form()
-    val tableView = TableView<Goods>()
-    val pagesTool = PagesTool(ctrl, tableView)
+    val pagesView: GoodsPagesView by inject()
     val selectedGoods = GoodsModel()
     val reg = "(^[1-9]\\d*(\\.\\d{1,2})?$)|(^0(\\.\\d{1,2})?$)".toRegex()
 
     init {
         initTableView()
         initDetailForm()
-        with(pagesTool) {
-            button("+") {
-                setOnAction {
-                    GoodsView().openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, true, primaryStage)
-                }
-            }
-            with(root) {
-                anchorpaneConstraints {
-                    rightAnchor = 301.0
-                }
-            }
-        }
+
         with(root) {
-            this += tableView
+            this += pagesView
             this += detailForm
-            this += pagesTool
         }
     }
 
     fun initTableView() {
-        with(tableView) {
-            column("名称", Goods::name).weigthedWidth(1)
-            column("类别", Goods::type)
-            column("售价", Goods::price)
-            column("专柜价", Goods::counter)
-            column("进价", Goods::bid)
-//            column("地址", User::addressProperty)
-//            column("备注", User::remarkProperty)
-            column("添加时间", Goods::createTime).cellFormat {
-                text = DateUtil.dateStr4(it)
-            }
-            anchorpaneConstraints {
+        with(pagesView) {
+            root.anchorpaneConstraints {
                 bottomAnchor = 0.0
                 leftAnchor = 0.0
                 rightAnchor = 300.0
                 topAnchor = 0.0
             }
-            columnResizePolicy = SmartResize.POLICY
-            bindSelected(selectedGoods)
+            tableView.bindSelected(selectedGoods)
         }
     }
 
