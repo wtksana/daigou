@@ -7,6 +7,8 @@ interface BaseMapper<T> {
 
     fun save(model: T)
 
+    fun saveList(list: List<T>)
+
     fun update(model: T)
 
     fun deleteByUuid(uuid: String)

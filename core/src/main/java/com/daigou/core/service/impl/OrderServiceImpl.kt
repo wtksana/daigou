@@ -1,12 +1,15 @@
 package com.daigou.core.service.impl
 
+import com.alibaba.fastjson.JSONArray
 import com.daigou.core.dao.OrderDetailMapper
 import com.daigou.core.dao.OrderMapper
 import com.daigou.core.domain.Order
+import com.daigou.core.domain.OrderDetail
 import com.daigou.core.service.OrderService
 import com.daigou.core.util.Pages
 import com.github.pagehelper.Page
 import com.github.pagehelper.PageHelper
+import org.apache.commons.codec.binary.Base64
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -29,6 +32,14 @@ open class OrderServiceImpl : OrderService {
             model.uuid = UUID.randomUUID().toString().replace("-", "")
         }
         mapper!!.save(model)
+        val details = JSONArray.parseArray(kotlin.text.String(Base64.decodeBase64(model.detail.replace("\n", "").replace(" ", "+"))), OrderDetail::class.java)
+        details.forEach {
+            if (it.uuid.isNullOrBlank()) {
+                it.orderUuid = model.uuid
+                it.uuid = UUID.randomUUID().toString().replace("-", "")
+            }
+            orderDetailMapper!!.save(it)
+        }
         return true
     }
 
@@ -65,7 +76,7 @@ open class OrderServiceImpl : OrderService {
         if (list.isNotEmpty()) {
             for (order in list) {
                 val detail = orderDetailMapper!!.getListByOrderUuid(order.uuid)
-                order.detail = detail
+                order.detail = Base64.encodeBase64String(JSONArray.toJSONString(detail).toByteArray())
             }
         }
         val newPages = Pages(list as Page<Order>)

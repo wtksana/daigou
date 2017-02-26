@@ -16,7 +16,7 @@ data class Order(var uuid: String = "",
                  var doneTime: Date? = null,
                  var createTime: Date? = null,
                  var updateTime: Date? = null,
-                 var detail: List<OrderDetail> = emptyList()
+                 var detail: String = ""
 ) : Serializable {
     private val serialVersionUID = 1L
 }

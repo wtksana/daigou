@@ -1,11 +1,13 @@
 package com.daigou.client.view.user
 
+import com.alibaba.fastjson.JSONArray
 import com.daigou.client.controller.OrderCtrl
 import com.daigou.client.model.OrderModel
 import com.daigou.client.view.goods.GoodsPagesView
 import com.daigou.core.domain.Goods
 import com.daigou.core.domain.Order
 import com.daigou.core.domain.OrderDetail
+import com.daigou.core.domain.User
 import javafx.scene.control.TableRow
 import javafx.scene.input.MouseButton
 import javafx.stage.Modality
@@ -34,11 +36,16 @@ class OrderView : Fragment() {
     init {
         title = "新增"
         with(userPages) {
-            tableView.selectionModel.selectedItemProperty().addListener { value, old, new ->
-                if (new != null) {
-                    newOrder.userName.value = new.userName
-                    newOrder.userUuid.value = new.uuid
+            tableView.setRowFactory {
+                val row = TableRow<User>()
+                row.setOnMouseClicked { e ->
+                    if (!row.isEmpty && e.button == MouseButton.PRIMARY && e.clickCount >= 2) {
+                        newOrder.userName.value = row.item.userName
+                        newOrder.userUuid.value = row.item.uuid
+                        closeModal()
+                    }
                 }
+                row
             }
         }
         with(goodsPages) {
@@ -46,12 +53,21 @@ class OrderView : Fragment() {
                 val row = TableRow<Goods>()
                 row.setOnMouseClicked { e ->
                     if (!row.isEmpty && e.button == MouseButton.PRIMARY && e.clickCount >= 2) {
-                        val new = OrderDetail()
-                        new.goodsUuid = row.item.uuid
-                        new.goodsName = row.item.name
-                        new.account = row.item.price
-                        new.quantity = 1
-                        detail.items.add(new)
+                        val list = detail.items.filter {
+                            it.goodsUuid.equals(row.item.uuid)
+                        }
+                        if (list.isEmpty()) {
+                            val new = OrderDetail()
+                            new.goodsUuid = row.item.uuid
+                            new.goodsName = row.item.name
+                            new.account = row.item.price
+                            new.quantity = 1
+                            detail.items.add(new)
+                        } else {
+                            list[0].quantity++
+                            list[0].account += row.item.price
+                        }
+                        detail.refresh()
                         closeModal()
                     }
                 }
@@ -62,6 +78,7 @@ class OrderView : Fragment() {
             prefWidth = 300.0
             newOrder.itemProperty.set(Order())
             fieldset {
+                detail
                 field("商品：") {
                     button("+") {
                         setOnAction {
@@ -70,11 +87,12 @@ class OrderView : Fragment() {
                     }
                     button("X") {
                         setOnAction {
-
+                            if (detail.selectedItem != null) {
+                                detail.items.remove(detail.selectedItem)
+                            }
                         }
                     }
                 }
-                detail
                 field("客户：") {
                     textfield {
                         prefWidth = 80.0
@@ -95,10 +113,15 @@ class OrderView : Fragment() {
                     }
                 }
                 field("总价：") {
-                    textfield {
+                    val accountText = textfield {
                         bind(newOrder.account)
                         validator {
                             if (it.isNullOrBlank()) error("手机号不能为空") else null
+                        }
+                    }
+                    button("=") {
+                        setOnAction {
+                            accountText.text = detail.items.map { it.account }.sum().toString()
                         }
                     }
                 }
@@ -112,6 +135,7 @@ class OrderView : Fragment() {
                     setOnAction {
                         if (newOrder.commit()) {
                             runAsync {
+                                newOrder.detail.value = JSONArray.toJSONString(detail.items)
                                 ctrl.addOrder(newOrder)
                             } ui { rst ->
                                 if (rst) {

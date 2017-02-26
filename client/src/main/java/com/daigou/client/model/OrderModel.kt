@@ -23,5 +23,5 @@ class OrderModel : ItemViewModel<Order>() {
     val createTime = bind { SimpleObjectProperty<Date>(item?.createTime) }
     val doneTime = bind { SimpleObjectProperty<Date>(item?.doneTime) }
     val updateTime = bind { SimpleObjectProperty<Date>(item?.updateTime) }
-    val detail = bind { SimpleObjectProperty<List<OrderDetail>>(item?.detail) }
+    val detail = bind { SimpleStringProperty(item?.detail) }
 }

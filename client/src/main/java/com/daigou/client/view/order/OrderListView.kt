@@ -1,9 +1,13 @@
 package com.daigou.client.view.user
 
+import com.alibaba.fastjson.JSONArray
 import com.daigou.client.controller.OrderCtrl
 import com.daigou.client.model.OrderModel
+import com.daigou.client.view.goods.GoodsPagesView
 import com.daigou.client.view.order.OrderPagesView
 import com.daigou.core.domain.OrderDetail
+import org.apache.commons.codec.binary.Base64
+import org.controlsfx.control.Notifications
 import tornadofx.*
 
 /**
@@ -14,7 +18,8 @@ class OrderListView : View() {
         prefHeight = 575.0
         prefWidth = 800.0
     }
-    val orderCtrl: OrderCtrl by inject()
+    val ctrl: OrderCtrl by inject()
+    val goodsPages = GoodsPagesView()
     val detailForm = Form()
     val pagesView = OrderPagesView()
     val selectedOrder = OrderModel()
@@ -43,13 +48,51 @@ class OrderListView : View() {
     fun initDetailForm() {
         with(detailForm) {
             fieldset {
-                tableview<OrderDetail> {
+                val detail = tableview<OrderDetail> {
                     column("商品名称", OrderDetail::goodsName).weigthedWidth(1)
                     column("数量", OrderDetail::quantity)
                     column("总价", OrderDetail::account)
                     columnResizePolicy = SmartResize.POLICY
+                    prefHeight = 200.0
                     selectedOrder.detail.addListener { value, old, new ->
-                        items = new.orEmpty().observable()
+                        if (!new.isNullOrBlank()) {
+                            items = JSONArray.parseArray(kotlin.text.String(Base64.decodeBase64(new.replace("\n", "").replace(" ", "+"))), OrderDetail::class.java).observable()
+                        }
+                    }
+                }
+                field("总价：") {
+                    val accountText = textfield {
+                        bind(selectedOrder.account)
+                        validator {
+                            if (it.isNullOrBlank()) error("手机号不能为空") else null
+                        }
+                    }
+                    button("=") {
+                        setOnAction {
+                            accountText.text = detail.items.map { it.account }.sum().toString()
+                        }
+                    }
+                }
+                field("备注：") {
+                    textarea {
+                        bind(selectedOrder.remark)
+                        prefHeight = 50.0
+                    }
+                }
+                button("保存") {
+                    setOnAction {
+                        if (selectedOrder.commit()) {
+                            runAsync {
+                                ctrl.editOrder(selectedOrder)
+                            } ui { rst ->
+                                if (rst) {
+                                    closeModal()
+                                    Notifications.create().text("保存成功！").owner(primaryStage).showWarning()
+                                } else {
+                                    Notifications.create().text("保存失败！").owner(this).showError()
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -84,7 +84,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
 
     fun addGoodsType(type: GoodsType): Boolean {
         val data = hashMapOf<String, String>()
-        data.put("uuid", type.uuid ?: "")
+        data.put("uuid", type.uuid)
         data.put("type", type.type ?: "")
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_type_add + params)

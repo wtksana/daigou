@@ -3,11 +3,12 @@ package com.daigou.client.controller
 import com.alibaba.fastjson.JSONArray
 import com.daigou.client.model.OrderModel
 import com.daigou.client.model.Pages
-import com.daigou.client.model.UserModel
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.Order
-import tornadofx.toModel
+import org.apache.commons.codec.binary.Base64
+import tornadofx.*
+import java.nio.charset.StandardCharsets
 
 /**
  * Created by wt on 2017/2/23.
@@ -37,19 +38,20 @@ class OrderCtrl : BaseCtrl<Order>() {
         val data = hashMapOf<String, String>()
         data.put("userUuid", model.userUuid.value)
         data.put("account", model.account.value.toString())
-        data.put("mobile", model.remark.value)
-//        data.put("detail", model.detail)
+        data.put("remark", model.remark.value)
+        data.put("detail", Base64.encodeBase64String(model.detail.value.toByteArray()))
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.order_add + params)
+        val response = api.post(UrlConstant.order_add + params)
         return result(response)
     }
 
     fun editOrder(model: OrderModel): Boolean {
         val data = hashMapOf<String, String>()
+        data.put("uuid", model.uuid.value)
         data.put("userUuid", model.userUuid.value)
         data.put("account", model.account.value.toString())
-        data.put("mobile", model.remark.value)
-//        data.put("detail", model.detail)
+        data.put("remark", model.remark.value)
+//        data.put("detail", Base64.encodeBase64String(model.detail.value.toByteArray()))
         val params = mapToParams(data)
         val response = api.get(UrlConstant.order_edit + params)
         return result(response)

@@ -1,6 +1,7 @@
 package com.daigou.client.app
 
 import com.daigou.client.view.MainView
+import javafx.application.Application
 import tornadofx.App
 import tornadofx.importStylesheet
 
@@ -11,4 +12,8 @@ class MainApp : App(MainView::class){
     init {
         importStylesheet("/style.css")
     }
+}
+
+fun main(args: Array<String>) {
+    Application.launch(MainApp::class.java)
 }

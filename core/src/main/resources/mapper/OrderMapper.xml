@@ -17,7 +17,7 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <!-- dg_goods table all fields -->
+    <!-- dg_order table all fields -->
     <sql id="base_column_list">
         uuid,user_uuid,account,op_uuid,status,remark,done_time,create_time,update_time
     </sql>
@@ -58,7 +58,7 @@
 
     <!-- 插入记录 -->
     <insert id="save" parameterType="com.daigou.core.domain.Order">
-        insert into dg_goods (
+        insert into dg_order (
         <trim suffixOverrides=",">
             uuid ,
             <if test="userUuid != null  and userUuid != '' ">

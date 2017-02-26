@@ -44,7 +44,6 @@ class GoodsController : BaseController() {
     @RequestMapping(UrlConstant.goods_edit)
     @ResponseBody
     fun goodsEdit(model: Goods): Any {
-        Log.info("model.uuid: ${model.uuid}")
         val rs = service!!.update(model)
         if (rs) {
             return success()

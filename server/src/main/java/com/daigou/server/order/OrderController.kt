@@ -44,7 +44,6 @@ class OrderController : BaseController() {
     @RequestMapping(UrlConstant.order_edit)
     @ResponseBody
     fun orderEdit(model: Order): Any {
-        Log.info("model.uuid: ${model.uuid}")
         val rs = service!!.update(model)
         if (rs) {
             return success()
