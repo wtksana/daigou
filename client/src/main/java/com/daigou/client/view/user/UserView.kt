@@ -11,11 +11,11 @@ import tornadofx.*
  */
 class UserView : Fragment() {
     override val root = Form()
-    val ctrl: UserCtrl by inject()
+    val userCtrl: UserCtrl by inject()
     val newUser = UserModel()
 
     init {
-        title = "新增"
+        title = "新增客户"
         with(root) {
             prefWidth = 300.0
             newUser.itemProperty.set(User())
@@ -62,7 +62,7 @@ class UserView : Fragment() {
                     setOnAction {
                         if (newUser.commit()) {
                             runAsync {
-                                ctrl.addUser(newUser)
+                                userCtrl.addUser(newUser)
                             } ui { rst ->
                                 if (rst) {
                                     closeModal()

@@ -21,7 +21,7 @@ import tornadofx.*
  */
 class OrderView : Fragment() {
     override val root = Form()
-    val ctrl: OrderCtrl by inject()
+    val orderCtrl: OrderCtrl by inject()
     val userPages = UserPagesView()
     val goodsPages = GoodsPagesView()
     val newOrder = OrderModel()
@@ -34,7 +34,7 @@ class OrderView : Fragment() {
     }
 
     init {
-        title = "新增"
+        title = "新增订单"
         with(userPages) {
             tableView.setRowFactory {
                 val row = TableRow<User>()
@@ -136,7 +136,7 @@ class OrderView : Fragment() {
                         if (newOrder.commit()) {
                             runAsync {
                                 newOrder.detail.value = JSONArray.toJSONString(detail.items)
-                                ctrl.addOrder(newOrder)
+                                orderCtrl.addOrder(newOrder)
                             } ui { rst ->
                                 if (rst) {
                                     closeModal()

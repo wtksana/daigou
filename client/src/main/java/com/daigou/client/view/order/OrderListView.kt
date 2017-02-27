@@ -3,7 +3,6 @@ package com.daigou.client.view.user
 import com.alibaba.fastjson.JSONArray
 import com.daigou.client.controller.OrderCtrl
 import com.daigou.client.model.OrderModel
-import com.daigou.client.view.goods.GoodsPagesView
 import com.daigou.client.view.order.OrderPagesView
 import com.daigou.core.domain.OrderDetail
 import org.apache.commons.codec.binary.Base64
@@ -18,8 +17,7 @@ class OrderListView : View() {
         prefHeight = 575.0
         prefWidth = 800.0
     }
-    val ctrl: OrderCtrl by inject()
-    val goodsPages = GoodsPagesView()
+    val orderCtrl: OrderCtrl by inject()
     val detailForm = Form()
     val pagesView = OrderPagesView()
     val selectedOrder = OrderModel()
@@ -79,17 +77,35 @@ class OrderListView : View() {
                         prefHeight = 50.0
                     }
                 }
-                button("保存") {
-                    setOnAction {
-                        if (selectedOrder.commit()) {
-                            runAsync {
-                                ctrl.editOrder(selectedOrder)
-                            } ui { rst ->
-                                if (rst) {
-                                    closeModal()
-                                    Notifications.create().text("保存成功！").owner(primaryStage).showWarning()
-                                } else {
-                                    Notifications.create().text("保存失败！").owner(this).showError()
+                field("操作：") {
+                    button("保存") {
+                        setOnAction {
+                            if (selectedOrder.commit() && !selectedOrder.uuid.value.isNullOrEmpty()) {
+                                runAsync {
+                                    orderCtrl.editOrder(selectedOrder)
+                                } ui { rst ->
+                                    if (rst) {
+                                        closeModal()
+                                        Notifications.create().text("操作成功！").owner(primaryStage).showWarning()
+                                    } else {
+                                        Notifications.create().text("操作失败！").owner(this).showError()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    button("删除") {
+                        setOnAction {
+                            if (!selectedOrder.uuid.value.isNullOrEmpty()) {
+                                runAsync {
+                                    orderCtrl.deleteOrder(selectedOrder.uuid.value)
+                                } ui { rst ->
+                                    if (rst) {
+                                        Notifications.create().text("操作成功！").owner(this).showWarning()
+                                    } else {
+                                        Notifications.create().text("操作失败！").owner(this).showError()
+                                    }
+                                    pagesView.pagesTool.getList()
                                 }
                             }
                         }

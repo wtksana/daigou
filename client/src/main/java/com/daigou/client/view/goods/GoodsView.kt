@@ -14,12 +14,12 @@ import tornadofx.*
  */
 class GoodsView : Fragment() {
     override val root = Form()
-    val ctrl: GoodsCtrl by inject()
+    val goodsCtrl: GoodsCtrl by inject()
     val newGoods = GoodsModel()
     val reg = "(^[1-9]\\d*(\\.\\d{1,2})?$)|(^0(\\.\\d{1,2})?$)".toRegex()
 
     init {
-        title = "新增"
+        title = "新增商品"
         with(root) {
             prefWidth = 300.0
             newGoods.itemProperty.set(Goods())
@@ -101,7 +101,7 @@ class GoodsView : Fragment() {
                     setOnAction {
                         if (newGoods.commit()) {
                             runAsync {
-                                ctrl.addGoods(newGoods)
+                                goodsCtrl.addGoods(newGoods)
                             } ui { rst ->
                                 if (rst) {
                                     closeModal()

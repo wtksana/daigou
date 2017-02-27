@@ -51,4 +51,15 @@ class UserController : BaseController() {
             return fail()
         }
     }
+
+    @RequestMapping(UrlConstant.user_delete)
+    @ResponseBody
+    fun userDelete(uuid: String): Any {
+        val rs = service!!.deleteByUuid(uuid)
+        if (rs) {
+            return success()
+        } else {
+            return fail()
+        }
+    }
 }

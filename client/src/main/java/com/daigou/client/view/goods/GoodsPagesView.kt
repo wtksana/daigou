@@ -16,9 +16,9 @@ import tornadofx.*
  */
 class GoodsPagesView : View() {
     override val root = AnchorPane()
-    val ctrl: GoodsCtrl by inject()
+    val goodsCtrl: GoodsCtrl by inject()
     val tableView = TableView<Goods>()
-    val pagesTool = PagesTool(ctrl, tableView)
+    val pagesTool = PagesTool(goodsCtrl, tableView)
 
     init {
         title = "商品列表"

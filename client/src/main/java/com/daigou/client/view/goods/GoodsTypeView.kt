@@ -12,7 +12,7 @@ import java.util.*
  * Created by wt on 2017/2/16.
  */
 class GoodsTypeView(var t: GoodsModel) : Fragment() {
-    val ctrl: GoodsCtrl by inject()
+    val goodsCtrl: GoodsCtrl by inject()
     val selectedType = GoodsTypeModel()
 
     override val root = borderpane {
@@ -27,12 +27,12 @@ class GoodsTypeView(var t: GoodsModel) : Fragment() {
         }
         onEditCommit {
             selectedType.commit()
-            ctrl.editGoodsType(it.uuid, it.type.orEmpty())
+            goodsCtrl.editGoodsType(it.uuid, it.type.orEmpty())
         }
         bindSelected(selectedType)
         columnResizePolicy = SmartResize.POLICY
         runAsync {
-            ctrl.getGoodsTypeList()
+            goodsCtrl.getGoodsTypeList()
         } ui { rst ->
             items = rst.observable()
         }
@@ -49,7 +49,7 @@ class GoodsTypeView(var t: GoodsModel) : Fragment() {
                 newType.type = type.text
                 newType.uuid = UUID.randomUUID().toString().replace("-", "")
                 runAsync {
-                    ctrl.addGoodsType(newType)
+                    goodsCtrl.addGoodsType(newType)
                 } ui { rst ->
                     if (rst) {
                         typeTable.items.add(newType)

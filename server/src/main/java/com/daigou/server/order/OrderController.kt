@@ -52,4 +52,15 @@ class OrderController : BaseController() {
         }
     }
 
+    @RequestMapping(UrlConstant.order_delete)
+    @ResponseBody
+    fun orderDelete(uuid: String): Any {
+        val rs = service!!.deleteByUuid(uuid)
+        if (rs) {
+            return success()
+        } else {
+            return fail()
+        }
+    }
+
 }

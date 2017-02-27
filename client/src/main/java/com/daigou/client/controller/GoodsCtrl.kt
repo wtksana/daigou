@@ -61,6 +61,14 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         return result(response)
     }
 
+    fun deleteGoods(uuid: String): Boolean {
+        val data = hashMapOf<String, String>()
+        data.put("uuid", uuid)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.goods_delete + params)
+        return result(response)
+    }
+
     fun getGoodsTypeList(): List<GoodsType> {
         val response = api.get(UrlConstant.goods_type_list)
         if (response.ok()) {

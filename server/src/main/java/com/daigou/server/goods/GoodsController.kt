@@ -22,9 +22,9 @@ class GoodsController : BaseController() {
     @RequestMapping(UrlConstant.goods_list)
     @ResponseBody
     fun goodsList(pages: Pages<Goods>): Any {
-        val pages = service!!.getListByPages(pages)
-        if (pages.data != null) {
-            return success(pages)
+        val newPages = service!!.getListByPages(pages)
+        if (newPages.data != null) {
+            return success(newPages)
         } else {
             return fail()
         }
@@ -45,6 +45,17 @@ class GoodsController : BaseController() {
     @ResponseBody
     fun goodsEdit(model: Goods): Any {
         val rs = service!!.update(model)
+        if (rs) {
+            return success()
+        } else {
+            return fail()
+        }
+    }
+
+    @RequestMapping(UrlConstant.goods_delete)
+    @ResponseBody
+    fun goodsDelete(uuid: String): Any {
+        val rs = service!!.deleteByUuid(uuid)
         if (rs) {
             return success()
         } else {

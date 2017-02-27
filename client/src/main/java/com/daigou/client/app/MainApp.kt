@@ -8,12 +8,12 @@ import tornadofx.importStylesheet
 /**
  * Created by wt on 2017/2/9.
  */
+fun main(args: Array<String>) {
+    Application.launch(MainApp::class.java)
+}
 class MainApp : App(MainView::class){
     init {
         importStylesheet("/style.css")
     }
 }
 
-fun main(args: Array<String>) {
-    Application.launch(MainApp::class.java)
-}

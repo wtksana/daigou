@@ -56,4 +56,12 @@ class OrderCtrl : BaseCtrl<Order>() {
         val response = api.get(UrlConstant.order_edit + params)
         return result(response)
     }
+
+    fun deleteOrder(uuid: String): Boolean {
+        val data = hashMapOf<String, String>()
+        data.put("uuid", uuid)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.order_delete + params)
+        return result(response)
+    }
 }

@@ -2,13 +2,8 @@ package com.daigou.client.view.user
 
 import com.daigou.client.controller.GoodsCtrl
 import com.daigou.client.model.GoodsModel
-import com.daigou.client.view.PagesTool
 import com.daigou.client.view.goods.GoodsPagesView
 import com.daigou.client.view.goods.GoodsTypeView
-import com.daigou.common.util.DateUtil
-import com.daigou.core.domain.Goods
-import javafx.beans.value.ObservableValue
-import javafx.scene.control.TableView
 import javafx.stage.Modality
 import javafx.stage.StageStyle
 import org.controlsfx.control.Notifications
@@ -22,7 +17,7 @@ class GoodsListView : View() {
         prefHeight = 575.0
         prefWidth = 800.0
     }
-    val ctrl: GoodsCtrl by inject()
+    val goodsCtrl: GoodsCtrl by inject()
     val detailForm = Form()
     val pagesView: GoodsPagesView by inject()
     val selectedGoods = GoodsModel()
@@ -125,17 +120,35 @@ class GoodsListView : View() {
                         bind(selectedGoods.remark)
                     }
                 }
-                button("保存") {
-                    setOnAction {
-                        if (selectedGoods.commit() && !selectedGoods.uuid.value.isNullOrEmpty()) {
-                            runAsync {
-                                ctrl.editGoods(selectedGoods)
-                            } ui { rst ->
-                                if (rst) {
-                                    closeModal()
-                                    Notifications.create().text("保存成功！").owner(primaryStage).showWarning()
-                                } else {
-                                    Notifications.create().text("保存失败！").owner(this).showError()
+                field("操作：") {
+                    button("保存") {
+                        setOnAction {
+                            if (selectedGoods.commit() && !selectedGoods.uuid.value.isNullOrEmpty()) {
+                                runAsync {
+                                    goodsCtrl.editGoods(selectedGoods)
+                                } ui { rst ->
+                                    if (rst) {
+                                        closeModal()
+                                        Notifications.create().text("操作成功！").owner(primaryStage).showWarning()
+                                    } else {
+                                        Notifications.create().text("操作失败！").owner(this).showError()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    button("删除") {
+                        setOnAction {
+                            if (!selectedGoods.uuid.value.isNullOrEmpty()) {
+                                runAsync {
+                                    goodsCtrl.deleteGoods(selectedGoods.uuid.value)
+                                } ui { rst ->
+                                    if (rst) {
+                                        Notifications.create().text("操作成功！").owner(this).showWarning()
+                                    } else {
+                                        Notifications.create().text("操作失败！").owner(this).showError()
+                                    }
+                                    pagesView.pagesTool.getList()
                                 }
                             }
                         }

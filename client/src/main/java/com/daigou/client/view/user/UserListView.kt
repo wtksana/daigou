@@ -79,21 +79,39 @@ class UserListView : View() {
                         bind(selectedUser.inviteUser)
                     }
                 }
-                button("保存") {
-                    setOnAction {
-                        if (selectedUser.commit() && !selectedUser.uuid.value.isNullOrEmpty()) {
-                            runAsync {
-                                userCtrl.editUser(selectedUser)
-                            } ui { rst ->
-                                if (rst) {
-                                    Notifications.create().text("保存成功！").owner(this).showWarning()
-                                } else {
-                                    Notifications.create().text("保存失败！").owner(this).showError()
+                field("操作：") {
+                    button("保存") {
+                        setOnAction {
+                            if (selectedUser.commit() && !selectedUser.uuid.value.isNullOrEmpty()) {
+                                runAsync {
+                                    userCtrl.editUser(selectedUser)
+                                } ui { rst ->
+                                    if (rst) {
+                                        Notifications.create().text("操作成功！").owner(this).showWarning()
+                                    } else {
+                                        Notifications.create().text("操作失败！").owner(this).showError()
+                                    }
                                 }
                             }
                         }
-
                     }
+                    button("删除") {
+                        setOnAction {
+                            if (!selectedUser.uuid.value.isNullOrEmpty()) {
+                                runAsync {
+                                    userCtrl.deleteUser(selectedUser.uuid.value)
+                                } ui { rst ->
+                                    if (rst) {
+                                        Notifications.create().text("操作成功！").owner(this).showWarning()
+                                    } else {
+                                        Notifications.create().text("操作失败！").owner(this).showError()
+                                    }
+                                    pagesView.pagesTool.getList()
+                                }
+                            }
+                        }
+                    }
+
                 }
 
             }

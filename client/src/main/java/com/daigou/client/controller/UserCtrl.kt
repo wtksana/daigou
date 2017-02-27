@@ -57,4 +57,12 @@ class UserCtrl : BaseCtrl<User>() {
         val response = api.get(UrlConstant.user_edit + params)
         return result(response)
     }
+
+    fun deleteUser(uuid: String): Boolean {
+        val data = hashMapOf<String, String>()
+        data.put("uuid", uuid)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.user_delete + params)
+        return result(response)
+    }
 }
