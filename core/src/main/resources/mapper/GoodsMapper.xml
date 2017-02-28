@@ -149,6 +149,12 @@
         <if test="option != null and option != ''">
             and (g.name like CONCAT('%','${option}','%' ) or t.type=#{option} )
         </if>
+        <if test="startTime != null and startTime != '' ">
+            and DATE(g.create_time) &gt;= DATE(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and DATE(g.create_time) &lt;= DATE(#{endTime})
+        </if>
     </select>
 
 </mapper>

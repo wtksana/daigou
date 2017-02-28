@@ -2,6 +2,8 @@ package com.daigou.client.view.user
 
 import com.daigou.client.controller.UserCtrl
 import com.daigou.client.model.UserModel
+import javafx.stage.Modality
+import javafx.stage.StageStyle
 import org.controlsfx.control.Notifications
 import tornadofx.*
 
@@ -112,6 +114,11 @@ class UserListView : View() {
                         }
                     }
 
+                }
+                button("+") {
+                    setOnAction {
+                        UserView().openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, true, primaryStage)
+                    }
                 }
 
             }

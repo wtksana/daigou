@@ -154,8 +154,14 @@
         select
         <include refid="base_column_list"/>
         from dg_user where 1=1 and status != 0
-        <if test="option != null and option != ''">
+        <if test="option != null and option != '' ">
             and (user_name like CONCAT('%','${option}','%' ) or real_name like CONCAT('%','${option}','%' ) or mobile like CONCAT('%','${option}','%' ))
+        </if>
+        <if test="startTime != null and startTime != '' ">
+            and DATE(create_time) &gt;= DATE(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and DATE(create_time) &lt;= DATE(#{endTime})
         </if>
     </select>
 

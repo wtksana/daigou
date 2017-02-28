@@ -5,6 +5,8 @@ import com.daigou.client.controller.OrderCtrl
 import com.daigou.client.model.OrderModel
 import com.daigou.client.view.order.OrderPagesView
 import com.daigou.core.domain.OrderDetail
+import javafx.stage.Modality
+import javafx.stage.StageStyle
 import org.apache.commons.codec.binary.Base64
 import org.controlsfx.control.Notifications
 import tornadofx.*
@@ -109,6 +111,11 @@ class OrderListView : View() {
                                 }
                             }
                         }
+                    }
+                }
+                button("+") {
+                    setOnAction {
+                        OrderView().openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, true, primaryStage)
                     }
                 }
             }

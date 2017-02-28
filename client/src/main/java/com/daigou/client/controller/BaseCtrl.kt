@@ -1,6 +1,7 @@
 package com.daigou.client.controller
 
 import com.daigou.client.model.Pages
+import com.daigou.client.model.PagesModel
 import com.daigou.client.model.Result
 import com.daigou.common.util.UrlConstant
 import tornadofx.Controller
@@ -18,7 +19,7 @@ abstract class BaseCtrl<out T> : Controller() {
         api.baseURI = UrlConstant.server_url
     }
 
-    abstract fun getList(page: Int, row: Int, option: String): List<T>
+    abstract fun getList(pagesModel: PagesModel): List<T>
 
     fun getResult(response: Rest.Response): Result {
         return response.one().toModel<Result>()

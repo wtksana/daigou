@@ -2,7 +2,6 @@ package com.daigou.core.util
 
 import com.github.pagehelper.Page
 import java.io.Serializable
-import java.util.*
 
 /**
  * Created by wt on 2017/2/13.
@@ -22,8 +21,20 @@ class Pages<T> : Serializable {
     var totalPage: Long = 0L //总页数
 
     var option: String = ""
-    var startTime: Date? = null
-    var endTime: Date? = null
+    var startTime: String? = null
+        get() {
+            if (field != null) {
+                return field + " 00:00:00"
+            }
+            return field
+        }
+    var endTime: String? = null
+        get() {
+            if (field != null) {
+                return field + " 23:59:59"
+            }
+            return field
+        }
 
     val order = "create_time desc"
 

@@ -41,13 +41,6 @@ class GoodsPagesView : View() {
             }
             columnResizePolicy = SmartResize.POLICY
         }
-        with(pagesTool) {
-            button("+") {
-                setOnAction {
-                    GoodsView().openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, true, primaryStage)
-                }
-            }
-        }
         this += tableView
         this += pagesTool
     }

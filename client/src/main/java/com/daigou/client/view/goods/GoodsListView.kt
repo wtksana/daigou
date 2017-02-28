@@ -154,6 +154,11 @@ class GoodsListView : View() {
                         }
                     }
                 }
+                button("+") {
+                    setOnAction {
+                        GoodsView().openModal(StageStyle.DECORATED, Modality.WINDOW_MODAL, true, primaryStage)
+                    }
+                }
             }
 
             anchorpaneConstraints {

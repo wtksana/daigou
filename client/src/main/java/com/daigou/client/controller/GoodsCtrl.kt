@@ -3,6 +3,7 @@ package com.daigou.client.controller
 import com.alibaba.fastjson.JSONArray
 import com.daigou.client.model.GoodsModel
 import com.daigou.client.model.Pages
+import com.daigou.client.model.PagesModel
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.Goods
@@ -15,11 +16,13 @@ import tornadofx.toModel
  */
 class GoodsCtrl : BaseCtrl<Goods>() {
 
-    override fun getList(page: Int, row: Int, option: String): List<Goods> {
-        val data = hashMapOf<String, String>()
-        data.put("page", page.toString())
-        data.put("row", row.toString())
-        data.put("option", option)
+    override fun getList(pagesModel: PagesModel): List<Goods> {
+        val data = hashMapOf<String, Any>()
+        data.put("page", pagesModel.page.value ?: 1)
+        data.put("row", pagesModel.row.value ?: 20)
+        data.put("option", pagesModel.option.value)
+        data.put("startTime", pagesModel.startTime.value)
+        data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
         val response = api.get(UrlConstant.goods_list + params)
         if (response.ok()) {

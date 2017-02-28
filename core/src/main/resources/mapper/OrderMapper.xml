@@ -140,6 +140,12 @@
         <if test="option != null and option != ''">
             and u.user_name like CONCAT('%','${option}','%' )
         </if>
+        <if test="startTime != null and startTime != '' ">
+            and DATE(o.create_time) &gt;= DATE(#{startTime})
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and DATE(o.create_time) &lt;= DATE(#{endTime})
+        </if>
     </select>
 
 </mapper>

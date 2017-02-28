@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
+import java.time.LocalDate
 import javax.json.JsonArray
 import javax.json.JsonObject
 
@@ -30,6 +31,12 @@ class Pages : JsonModel {
     val dataProperty = SimpleObjectProperty<JsonArray>()
     var data by dataProperty
 
+    val startTimeProperty = SimpleObjectProperty<LocalDate>()
+    var startTime by startTimeProperty
+
+    val endTimeProperty = SimpleObjectProperty<LocalDate>()
+    var endTime by endTimeProperty
+
     override fun updateModel(json: JsonObject) {
         with(json) {
             page = int("page")!!
@@ -38,6 +45,8 @@ class Pages : JsonModel {
             totalPage = long("totalPage")!!
             option = string("option")
             data = jsonArray("data")
+            startTime = date("startTime")
+            endTime = date("endTime")
         }
     }
 
@@ -57,4 +66,6 @@ class PagesModel : ItemViewModel<Pages>() {
     val total = bind { item?.totalProperty }
     val totalPage = bind { item?.totalPageProperty }
     val data = bind { item?.dataProperty }
+    val startTime = bind { item?.startTimeProperty }
+    val endTime = bind { item?.endTimeProperty }
 }

@@ -1,11 +1,13 @@
 package com.daigou.client.view
 
 import com.daigou.client.controller.BaseCtrl
+import com.daigou.client.model.PagesModel
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
 import javafx.scene.control.ToolBar
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
+import javafx.stage.Popup
 import tornadofx.*
 
 
@@ -16,10 +18,69 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
     override val root = ToolBar()
     val ctrl = ctrl
     val table = table
+    val pagesModel = PagesModel()
     val option = textfield {
+        prefWidth = 100.0
         promptText = "搜索"
+        bind(pagesModel.option)
         setOnKeyReleased { e ->
             if (e.code == KeyCode.ENTER) {
+                getList()
+            }
+        }
+    }
+
+//    val menu = menubar {
+//        menu("条件") {
+//            items.add(CustomMenuItem(datepicker {
+//
+//            }))
+//        }
+//    }
+
+    val ops = button("条件") {
+        val opBox = vbox {
+            val startTime = datepicker {
+                prefWidth = 100.0
+                bind(pagesModel.startTime)
+//                value = LocalDate.of(2017, 1, 1)
+            }
+            val endTime = datepicker {
+                prefWidth = 100.0
+                bind(pagesModel.endTime)
+//                value = LocalDate.now()
+//                setDayCellFactory {
+//                    object : DateCell() {
+//                        override fun updateItem(item: LocalDate, empty: Boolean) {
+//                            super.updateItem(item, empty)
+//                            if (item.isBefore(startTime.value.plusDays(1))) {
+//                                isDisable = true
+//                                style = "-fx-background-color: #ffc0cb;"
+//                            }
+//                        }
+//                    }
+//                }
+            }
+        }
+
+        val pop = Popup()
+        pop.isAutoHide = true
+        pop.content.add(opBox)
+        setOnAction {
+            if (pop.isShowing) {
+                pop.hide()
+            } else {
+                val point = this.localToScene(0.0, 0.0)
+                pop.x = primaryStage.x + point.x
+                pop.y = primaryStage.y + point.y - 25.0
+                pop.show(primaryStage)
+            }
+        }
+    }
+
+    val refresh = button("=") {
+        setOnMouseClicked { e ->
+            if (e.button == MouseButton.PRIMARY) {
                 getList()
             }
         }
@@ -40,7 +101,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
     val page = textfield {
         maxWidth = 30.0
         alignment = Pos.CENTER
-        text = "1"
+        bind(pagesModel.page)
         textProperty().addListener { value, old, new ->
             if (!new.matches("[\\d*]".toRegex())) {
                 text = new.replace("[^\\d]".toRegex(), "")
@@ -71,14 +132,6 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         text = "共0页"
     }
 
-    val refresh = button("=") {
-        setOnMouseClicked { e ->
-            if (e.button == MouseButton.PRIMARY) {
-                getList()
-            }
-        }
-    }
-
     init {
         with(root) {
             prefHeight = 40.0
@@ -87,23 +140,25 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
                 leftAnchor = 0.0
                 rightAnchor = 0.0
             }
-
         }
-        option
-        previous
-        page
-        next
-        totalPage
-        refresh
+//        this += option
+//        startTime
+//        endTime
+//        this += previous
+//        this += refresh
+//        this += page
+//        this += next
+//        this += totalPage
         getList()
     }
 
     fun getList() {
         runAsync {
-            ctrl.getList(page.text.toInt(), 20, option.text)
+            ctrl.getList(pagesModel)
         } ui { rst ->
             table.items = rst.observable()
             table.refresh()
+            page.text = ctrl.pages.page.toString()
             totalPage.text = "共${ctrl.pages.totalPage}页"
         }
     }
