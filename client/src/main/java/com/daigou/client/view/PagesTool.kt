@@ -2,11 +2,13 @@ package com.daigou.client.view
 
 import com.daigou.client.controller.BaseCtrl
 import com.daigou.client.model.PagesModel
+import com.jfoenix.controls.JFXSpinner
 import javafx.geometry.Pos
+import javafx.scene.control.Spinner
 import javafx.scene.control.TableView
-import javafx.scene.control.ToolBar
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
+import javafx.scene.layout.FlowPane
 import javafx.stage.Popup
 import tornadofx.*
 
@@ -15,7 +17,7 @@ import tornadofx.*
  * Created by wt on 2017/2/11.
  */
 class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
-    override val root = ToolBar()
+    override val root = FlowPane()
     val ctrl = ctrl
     val table = table
     val pagesModel = PagesModel()
@@ -30,22 +32,15 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         }
     }
 
-//    val menu = menubar {
-//        menu("条件") {
-//            items.add(CustomMenuItem(datepicker {
-//
-//            }))
-//        }
-//    }
 
     val ops = button("条件") {
         val opBox = vbox {
-            val startTime = datepicker {
+            datepicker {
                 prefWidth = 100.0
                 bind(pagesModel.startTime)
 //                value = LocalDate.of(2017, 1, 1)
             }
-            val endTime = datepicker {
+            datepicker {
                 prefWidth = 100.0
                 bind(pagesModel.endTime)
 //                value = LocalDate.now()
@@ -102,7 +97,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         maxWidth = 30.0
         alignment = Pos.CENTER
         bind(pagesModel.page)
-        textProperty().addListener { value, old, new ->
+        textProperty().addListener { _, _, new ->
             if (!new.matches("[\\d*]".toRegex())) {
                 text = new.replace("[^\\d]".toRegex(), "")
             }
@@ -132,6 +127,10 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         text = "共0页"
     }
 
+    val export = button("导出全部") {
+
+    }
+
     init {
         with(root) {
             prefHeight = 40.0
@@ -140,6 +139,8 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
                 leftAnchor = 0.0
                 rightAnchor = 0.0
             }
+            alignment = Pos.CENTER_LEFT
+            hgap = 3.0
         }
 //        this += option
 //        startTime

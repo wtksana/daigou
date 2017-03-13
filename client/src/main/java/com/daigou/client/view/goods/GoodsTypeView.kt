@@ -65,7 +65,7 @@ class GoodsTypeView(var t: GoodsModel) : Fragment() {
             setOnAction {
                 t.typeUuid.value = selectedType.uuid.value
                 t.type.value = selectedType.type.value
-                closeModal()
+                close()
             }
         }
     }

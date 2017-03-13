@@ -11,9 +11,10 @@ data class Operator(var uuid: String = "",
                     var pwd: String = "",
                     var realName: String = "",
                     var mobile: String = "",
-                    var createTime: Date = Date(),
-                    var status: Int = 0,
-                    var remark: String = ""
+                    var remark: String = "",
+                    var status: Int = 1,
+                    var createTime: Date? = null,
+                    var updateTime: Date? = null
 ) : Serializable {
     private val serialVersionUID = 1L
 }

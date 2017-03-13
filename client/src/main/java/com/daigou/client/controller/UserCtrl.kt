@@ -68,4 +68,23 @@ class UserCtrl : BaseCtrl<User>() {
         val response = api.get(UrlConstant.user_delete + params)
         return result(response)
     }
+
+    fun getAll(pagesModel: PagesModel): List<User> {
+        val data = hashMapOf<String, Any>()
+        data.put("option", pagesModel.option.value)
+        data.put("startTime", pagesModel.startTime.value)
+        data.put("endTime", pagesModel.endTime.value)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.user_export + params)
+        if (response.ok()) {
+            val result = getResult(response)
+            if (result.result) {
+                pages = result.data.toModel<Pages>()
+                if (pages.data != null) {
+                    return JSONArray.parseArray(pages.data.toString(), User::class.java)
+                }
+            }
+        }
+        return emptyList()
+    }
 }

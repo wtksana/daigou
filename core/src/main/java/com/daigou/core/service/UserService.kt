@@ -19,4 +19,7 @@ interface UserService {
     fun countByModel(model: User): Int
 
     fun getListByPages(pages: Pages<User>): Pages<User>
+
+    fun getAllByPages(pages: Pages<User>): List<User>
+
 }

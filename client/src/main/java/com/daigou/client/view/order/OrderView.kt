@@ -42,7 +42,7 @@ class OrderView : Fragment() {
                     if (!row.isEmpty && e.button == MouseButton.PRIMARY && e.clickCount >= 2) {
                         newOrder.userName.value = row.item.userName
                         newOrder.userUuid.value = row.item.uuid
-                        closeModal()
+                        close()
                     }
                 }
                 row
@@ -68,7 +68,7 @@ class OrderView : Fragment() {
                             list[0].account += row.item.price
                         }
                         detail.refresh()
-                        closeModal()
+                        close()
                     }
                 }
                 row
@@ -139,7 +139,7 @@ class OrderView : Fragment() {
                                 orderCtrl.addOrder(newOrder)
                             } ui { rst ->
                                 if (rst) {
-                                    closeModal()
+                                    close()
                                     Notifications.create().text("保存成功！").owner(primaryStage).showWarning()
                                 } else {
                                     Notifications.create().text("保存失败！").owner(this).showError()

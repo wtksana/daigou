@@ -128,7 +128,7 @@ class GoodsListView : View() {
                                     goodsCtrl.editGoods(selectedGoods)
                                 } ui { rst ->
                                     if (rst) {
-                                        closeModal()
+                                        close()
                                         Notifications.create().text("操作成功！").owner(primaryStage).showWarning()
                                     } else {
                                         Notifications.create().text("操作失败！").owner(this).showError()

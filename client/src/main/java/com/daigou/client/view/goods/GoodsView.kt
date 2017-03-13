@@ -104,7 +104,7 @@ class GoodsView : Fragment() {
                                 goodsCtrl.addGoods(newGoods)
                             } ui { rst ->
                                 if (rst) {
-                                    closeModal()
+                                    close()
                                     Notifications.create().text("保存成功！").owner(primaryStage).showWarning()
                                 } else {
                                     Notifications.create().text("保存失败！").owner(this).showError()

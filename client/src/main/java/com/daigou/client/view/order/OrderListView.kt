@@ -54,7 +54,7 @@ class OrderListView : View() {
                     column("总价", OrderDetail::account)
                     columnResizePolicy = SmartResize.POLICY
                     prefHeight = 200.0
-                    selectedOrder.detail.addListener { value, old, new ->
+                    selectedOrder.detail.addListener { _, _, new ->
                         if (!new.isNullOrBlank()) {
                             items = JSONArray.parseArray(kotlin.text.String(Base64.decodeBase64(new.replace("\n", "").replace(" ", "+"))), OrderDetail::class.java).observable()
                         }
@@ -87,7 +87,7 @@ class OrderListView : View() {
                                     orderCtrl.editOrder(selectedOrder)
                                 } ui { rst ->
                                     if (rst) {
-                                        closeModal()
+                                        close()
                                         Notifications.create().text("操作成功！").owner(primaryStage).showWarning()
                                     } else {
                                         Notifications.create().text("操作失败！").owner(this).showError()

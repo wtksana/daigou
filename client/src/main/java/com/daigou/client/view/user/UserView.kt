@@ -65,10 +65,10 @@ class UserView : Fragment() {
                                 userCtrl.addUser(newUser)
                             } ui { rst ->
                                 if (rst) {
-                                    closeModal()
-                                    Notifications.create().text("保存成功！").owner(primaryStage).showWarning()
+                                    close()
+                                    Notifications.create().text("操作成功！").owner(primaryStage).showWarning()
                                 } else {
-                                    Notifications.create().text("保存失败！").owner(this).showError()
+                                    Notifications.create().text("操作失败！").owner(this).showError()
                                 }
                             }
                         }

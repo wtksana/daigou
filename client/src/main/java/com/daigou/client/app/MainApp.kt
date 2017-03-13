@@ -6,6 +6,7 @@ import tornadofx.App
 import tornadofx.importStylesheet
 
 /**
+ * 主程序运行这个
  * Created by wt on 2017/2/9.
  */
 fun main(args: Array<String>) {

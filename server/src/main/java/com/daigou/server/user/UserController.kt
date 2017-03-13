@@ -62,4 +62,16 @@ class UserController : BaseController() {
             return fail()
         }
     }
+
+    @RequestMapping(UrlConstant.user_export)
+    @ResponseBody
+    fun userExport(pages: Pages<User>): Any {
+        val list = service!!.getAllByPages(pages)
+        if (list.isNotEmpty()) {
+            pages.data = list
+            return success(pages)
+        } else {
+            return fail()
+        }
+    }
 }

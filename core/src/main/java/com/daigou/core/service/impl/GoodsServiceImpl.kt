@@ -59,7 +59,7 @@ open class GoodsServiceImpl : GoodsService {
     override fun getListByPages(pages: Pages<Goods>): Pages<Goods> {
         PageHelper.startPage<Goods>(pages.page, pages.row, pages.order)
         val list = mapper!!.getListByPages(pages)
-        val pages = Pages(list as Page<Goods>)
-        return pages
+        val newPages = Pages(list as Page<Goods>)
+        return newPages
     }
 }

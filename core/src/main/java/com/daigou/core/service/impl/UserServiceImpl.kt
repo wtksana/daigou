@@ -61,4 +61,9 @@ open class UserServiceImpl : UserService {
         val newPages = Pages(list as Page<User>)
         return newPages
     }
+
+    override fun getAllByPages(pages: Pages<User>): List<User> {
+        val list = mapper!!.getListByPages(pages)
+        return list
+    }
 }
