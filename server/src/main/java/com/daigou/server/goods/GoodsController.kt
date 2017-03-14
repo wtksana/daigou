@@ -63,4 +63,16 @@ class GoodsController : BaseController() {
         }
     }
 
+    @RequestMapping(UrlConstant.goods_export)
+    @ResponseBody
+    fun goodsExport(pages: Pages<Goods>): Any {
+        val list = service!!.getAllByPages(pages)
+        if (list.isNotEmpty()) {
+            pages.data = list
+            return success(pages)
+        } else {
+            return fail()
+        }
+    }
+
 }

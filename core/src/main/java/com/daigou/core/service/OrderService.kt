@@ -19,4 +19,6 @@ interface OrderService {
     fun countByModel(model: Order): Int
 
     fun getListByPages(pages: Pages<Order>): Pages<Order>
+
+    fun getAllByPages(pages: Pages<Order>): List<Order>
 }

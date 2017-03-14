@@ -4,6 +4,7 @@ import com.daigou.client.controller.OrderCtrl
 import com.daigou.client.view.PagesTool
 import com.daigou.client.view.user.OrderView
 import com.daigou.common.util.DateUtil
+import com.daigou.core.domain.Entity
 import com.daigou.core.domain.Order
 import javafx.scene.control.TableView
 import javafx.scene.layout.AnchorPane
@@ -18,7 +19,7 @@ class OrderPagesView : Fragment() {
     override val root = AnchorPane()
     val orderCtrl: OrderCtrl by inject()
     val tableView = TableView<Order>()
-    val pagesTool = PagesTool(orderCtrl, tableView)
+    val pagesTool = PagesTool(orderCtrl, tableView,Entity.Order)
 
     init {
         title = "订单列表"

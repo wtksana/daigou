@@ -1,16 +1,15 @@
 package com.daigou.client.util
 
-import com.daigou.common.util.Entity
-import com.daigou.common.util.ExcelConstant
-import org.apache.poi.ss.usermodel.BorderStyle
-import org.apache.poi.ss.usermodel.HorizontalAlignment
-import org.apache.poi.ss.usermodel.Sheet
-import org.apache.poi.ss.usermodel.Workbook
+import com.daigou.common.util.DateUtil
+import com.daigou.core.domain.Entity
+import com.daigou.core.domain.ExcelConstant
+import org.apache.poi.ss.usermodel.*
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.streaming.SXSSFWorkbook
 import org.apache.poi.xssf.usermodel.XSSFRichTextString
 import java.beans.Introspector
 import java.io.File
+import java.util.*
 
 
 /**
@@ -90,37 +89,22 @@ private fun createHeader(sheet: Sheet, title: String, header: Array<String>) {
  * *
  * @return
  */
-//private fun beanToMap(obj: Any): Map<String, Any> {
-//    val params = HashMap<String, Any>(0)
-//    try {
-//        val propertyUtilsBean = PropertyUtilsBean()
-//        val descriptors = propertyUtilsBean.getPropertyDescriptors(obj)
-//        descriptors.indices
-//                .map { descriptors[it].name }
-//                .filterNot { StringUtils.equals(it, "class") }
-//                .forEach { params.put(it, propertyUtilsBean.getNestedProperty(obj, it)) }
-//    } catch (e: Exception) {
-//
-//    }
-//
-//    return params
-//}
 fun beanToMap(obj: Any): Map<String, Any> {
     val map = hashMapOf<String, Any>()
 //    try {
-        val beanInfo = Introspector.getBeanInfo(obj.javaClass)
-        val propertyDescriptors = beanInfo.propertyDescriptors
-        for (property in propertyDescriptors) {
-            val key = property.name
-            // 过滤class属性
-            if (key != "class") {
-                // 得到property对应的getter方法
-                val getter = property.readMethod
-                val value = getter.invoke(obj)
-                map.put(key, value)
-            }
-
+    val beanInfo = Introspector.getBeanInfo(obj.javaClass)
+    val propertyDescriptors = beanInfo.propertyDescriptors
+    for (property in propertyDescriptors) {
+        val key = property.name
+        // 过滤class属性
+        if (key != "class") {
+            // 得到property对应的getter方法
+            val getter = property.readMethod
+            val value = getter.invoke(obj)
+            map.put(key, value)
         }
+
+    }
 //    } catch (e: Exception) {
 //        println("beanToMap Error " + e)
 //    }
@@ -143,7 +127,7 @@ fun exportExcel(entity: Entity, data: List<Any>, file: File): String? {
             val nRow = sheet.createRow(body++)
             for (i in fields!!.indices) {
                 val cell = nRow.createCell(i)
-                cell.setCellValue(map[fields[i]].toString())
+                setCellValue(cell, map[fields[i]])
             }
         }
         wb.write(file.outputStream())
@@ -155,3 +139,10 @@ fun exportExcel(entity: Entity, data: List<Any>, file: File): String? {
     return null
 }
 
+fun setCellValue(cell: Cell, value: Any?) {
+    if (value is Date) {
+        cell.setCellValue(DateUtil.dateStr4(value))
+    } else {
+        cell.setCellValue(value.toString())
+    }
+}

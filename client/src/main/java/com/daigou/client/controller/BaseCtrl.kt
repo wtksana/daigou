@@ -21,6 +21,8 @@ abstract class BaseCtrl<out T> : Controller() {
 
     abstract fun getList(pagesModel: PagesModel): List<T>
 
+    abstract fun getAll(pagesModel: PagesModel): List<Any>
+
     fun getResult(response: Rest.Response): Result {
         return response.one().toModel<Result>()
     }

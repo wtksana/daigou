@@ -82,4 +82,15 @@ open class OrderServiceImpl : OrderService {
         val newPages = Pages(list as Page<Order>)
         return newPages
     }
+
+    override fun getAllByPages(pages: Pages<Order>): List<Order> {
+        val list = mapper!!.getListByPages(pages)
+        if (list.isNotEmpty()) {
+            for (order in list) {
+                val detail = orderDetailMapper!!.getListByOrderUuid(order.uuid)
+                order.detail = JSONArray.toJSONString(detail)
+            }
+        }
+        return list
+    }
 }

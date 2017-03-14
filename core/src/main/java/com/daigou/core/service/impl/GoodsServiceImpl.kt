@@ -62,4 +62,9 @@ open class GoodsServiceImpl : GoodsService {
         val newPages = Pages(list as Page<Goods>)
         return newPages
     }
+
+    override fun getAllByPages(pages: Pages<Goods>): List<Goods> {
+        val list = mapper!!.getListByPages(pages)
+        return list
+    }
 }

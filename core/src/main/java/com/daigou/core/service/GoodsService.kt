@@ -19,4 +19,6 @@ interface GoodsService {
     fun countByModel(model: Goods): Int
 
     fun getListByPages(pages: Pages<Goods>): Pages<Goods>
+
+    fun getAllByPages(pages: Pages<Goods>): List<Goods>
 }

@@ -4,6 +4,7 @@ import com.daigou.client.controller.GoodsCtrl
 import com.daigou.client.view.PagesTool
 import com.daigou.client.view.user.GoodsView
 import com.daigou.common.util.DateUtil
+import com.daigou.core.domain.Entity
 import com.daigou.core.domain.Goods
 import javafx.scene.control.TableView
 import javafx.scene.layout.AnchorPane
@@ -18,7 +19,7 @@ class GoodsPagesView : View() {
     override val root = AnchorPane()
     val goodsCtrl: GoodsCtrl by inject()
     val tableView = TableView<Goods>()
-    val pagesTool = PagesTool(goodsCtrl, tableView)
+    val pagesTool = PagesTool(goodsCtrl, tableView,Entity.Goods)
 
     init {
         title = "商品列表"

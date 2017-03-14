@@ -69,7 +69,7 @@ class UserCtrl : BaseCtrl<User>() {
         return result(response)
     }
 
-    fun getAll(pagesModel: PagesModel): List<User> {
+    override fun getAll(pagesModel: PagesModel): List<User> {
         val data = hashMapOf<String, Any>()
         data.put("option", pagesModel.option.value)
         data.put("startTime", pagesModel.startTime.value)

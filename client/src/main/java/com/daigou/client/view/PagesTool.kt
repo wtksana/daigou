@@ -2,21 +2,27 @@ package com.daigou.client.view
 
 import com.daigou.client.controller.BaseCtrl
 import com.daigou.client.model.PagesModel
+import com.daigou.client.util.exportExcel
+import com.daigou.core.domain.Entity
 import com.jfoenix.controls.JFXSpinner
 import javafx.geometry.Pos
-import javafx.scene.control.Spinner
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.FlowPane
+import javafx.stage.FileChooser
 import javafx.stage.Popup
+import org.controlsfx.control.Notifications
 import tornadofx.*
+import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 /**
  * Created by wt on 2017/2/11.
  */
-class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
+class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fragment() {
     override val root = FlowPane()
     val ctrl = ctrl
     val table = table
@@ -127,8 +133,30 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
         text = "共0页"
     }
 
-    val export = button("导出全部") {
+    val spinner = JFXSpinner()
 
+    val export = button("导出全部") {
+        setOnAction {
+            val fileChooser = FileChooser()
+            fileChooser.initialDirectory = File(System.getProperty("user.home"))
+            fileChooser.initialFileName = "${entity.name}_${LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE)}.xlsx"
+            fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("excel files (*.xlsx)", "*.xlsx"))
+            val file = fileChooser.showSaveDialog(currentWindow)
+            file?.let {
+                spinner.show()
+                runAsync {
+                    val list = ctrl.getAll(pagesModel)
+                    exportExcel(entity, list, it)
+                } ui { rst ->
+                    spinner.hide()
+                    if (rst == null) {
+                        Notifications.create().text("操作成功！").owner(primaryStage).showWarning()
+                    } else {
+                        Notifications.create().text(rst).owner(primaryStage).showError()
+                    }
+                }
+            }
+        }
     }
 
     init {
@@ -142,6 +170,8 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>) : Fragment() {
             alignment = Pos.CENTER_LEFT
             hgap = 3.0
         }
+        this += spinner
+        spinner.hide()
 //        this += option
 //        startTime
 //        endTime

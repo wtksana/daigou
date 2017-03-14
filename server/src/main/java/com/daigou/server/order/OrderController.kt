@@ -63,4 +63,16 @@ class OrderController : BaseController() {
         }
     }
 
+    @RequestMapping(UrlConstant.order_export)
+    @ResponseBody
+    fun orderExport(pages: Pages<Order>): Any {
+        val list = service!!.getAllByPages(pages)
+        if (list.isNotEmpty()) {
+            pages.data = list
+            return success(pages)
+        } else {
+            return fail()
+        }
+    }
+
 }

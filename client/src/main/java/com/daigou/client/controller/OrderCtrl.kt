@@ -36,6 +36,25 @@ class OrderCtrl : BaseCtrl<Order>() {
         return emptyList()
     }
 
+    override fun getAll(pagesModel: PagesModel): List<Any> {
+        val data = hashMapOf<String, Any>()
+        data.put("option", pagesModel.option.value)
+        data.put("startTime", pagesModel.startTime.value)
+        data.put("endTime", pagesModel.endTime.value)
+        val params = mapToParams(data)
+        val response = api.get(UrlConstant.order_export + params)
+        if (response.ok()) {
+            val result = getResult(response)
+            if (result.result) {
+                pages = result.data.toModel<Pages>()
+                if (pages.data != null) {
+                    return JSONArray.parseArray(pages.data.toString(), Order::class.java)
+                }
+            }
+        }
+        return emptyList()
+    }
+
     fun addOrder(model: OrderModel): Boolean {
         val data = hashMapOf<String, String>()
         data.put("userUuid", model.userUuid.value)
