@@ -82,6 +82,9 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fra
     val refresh = button("=") {
         setOnMouseClicked { e ->
             if (e.button == MouseButton.PRIMARY) {
+                if (page.text.isNullOrBlank()) {
+                    page.text = "1"
+                }
                 getList()
             }
         }
@@ -90,6 +93,9 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fra
     val previous = button("←") {
         setOnMouseClicked { e ->
             if (e.button == MouseButton.PRIMARY) {
+                if (page.text.isNullOrBlank()) {
+                    page.text = "1"
+                }
                 val previous = page.text.toInt() - 1
                 if (previous > 0) {
                     page.text = previous.toString()
@@ -110,6 +116,9 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fra
         }
         setOnKeyReleased { e ->
             if (e.code == KeyCode.ENTER) {
+                if (text.isNullOrBlank()) {
+                    text = "1"
+                }
                 if (text.toInt() <= ctrl.pages.totalPage) {
                     getList()
                 }
@@ -120,6 +129,9 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fra
     val next = button("→") {
         setOnMouseClicked { e ->
             if (e.button == MouseButton.PRIMARY) {
+                if (page.text.isNullOrBlank()) {
+                    page.text = "1"
+                }
                 val next = page.text.toInt() + 1
                 if (next <= ctrl.pages.totalPage) {
                     page.text = next.toString()

@@ -24,7 +24,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_list + params)
+        val response = api.post(UrlConstant.goods_list + params)
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
@@ -43,7 +43,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_export + params)
+        val response = api.post(UrlConstant.goods_export + params)
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
@@ -66,7 +66,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("counter", model.counter.value.toString())
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_add + params)
+        val response = api.post(UrlConstant.goods_add + params)
         return result(response)
     }
 
@@ -80,7 +80,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("counter", model.counter.value.toString())
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_edit + params)
+        val response = api.post(UrlConstant.goods_edit + params)
         return result(response)
     }
 
@@ -88,12 +88,12 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         val data = hashMapOf<String, String>()
         data.put("uuid", uuid)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_delete + params)
+        val response = api.post(UrlConstant.goods_delete + params)
         return result(response)
     }
 
     fun getGoodsTypeList(): List<GoodsType> {
-        val response = api.get(UrlConstant.goods_type_list)
+        val response = api.post(UrlConstant.goods_type_list)
         if (response.ok()) {
             val result = response.one()
             if (result.getBoolean("result")) {
@@ -109,7 +109,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("uuid", uuid)
         data.put("type", type)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_type_edit + params)
+        val response = api.post(UrlConstant.goods_type_edit + params)
         return result(response)
     }
 
@@ -118,7 +118,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         data.put("uuid", type.uuid)
         data.put("type", type.type ?: "")
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.goods_type_add + params)
+        val response = api.post(UrlConstant.goods_type_add + params)
         return result(response)
     }
 }

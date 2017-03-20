@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSONArray
 import com.daigou.client.model.Pages
 import com.daigou.client.model.PagesModel
 import com.daigou.client.model.UserModel
+import com.daigou.client.util.doPost
 import com.daigou.client.util.mapToParams
 import com.daigou.common.util.UrlConstant
 import com.daigou.core.domain.User
-import tornadofx.toModel
+import tornadofx.*
 
 
 /**
@@ -23,7 +24,14 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_list + params)
+        val response = api.post(UrlConstant.user_list + params)
+//        val results = doPost(UrlConstant.user_list, data)
+//        if(results.result){
+//            val pages = JSONArray.parseObject(results.data, com.daigou.core.domain.Pages::class.java)
+//            if (pages.data.isNotEmpty()) {
+//                return JSONArray.parseArray(pages.data, User::class.java)
+//            }
+//        }
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
@@ -44,7 +52,7 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("address", model.address.value)
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_add + params)
+        val response = api.post(UrlConstant.user_add + params)
         return result(response)
     }
 
@@ -57,7 +65,7 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("address", model.address.value)
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_edit + params)
+        val response = api.post(UrlConstant.user_edit + params)
         return result(response)
     }
 
@@ -65,7 +73,7 @@ class UserCtrl : BaseCtrl<User>() {
         val data = hashMapOf<String, String>()
         data.put("uuid", uuid)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_delete + params)
+        val response = api.post(UrlConstant.user_delete + params)
         return result(response)
     }
 
@@ -75,11 +83,11 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.user_export + params)
+        val response = api.post(UrlConstant.user_export + params)
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
-                pages = result.data.toModel<Pages>()
+//                pages = result.data.toModel<Pages>()
                 if (pages.data != null) {
                     return JSONArray.parseArray(pages.data.toString(), User::class.java)
                 }

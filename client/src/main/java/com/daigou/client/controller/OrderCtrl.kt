@@ -23,7 +23,7 @@ class OrderCtrl : BaseCtrl<Order>() {
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.order_list + params)
+        val response = api.post(UrlConstant.order_list + params)
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
@@ -42,7 +42,7 @@ class OrderCtrl : BaseCtrl<Order>() {
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.order_export + params)
+        val response = api.post(UrlConstant.order_export + params)
         if (response.ok()) {
             val result = getResult(response)
             if (result.result) {
@@ -74,7 +74,7 @@ class OrderCtrl : BaseCtrl<Order>() {
         data.put("remark", model.remark.value)
 //        data.put("detail", Base64.encodeBase64String(model.detail.value.toByteArray()))
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.order_edit + params)
+        val response = api.post(UrlConstant.order_edit + params)
         return result(response)
     }
 
@@ -82,7 +82,7 @@ class OrderCtrl : BaseCtrl<Order>() {
         val data = hashMapOf<String, String>()
         data.put("uuid", uuid)
         val params = mapToParams(data)
-        val response = api.get(UrlConstant.order_delete + params)
+        val response = api.post(UrlConstant.order_delete + params)
         return result(response)
     }
 }
