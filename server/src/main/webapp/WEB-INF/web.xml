@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
-    <display-name>daigou</display-name>
-    <!-- 配置Spring容器 -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:/spring-context.xml</param-value>
-    </context-param>
-    <!-- 配置Spring启动监听器 -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
-    <!-- 配置字符 过滤器 -->
+    <!-- POST 中文乱码字符集过滤 -->
     <filter>
         <filter-name>encodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <filter-class>
+            org.springframework.web.filter.CharacterEncodingFilter
+        </filter-class>
         <init-param>
             <param-name>encoding</param-name>
+            <!-- 编码方式 -->
             <param-value>UTF-8</param-value>
         </init-param>
         <init-param>
             <param-name>forceEncoding</param-name>
+            <!-- 强制进行编码转换 -->
             <param-value>true</param-value>
         </init-param>
     </filter>
@@ -32,22 +27,40 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- MVC Servlet -->
+    <!-- 加载Spring配置 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <!--<param-value>classpath:spring*.xml</param-value>-->
+        <param-value>classpath*:/spring-context.xml</param-value>
+        <!-- 自动载入的spring配置 -->
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+
+    <!-- 加载Spring mvc配置 -->
     <servlet>
-        <servlet-name>springServlet</servlet-name>
+        <servlet-name>springmvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 可以自定义servlet.xml配置文件的位置和名称，默认为WEB-INF目录下，名称为[<servlet-name>]-servlet.xml，如spring-servlet.xml -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath*:/spring-mvc.xml</param-value>
+            <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>springServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>
