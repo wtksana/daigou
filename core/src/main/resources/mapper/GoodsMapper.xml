@@ -146,8 +146,8 @@
         g.uuid,g.type_uuid,g.name,g.price,g.counter,g.bid,g.create_time,g.update_time,g.status,g.remark,t.type
         from dg_goods g left join dg_goods_type t on g.type_uuid = t.uuid
         where 1=1  and g.status != 0
-        <if test="option != null and option != ''">
-            and (g.name like CONCAT('%','${option}','%' ) or t.type=#{option} )
+        <if test="search != null and search != ''">
+            and (g.name like CONCAT('%','${search}','%' ) or t.type=#{search} )
         </if>
         <if test="startTime != null and startTime != '' ">
             and DATE(g.create_time) &gt;= DATE(#{startTime})

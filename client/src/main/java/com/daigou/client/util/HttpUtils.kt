@@ -1,7 +1,7 @@
 package com.daigou.client.util
 
 import com.alibaba.fastjson.JSONArray
-import com.daigou.common.util.UrlConstant
+import com.daigou.common.constant.UrlConstant
 import com.daigou.core.domain.Results
 import org.apache.commons.codec.binary.Base64
 import org.apache.http.NameValuePair
@@ -25,8 +25,7 @@ fun mapToParams(map: Map<String, Any?>): String {
     if (result.length > 0) {
         result.deleteCharAt(result.length - 1)
     }
-    Base64.encodeBase64String(result.toString().toByteArray())
-    return result.toString()
+    return ".html" + result.toString()
 }
 
 
@@ -36,7 +35,7 @@ fun doPost(url: String, params: Map<String, Any?>): Results {
     var results = Results()
     try {
         val httpClient = HttpClients.createDefault()
-        val httpPost = HttpPost(UrlConstant.server_url + url)
+        val httpPost = HttpPost(UrlConstant.server_url + url + ".html")
 //        httpClient = HttpClients.createDefault()
 //        httpPost = HttpPost(UrlConstant.server_url + url)
         //设置参数

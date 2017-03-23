@@ -1,9 +1,9 @@
-package com.daigou.server.goods
+package com.daigou.server.controller.goods
 
-import com.daigou.common.util.UrlConstant
+import com.daigou.common.constant.UrlConstant
 import com.daigou.core.domain.GoodsType
 import com.daigou.core.service.GoodsTypeService
-import com.daigou.server.BaseController
+import com.daigou.server.controller.BaseController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping

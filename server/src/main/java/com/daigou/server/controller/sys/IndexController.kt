@@ -1,6 +1,6 @@
-package com.daigou.server.sys
+package com.daigou.server.controller.sys
 
-import com.daigou.server.BaseController
+import com.daigou.server.controller.BaseController
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -12,6 +12,10 @@ class IndexController : BaseController() {
 
     @RequestMapping("/index")
     fun index(): String {
+        val operator = request.session.getAttribute("operator_session")
+        if (operator != null) {
+            return "/sys/home"
+        }
         return "/index"
     }
 }

@@ -57,7 +57,7 @@ open class GoodsTypeServiceImpl : GoodsTypeService {
     }
 
     override fun getListByPages(pages: Pages<GoodsType>): Pages<GoodsType> {
-        PageHelper.startPage<GoodsType>(pages.page, pages.row, pages.order)
+        PageHelper.startPage<GoodsType>(pages.pageNum, pages.pageSize, pages.sortOrder)
         val list = mapper!!.getListByPages(pages)
         val newPages = Pages(list as Page<GoodsType>)
         return newPages

@@ -56,7 +56,7 @@ open class UserServiceImpl : UserService {
     }
 
     override fun getListByPages(pages: Pages<User>): Pages<User> {
-        PageHelper.startPage<User>(pages.page, pages.row, pages.order)
+        PageHelper.startPage<User>(pages.pageNum, pages.pageSize, pages.sortOrder)
         val list = mapper!!.getListByPages(pages)
         val newPages = Pages(list as Page<User>)
         return newPages

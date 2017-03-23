@@ -5,18 +5,55 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>Bootstrap 101 Template</title>
+    <title>daigou</title>
 
-    <!-- Bootstrap -->
-    <link href="../themes/css/bootstrap.min.css" rel="stylesheet">
+    <#include "include/resources.html" />
 
 </head>
 <body>
-<h1>你好，世界！</h1>
+<div class="container">
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../themes/js/bootstrap.min.js"></script>
+    <form class="form-signin">
+        <h2 class="form-signin-heading">登录</h2>
+        <label for="userName" class="sr-only">Email address</label>
+        <input type="text" name="userName" id="userName" class="form-control" placeholder="用户名" required autofocus>
+        <label for="pwd" class="sr-only">Password</label>
+        <input type="password" name="pwd" id="pwd" class="form-control" placeholder="密码" required>
+        <div class="alert alert-danger" role="alert" id="msgTip" style="display: none;"></div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="loginFun()">登录</button>
+    </form>
+
+</div> <!-- /container -->
+
+<script>
+    function loginFun() {
+        $.ajax({
+            type: "post",
+            url: "/sys/login.html",
+            dataType: 'json',
+            data: "userName=" + $("#userName").val() + "&pwd=" + $("#pwd").val(),
+            success: function (data) {
+                if (data.result) {
+                    if (document.all) {
+                        var gotoLink = document.createElement('a');
+                        gotoLink.href = "/sys/home.html";
+                        document.body.appendChild(gotoLink);
+                        gotoLink.click();
+                    } else {
+                        window.location.href = "/sys/home.html";
+                    }
+                } else {
+                    $("#msgTip").show().html(data.msg);
+                }
+            }
+        });
+    }
+    $(document).keydown(function (event) {
+        if (event.keyCode == 13) {
+            loginFun();
+        }
+    });
+</script>
+
 </body>
 </html>

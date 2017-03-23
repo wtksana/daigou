@@ -1,6 +1,10 @@
-package com.daigou.server
+package com.daigou.server.controller
 
 import org.slf4j.LoggerFactory
+import org.springframework.web.bind.annotation.ModelAttribute
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import javax.servlet.http.HttpSession
 
 /**
  * Created by wt on 2017/2/9.
@@ -9,11 +13,21 @@ abstract class BaseController {
 
     protected val Log = LoggerFactory.getLogger(this.javaClass)!!
 
+    protected lateinit var request: HttpServletRequest
+    protected lateinit var response: HttpServletResponse
+    protected lateinit var session: HttpSession
+
     protected val RESULT = "result"
     protected val MSG = "msg"
     protected val DATA = "data"
     protected val URL = "url"
 
+    @ModelAttribute
+    fun setReqAndRes(request: HttpServletRequest, response: HttpServletResponse) {
+        this.request = request
+        this.response = response
+        this.session = request.session
+    }
 
     protected fun success(): Map<String, Any> {
         val rst = hashMapOf<String, Any>()
@@ -50,4 +64,5 @@ abstract class BaseController {
         rst.put(MSG, msg)
         return rst
     }
+
 }

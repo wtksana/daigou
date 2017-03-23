@@ -71,7 +71,7 @@ open class OrderServiceImpl : OrderService {
     }
 
     override fun getListByPages(pages: Pages<Order>): Pages<Order> {
-        PageHelper.startPage<Order>(pages.page, pages.row, pages.order)
+        PageHelper.startPage<Order>(pages.pageNum, pages.pageSize, pages.sortOrder)
         val list = mapper!!.getListByPages(pages)
         if (list.isNotEmpty()) {
             for (order in list) {

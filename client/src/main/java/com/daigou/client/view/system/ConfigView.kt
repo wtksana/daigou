@@ -1,6 +1,6 @@
 package com.daigou.client.view.system
 
-import com.daigou.common.util.UrlConstant
+import com.daigou.common.constant.UrlConstant
 import org.controlsfx.control.Notifications
 import tornadofx.*
 

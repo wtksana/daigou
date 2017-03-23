@@ -1,10 +1,10 @@
-package com.daigou.server.user
+package com.daigou.server.controller.order
 
-import com.daigou.common.util.UrlConstant
-import com.daigou.core.domain.Goods
-import com.daigou.core.service.GoodsService
+import com.daigou.common.constant.UrlConstant
+import com.daigou.core.domain.Order
+import com.daigou.core.service.OrderService
 import com.daigou.core.util.Pages
-import com.daigou.server.BaseController
+import com.daigou.server.controller.BaseController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,14 +14,19 @@ import org.springframework.web.bind.annotation.ResponseBody
  * Created by wt on 2017/2/10.
  */
 @Controller
-class GoodsController : BaseController() {
+class OrderController : BaseController() {
 
     @Autowired
-    private val service: GoodsService? = null
+    private val service: OrderService? = null
 
-    @RequestMapping(UrlConstant.goods_list)
+    @RequestMapping("/order/orderListPage")
+    fun orderListPage(): String {
+        return "/order/orderListPage"
+    }
+
+    @RequestMapping(UrlConstant.order_list)
     @ResponseBody
-    fun goodsList(pages: Pages<Goods>): Any {
+    fun orderList(pages: Pages<Order>): Any {
         val newPages = service!!.getListByPages(pages)
         if (newPages.data != null) {
             return success(newPages)
@@ -30,9 +35,14 @@ class GoodsController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.goods_add)
+    @RequestMapping("/order/orderAddPage")
+    fun orderAddPage(): String {
+        return "/order/orderAddPage"
+    }
+
+    @RequestMapping(UrlConstant.order_add)
     @ResponseBody
-    fun goodsAdd(model: Goods): Any {
+    fun orderAdd(model: Order): Any {
         val rs = service!!.save(model)
         if (rs) {
             return success()
@@ -41,9 +51,17 @@ class GoodsController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.goods_edit)
+    @RequestMapping("/order/orderEditPage")
+    fun orderEditPage(uuid: String): String {
+        val order = service!!.getByUuid(uuid)
+        request.setAttribute("model", order)
+        return "/order/orderEditPage"
+    }
+
+
+    @RequestMapping(UrlConstant.order_edit)
     @ResponseBody
-    fun goodsEdit(model: Goods): Any {
+    fun orderEdit(model: Order): Any {
         val rs = service!!.update(model)
         if (rs) {
             return success()
@@ -52,9 +70,9 @@ class GoodsController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.goods_delete)
+    @RequestMapping(UrlConstant.order_delete)
     @ResponseBody
-    fun goodsDelete(uuid: String): Any {
+    fun orderDelete(uuid: String): Any {
         val rs = service!!.deleteByUuid(uuid)
         if (rs) {
             return success()
@@ -63,9 +81,9 @@ class GoodsController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.goods_export)
+    @RequestMapping(UrlConstant.order_export)
     @ResponseBody
-    fun goodsExport(pages: Pages<Goods>): Any {
+    fun orderExport(pages: Pages<Order>): Any {
         val list = service!!.getAllByPages(pages)
         if (list.isNotEmpty()) {
             pages.data = list

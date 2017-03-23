@@ -1,10 +1,10 @@
-package com.daigou.server.user
+package com.daigou.server.controller.user
 
-import com.daigou.common.util.UrlConstant
+import com.daigou.common.constant.UrlConstant
 import com.daigou.core.domain.User
 import com.daigou.core.service.UserService
 import com.daigou.core.util.Pages
-import com.daigou.server.BaseController
+import com.daigou.server.controller.BaseController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,6 +19,11 @@ class UserController : BaseController() {
     @Autowired
     private val service: UserService? = null
 
+    @RequestMapping("/user/userListPage")
+    fun userListPage(): String {
+        return "/user/userListPage"
+    }
+
     @RequestMapping(UrlConstant.user_list)
     @ResponseBody
     fun userList(pages: Pages<User>): Any {
@@ -30,6 +35,11 @@ class UserController : BaseController() {
         }
     }
 
+    @RequestMapping("/user/userAddPage")
+    fun userAddPage(): String {
+        return "/user/userAddPage"
+    }
+
     @RequestMapping(UrlConstant.user_add)
     @ResponseBody
     fun userAdd(user: User): Any {
@@ -39,6 +49,13 @@ class UserController : BaseController() {
         } else {
             return fail()
         }
+    }
+
+    @RequestMapping("/user/userEditPage")
+    fun userEditPage(uuid: String): String {
+        val user = service!!.getByUuid(uuid)
+        request.setAttribute("model", user)
+        return "/user/userEditPage"
     }
 
     @RequestMapping(UrlConstant.user_edit)

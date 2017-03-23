@@ -5,8 +5,10 @@ import com.daigou.core.domain.Operator
 /**
  * Created by wt on 2017/2/8.
  */
-interface OperatorService{
+interface OperatorService {
 
     fun findOperatorByUuid(uuid: String): Operator?
+
+    fun login(userName: String, pwd: String): Operator?
 
 }

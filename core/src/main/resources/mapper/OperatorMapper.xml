@@ -6,7 +6,7 @@
     <!-- Result Map-->
     <resultMap id="baseResultMap" type="com.daigou.core.domain.Operator">
         <result column="uuid" property="uuid"/>
-        <result column="name" property="name"/>
+        <result column="user_name" property="userName"/>
         <result column="pwd" property="pwd"/>
         <result column="real_name" property="realName"/>
         <result column="mobile" property="mobile"/>
@@ -17,7 +17,7 @@
 
     <!-- user table all fields -->
     <sql id="base_column_list">
-        uuid,name,pwd,real_name,mobile,create_time,status,remark
+        uuid,user_name,pwd,real_name,mobile,create_time,status,remark
     </sql>
 
     <!-- 根据id查询 -->
@@ -25,5 +25,13 @@
         select
         <include refid="base_column_list"/>
         from sys_operator where uuid = #{uuid}
+        and status = 1
+    </select>
+
+    <select id="login" resultMap="baseResultMap">
+        select
+        <include refid="base_column_list"/>
+        from sys_operator where user_name = #{userName} and pwd = #{pwd}
+        and status = 1
     </select>
 </mapper>

@@ -13,14 +13,14 @@ import javax.json.JsonObject
  * Created by wt on 2017/2/11.
  */
 class Pages : JsonModel {
-    val pageProperty = SimpleIntegerProperty()
-    var page by pageProperty
+    val pageNumProperty = SimpleIntegerProperty()
+    var pageNum by pageNumProperty
 
-    val rowProperty = SimpleIntegerProperty()
-    var row by rowProperty
+    val pageSizeProperty = SimpleIntegerProperty()
+    var pageSize by pageSizeProperty
 
-    val optionProperty = SimpleStringProperty()
-    var option: String? by optionProperty
+    val searchProperty = SimpleStringProperty()
+    var search: String? by searchProperty
 
     val totalProperty = SimpleLongProperty()
     var total by totalProperty
@@ -39,20 +39,20 @@ class Pages : JsonModel {
 
     override fun updateModel(json: JsonObject) {
         with(json) {
-            page = int("page")!!
-            row = int("row")!!
+            pageNum = int("pageNum")!!
+            pageSize = int("pageSize")!!
             total = long("total")!!
             totalPage = long("totalPage")!!
-            option = string("option")
+            search = string("search")
             data = jsonArray("data")
             startTime = date("startTime")
             endTime = date("endTime")
         }
     }
 
-    constructor(page: Int, row: Int) {
-        this.page = page
-        this.row = row
+    constructor(pageNum: Int, pageSize: Int) {
+        this.pageNum = pageNum
+        this.pageSize = pageSize
     }
 
     constructor()
@@ -60,9 +60,9 @@ class Pages : JsonModel {
 }
 
 class PagesModel : ItemViewModel<Pages>() {
-    val page = bind { item?.pageProperty }
-    val row = bind { item?.rowProperty }
-    val option = bind { item?.optionProperty }
+    val pageNum = bind { item?.pageNumProperty }
+    val pageSize = bind { item?.pageSizeProperty }
+    val search = bind { item?.searchProperty }
     val total = bind { item?.totalProperty }
     val totalPage = bind { item?.totalPageProperty }
     val data = bind { item?.dataProperty }

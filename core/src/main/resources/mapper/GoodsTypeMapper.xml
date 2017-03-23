@@ -94,8 +94,8 @@
         select
         <include refid="base_column_list"/>
         from dg_goods_type where 1=1
-        <if test="option != null and option != ''">
-            and type=#{option}
+        <if test="search != null and search != ''">
+            and type=#{search}
         </if>
     </select>
 

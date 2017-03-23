@@ -10,9 +10,9 @@ class Pages<T> : Serializable {
 
     val serialVersionUID = 1L
 
-    var page: Int = 1 //当前第几页
+    var pageNum: Int = 1 //当前第几页
 
-    var row: Int = 20//系着页最大条件
+    var pageSize: Int = 20//系着页最大条件
 
     var data: List<T>? = null//分页列表
 
@@ -20,7 +20,7 @@ class Pages<T> : Serializable {
 
     var totalPage: Long = 0L //总页数
 
-    var option: String = ""
+    var search: String = ""
     var startTime: String? = null
         get() {
             if (field != null) {
@@ -36,16 +36,18 @@ class Pages<T> : Serializable {
             return field
         }
 
-    val order = "create_time desc"
+    val order = "desc"
+    val sort = "create_time"
+    val sortOrder = "create_time desc"
 
-    constructor(list: List<T>, total: Long, page: Int, row: Int) {
+    constructor(list: List<T>, total: Long, pageNum: Int, pageSize: Int) {
         this.data = list
         this.total = total
-        this.page = page
-        this.row = row
+        this.pageNum = pageNum
+        this.pageSize = pageSize
 
-        this.totalPage = total / row
-        if (total % row > 0) {
+        this.totalPage = total / pageSize
+        if (total % pageSize > 0) {
             this.totalPage++
         }
 
@@ -54,11 +56,11 @@ class Pages<T> : Serializable {
     constructor(page: Page<T>) {
         this.data = page.result
         this.total = page.total
-        this.page = page.pageNum
-        this.row = page.pageSize
+        this.pageNum = page.pageNum
+        this.pageSize = page.pageSize
 
-        this.totalPage = total / row
-        if (total % row > 0) {
+        this.totalPage = total / pageSize
+        if (total % pageSize > 0) {
             this.totalPage++
         }
 

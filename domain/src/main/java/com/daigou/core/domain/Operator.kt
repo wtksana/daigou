@@ -7,7 +7,7 @@ import java.util.*
  * Created by wt on 2017/2/8.
  */
 data class Operator(var uuid: String = "",
-                    var name: String = "",
+                    var userName: String = "",
                     var pwd: String = "",
                     var realName: String = "",
                     var mobile: String = "",

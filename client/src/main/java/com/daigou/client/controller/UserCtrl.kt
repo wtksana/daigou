@@ -4,9 +4,8 @@ import com.alibaba.fastjson.JSONArray
 import com.daigou.client.model.Pages
 import com.daigou.client.model.PagesModel
 import com.daigou.client.model.UserModel
-import com.daigou.client.util.doPost
 import com.daigou.client.util.mapToParams
-import com.daigou.common.util.UrlConstant
+import com.daigou.common.constant.UrlConstant
 import com.daigou.core.domain.User
 import tornadofx.*
 
@@ -18,9 +17,9 @@ class UserCtrl : BaseCtrl<User>() {
 
     override fun getList(pagesModel: PagesModel): List<User> {
         val data = hashMapOf<String, Any>()
-        data.put("page", pagesModel.page.value ?: 1)
-        data.put("row", pagesModel.row.value ?: 20)
-        data.put("option", pagesModel.option.value)
+        data.put("pageNum", pagesModel.pageNum.value ?: 1)
+        data.put("pageSize", pagesModel.pageSize.value ?: 20)
+        data.put("search", pagesModel.search.value)
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
@@ -32,13 +31,11 @@ class UserCtrl : BaseCtrl<User>() {
 //                return JSONArray.parseArray(pages.data, User::class.java)
 //            }
 //        }
-        if (response.ok()) {
-            val result = getResult(response)
-            if (result.result) {
-                pages = result.data.toModel<Pages>()
-                if (pages.data != null) {
-                    return JSONArray.parseArray(pages.data.toString(), User::class.java)
-                }
+        val result = result(response)
+        if (result.result) {
+            pages = result.data.toModel<Pages>()
+            if (pages.data != null) {
+                return JSONArray.parseArray(pages.data.toString(), User::class.java)
             }
         }
         return emptyList()
@@ -53,7 +50,7 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.post(UrlConstant.user_add + params)
-        return result(response)
+        return result(response).result
     }
 
     fun editUser(model: UserModel): Boolean {
@@ -66,7 +63,7 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("remark", model.remark.value)
         val params = mapToParams(data)
         val response = api.post(UrlConstant.user_edit + params)
-        return result(response)
+        return result(response).result
     }
 
     fun deleteUser(uuid: String): Boolean {
@@ -74,23 +71,21 @@ class UserCtrl : BaseCtrl<User>() {
         data.put("uuid", uuid)
         val params = mapToParams(data)
         val response = api.post(UrlConstant.user_delete + params)
-        return result(response)
+        return result(response).result
     }
 
     override fun getAll(pagesModel: PagesModel): List<User> {
         val data = hashMapOf<String, Any>()
-        data.put("option", pagesModel.option.value)
+        data.put("search", pagesModel.search.value)
         data.put("startTime", pagesModel.startTime.value)
         data.put("endTime", pagesModel.endTime.value)
         val params = mapToParams(data)
         val response = api.post(UrlConstant.user_export + params)
-        if (response.ok()) {
-            val result = getResult(response)
-            if (result.result) {
+        val result = result(response)
+        if (result.result) {
 //                pages = result.data.toModel<Pages>()
-                if (pages.data != null) {
-                    return JSONArray.parseArray(pages.data.toString(), User::class.java)
-                }
+            if (pages.data != null) {
+                return JSONArray.parseArray(pages.data.toString(), User::class.java)
             }
         }
         return emptyList()

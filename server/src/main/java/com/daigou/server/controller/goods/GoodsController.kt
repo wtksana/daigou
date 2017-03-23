@@ -1,10 +1,10 @@
-package com.daigou.server.user
+package com.daigou.server.controller.goods
 
-import com.daigou.common.util.UrlConstant
-import com.daigou.core.domain.Order
-import com.daigou.core.service.OrderService
+import com.daigou.common.constant.UrlConstant
+import com.daigou.core.domain.Goods
+import com.daigou.core.service.GoodsService
 import com.daigou.core.util.Pages
-import com.daigou.server.BaseController
+import com.daigou.server.controller.BaseController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,14 +14,19 @@ import org.springframework.web.bind.annotation.ResponseBody
  * Created by wt on 2017/2/10.
  */
 @Controller
-class OrderController : BaseController() {
+class GoodsController : BaseController() {
 
     @Autowired
-    private val service: OrderService? = null
+    private val service: GoodsService? = null
 
-    @RequestMapping(UrlConstant.order_list)
+    @RequestMapping("/goods/goodsListPage")
+    fun goodsListPage(): String {
+        return "/goods/goodsListPage"
+    }
+
+    @RequestMapping(UrlConstant.goods_list)
     @ResponseBody
-    fun orderList(pages: Pages<Order>): Any {
+    fun goodsList(pages: Pages<Goods>): Any {
         val newPages = service!!.getListByPages(pages)
         if (newPages.data != null) {
             return success(newPages)
@@ -30,9 +35,9 @@ class OrderController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.order_add)
+    @RequestMapping(UrlConstant.goods_add)
     @ResponseBody
-    fun orderAdd(model: Order): Any {
+    fun goodsAdd(model: Goods): Any {
         val rs = service!!.save(model)
         if (rs) {
             return success()
@@ -41,9 +46,9 @@ class OrderController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.order_edit)
+    @RequestMapping(UrlConstant.goods_edit)
     @ResponseBody
-    fun orderEdit(model: Order): Any {
+    fun goodsEdit(model: Goods): Any {
         val rs = service!!.update(model)
         if (rs) {
             return success()
@@ -52,9 +57,9 @@ class OrderController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.order_delete)
+    @RequestMapping(UrlConstant.goods_delete)
     @ResponseBody
-    fun orderDelete(uuid: String): Any {
+    fun goodsDelete(uuid: String): Any {
         val rs = service!!.deleteByUuid(uuid)
         if (rs) {
             return success()
@@ -63,9 +68,9 @@ class OrderController : BaseController() {
         }
     }
 
-    @RequestMapping(UrlConstant.order_export)
+    @RequestMapping(UrlConstant.goods_export)
     @ResponseBody
-    fun orderExport(pages: Pages<Order>): Any {
+    fun goodsExport(pages: Pages<Goods>): Any {
         val list = service!!.getAllByPages(pages)
         if (list.isNotEmpty()) {
             pages.data = list

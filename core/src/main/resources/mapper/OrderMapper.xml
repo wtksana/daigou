@@ -137,8 +137,8 @@
         from dg_order o
         left join dg_user u on u.uuid = o.user_uuid
         where 1=1 and o.status = 1
-        <if test="option != null and option != ''">
-            and u.user_name like CONCAT('%','${option}','%' )
+        <if test="search != null and search != ''">
+            and u.user_name like CONCAT('%','${search}','%' )
         </if>
         <if test="startTime != null and startTime != '' ">
             and DATE(o.create_time) &gt;= DATE(#{startTime})

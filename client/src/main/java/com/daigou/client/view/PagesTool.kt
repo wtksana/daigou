@@ -27,10 +27,10 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fra
     val ctrl = ctrl
     val table = table
     val pagesModel = PagesModel()
-    val option = textfield {
+    val search = textfield {
         prefWidth = 100.0
         promptText = "搜索"
-        bind(pagesModel.option)
+        bind(pagesModel.search)
         setOnKeyReleased { e ->
             if (e.code == KeyCode.ENTER) {
                 getList()
@@ -108,7 +108,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fra
     val page = textfield {
         maxWidth = 30.0
         alignment = Pos.CENTER
-        bind(pagesModel.page)
+        bind(pagesModel.pageNum)
         textProperty().addListener { _, _, new ->
             if (!new.matches("[\\d*]".toRegex())) {
                 text = new.replace("[^\\d]".toRegex(), "")
@@ -201,7 +201,7 @@ class PagesTool<T>(ctrl: BaseCtrl<T>, table: TableView<T>, entity: Entity) : Fra
         } ui { rst ->
             table.items = rst.observable()
             table.refresh()
-            page.text = ctrl.pages.page.toString()
+            page.text = ctrl.pages.pageNum.toString()
             totalPage.text = "共${ctrl.pages.totalPage}页"
         }
     }

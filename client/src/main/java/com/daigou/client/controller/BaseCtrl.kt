@@ -3,10 +3,7 @@ package com.daigou.client.controller
 import com.daigou.client.model.Pages
 import com.daigou.client.model.PagesModel
 import com.daigou.client.model.Result
-import com.daigou.common.util.UrlConstant
-import tornadofx.Controller
-import tornadofx.Rest
-import tornadofx.toModel
+import tornadofx.*
 
 /**
  * Created by wt on 2017/2/13.
@@ -15,9 +12,9 @@ abstract class BaseCtrl<out T> : Controller() {
     protected val api: Rest by inject()
     var pages = Pages(1, 20)
 
-    init {
-        api.baseURI = UrlConstant.server_url
-    }
+//    init {
+//        api.baseURI = UrlConstant.server_url
+//    }
 
     abstract fun getList(pagesModel: PagesModel): List<T>
 
@@ -27,13 +24,17 @@ abstract class BaseCtrl<out T> : Controller() {
         return response.one().toModel<Result>()
     }
 
-    fun result(response: Rest.Response): Boolean {
-        if (response.ok()) {
-            val result = getResult(response)
-            if (result.result) {
-                return true
+    fun result(response: Rest.Response): Result {
+        val result: Result
+        try {
+            if (response.ok()) {
+                result = response.one().toModel<Result>()
+            } else {
+                throw Exception("response returned ${response.statusCode} ${response.reason}")
             }
+        } finally {
+            response.consume()
         }
-        return false
+        return result
     }
 }
