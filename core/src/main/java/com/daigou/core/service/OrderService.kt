@@ -1,6 +1,7 @@
 package com.daigou.core.service
 
 import com.daigou.core.domain.Order
+import com.daigou.core.domain.OrderDetail
 import com.daigou.core.util.Pages
 
 /**
@@ -21,4 +22,6 @@ interface OrderService {
     fun getListByPages(pages: Pages<Order>): Pages<Order>
 
     fun getAllByPages(pages: Pages<Order>): List<Order>
+
+    fun getOrderDetailListByOrderUuid(uuid: String): List<OrderDetail>
 }

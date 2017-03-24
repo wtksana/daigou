@@ -19,9 +19,9 @@ class GoodsController : BaseController() {
     @Autowired
     private val service: GoodsService? = null
 
-    @RequestMapping("/goods/goodsListPage")
-    fun goodsListPage(): String {
-        return "/goods/goodsListPage"
+    @RequestMapping("/goods/listPage")
+    fun listPage(): String {
+        return "/goods/listPage"
     }
 
     @RequestMapping(UrlConstant.goods_list)
@@ -35,6 +35,11 @@ class GoodsController : BaseController() {
         }
     }
 
+    @RequestMapping("/goods/addPage")
+    fun addPage(): String {
+        return "/goods/addPage"
+    }
+
     @RequestMapping(UrlConstant.goods_add)
     @ResponseBody
     fun goodsAdd(model: Goods): Any {
@@ -44,6 +49,13 @@ class GoodsController : BaseController() {
         } else {
             return fail()
         }
+    }
+
+    @RequestMapping("/goods/editPage")
+    fun editPage(uuid: String): String {
+        val model = service!!.getByUuid(uuid)
+        request.setAttribute("model", model)
+        return "/goods/editPage"
     }
 
     @RequestMapping(UrlConstant.goods_edit)

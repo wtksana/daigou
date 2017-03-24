@@ -26,6 +26,7 @@ object UrlConstant {
     const val order_edit = "/order/orderEdit"
     const val order_delete = "/order/orderDelete"
     const val order_export = "/order/orderExport"
+    const val order_detail_list = "/order/orderDetailList"
 
     const val goods_type_list = "/goods/goodsTypeList"
     const val goods_type_add = "/goods/goodsTypeAdd"

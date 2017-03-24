@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <#include "../include/resources.html" />
+    <title>商品编辑页面</title>
+    <#include "../include/navbar.html" />
+    <link rel="stylesheet" href="/themes/css/bootstrap-table.min.css">
+    <script src="/themes/js/bootstrap-table.min.js"></script>
+    <script src="/themes/js/goods.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>商品编辑页面</h2>
+    <form class="form-horizontal" id="goodsForm">
+        <div class="form-group">
+            <label for="typeName" class="col-sm-2 control-label">类型</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" name="typeName" class="form-control" id="typeName" placeholder="" value="${model.typeName!''}" readonly>
+                    <input type="hidden" name="typeUuid" id="userUuid">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#typeModal">类型列表</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="goodsName" class="col-sm-2 control-label">商品名称</label>
+            <div class="col-sm-10">
+                <input type="text" name="goodsName" class="form-control" id="goodsName" placeholder="" value="${model.goodsName!''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="price" class="col-sm-2 control-label">售价</label>
+            <div class="col-sm-10">
+                <input type="text" name="price" class="form-control" id="price" placeholder="" value="${model.price!''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="counter" class="col-sm-2 control-label">专柜价</label>
+            <div class="col-sm-10">
+                <input type="text" name="counter" class="form-control" id="counter" placeholder="" value="${model.counter!''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="bid" class="col-sm-2 control-label">进价</label>
+            <div class="col-sm-10">
+                <input type="text" name="bid" class="form-control" id="bid" placeholder="" value="${model.bid!''}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="remark" class="col-sm-2 control-label">备注</label>
+            <div class="col-sm-10">
+                <input type="text" name="remark" class="form-control" id="remark" placeholder="" value="${model.remark!''}">
+            </div>
+        </div>
+        <input type="hidden" name="uuid" value="${model.uuid!''}">
+        <div class="alert" role="alert" id="msgTip" style="display: none;"></div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-primary" onclick="editGoods()">保存</button>
+            </div>
+        </div>
+    </form>
+
+</div> <!-- /container -->
+
+</body>
+</html>

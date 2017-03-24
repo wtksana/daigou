@@ -19,9 +19,9 @@ class OrderController : BaseController() {
     @Autowired
     private val service: OrderService? = null
 
-    @RequestMapping("/order/orderListPage")
-    fun orderListPage(): String {
-        return "/order/orderListPage"
+    @RequestMapping("/order/listPage")
+    fun listPage(): String {
+        return "/order/listPage"
     }
 
     @RequestMapping(UrlConstant.order_list)
@@ -35,9 +35,9 @@ class OrderController : BaseController() {
         }
     }
 
-    @RequestMapping("/order/orderAddPage")
-    fun orderAddPage(): String {
-        return "/order/orderAddPage"
+    @RequestMapping("/order/addPage")
+    fun addPage(): String {
+        return "/order/addPage"
     }
 
     @RequestMapping(UrlConstant.order_add)
@@ -51,11 +51,11 @@ class OrderController : BaseController() {
         }
     }
 
-    @RequestMapping("/order/orderEditPage")
-    fun orderEditPage(uuid: String): String {
-        val order = service!!.getByUuid(uuid)
-        request.setAttribute("model", order)
-        return "/order/orderEditPage"
+    @RequestMapping("/order/editPage")
+    fun editPage(uuid: String): String {
+        val model = service!!.getByUuid(uuid)
+        request.setAttribute("model", model)
+        return "/order/editPage"
     }
 
 
@@ -88,6 +88,20 @@ class OrderController : BaseController() {
         if (list.isNotEmpty()) {
             pages.data = list
             return success(pages)
+        } else {
+            return fail()
+        }
+    }
+
+    @RequestMapping(UrlConstant.order_detail_list)
+    @ResponseBody
+    fun orderDetailList(uuid: String): Any {
+        if (uuid.isNullOrEmpty()) {
+            return fail()
+        }
+        val list = service!!.getOrderDetailListByOrderUuid(uuid)
+        if (list.isNotEmpty()) {
+            return success(list)
         } else {
             return fail()
         }

@@ -93,4 +93,8 @@ open class OrderServiceImpl : OrderService {
         }
         return list
     }
+
+    override fun getOrderDetailListByOrderUuid(uuid: String): List<OrderDetail> {
+        return mapper!!.getOrderDetailListByOrderUuid(uuid)
+    }
 }

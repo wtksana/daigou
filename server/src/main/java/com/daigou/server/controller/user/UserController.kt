@@ -19,9 +19,9 @@ class UserController : BaseController() {
     @Autowired
     private val service: UserService? = null
 
-    @RequestMapping("/user/userListPage")
-    fun userListPage(): String {
-        return "/user/userListPage"
+    @RequestMapping("/user/listPage")
+    fun listPage(): String {
+        return "/user/listPage"
     }
 
     @RequestMapping(UrlConstant.user_list)
@@ -35,9 +35,9 @@ class UserController : BaseController() {
         }
     }
 
-    @RequestMapping("/user/userAddPage")
-    fun userAddPage(): String {
-        return "/user/userAddPage"
+    @RequestMapping("/user/addPage")
+    fun addPage(): String {
+        return "/user/addPage"
     }
 
     @RequestMapping(UrlConstant.user_add)
@@ -51,11 +51,11 @@ class UserController : BaseController() {
         }
     }
 
-    @RequestMapping("/user/userEditPage")
-    fun userEditPage(uuid: String): String {
-        val user = service!!.getByUuid(uuid)
-        request.setAttribute("model", user)
-        return "/user/userEditPage"
+    @RequestMapping("/user/editPage")
+    fun editPage(uuid: String): String {
+        val model = service!!.getByUuid(uuid)
+        request.setAttribute("model", model)
+        return "/user/editPage"
     }
 
     @RequestMapping(UrlConstant.user_edit)

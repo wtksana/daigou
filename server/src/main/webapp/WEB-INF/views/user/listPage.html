@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <#include "../include/resources.html" />
+    <title>用户管理页面</title>
+    <#include "../include/navbar.html" />
+    <link rel="stylesheet" href="/themes/css/bootstrap-table.min.css">
+    <script src="/themes/js/bootstrap-table.min.js"></script>
+    <script src="/themes/js/user.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h2>用户管理页面</h2>
+    <div id="toolbar">
+        <button id="add" class="btn btn-info" onclick="window.location.href='/user/addPage.html'">新增</button>
+    </div>
+    <table id="userTable"></table>
+</div>
+
+<script>
+    initUserTable()
+</script>
+
+</body>
+</html>

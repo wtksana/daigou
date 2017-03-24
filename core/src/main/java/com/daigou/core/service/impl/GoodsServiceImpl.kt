@@ -19,7 +19,7 @@ open class GoodsServiceImpl : GoodsService {
     private val mapper: GoodsMapper? = null
 
     override fun save(model: Goods): Boolean {
-        if (model.name.isNullOrBlank()) {
+        if (model.goodsName.isNullOrBlank()) {
             return false
         }
         if (model.uuid.isNullOrBlank()) {
@@ -30,7 +30,7 @@ open class GoodsServiceImpl : GoodsService {
     }
 
     override fun update(model: Goods): Boolean {
-        if (model.uuid.isNullOrBlank() || model.name.isNullOrBlank()) {
+        if (model.uuid.isNullOrBlank() || model.goodsName.isNullOrBlank()) {
             return false
         }
         mapper!!.update(model)

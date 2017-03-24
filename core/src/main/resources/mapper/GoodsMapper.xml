@@ -7,8 +7,8 @@
     <resultMap id="baseResultMap" type="com.daigou.core.domain.Goods">
         <result column="uuid" property="uuid"/>
         <result column="type_uuid" property="typeUuid"/>
-        <result column="type" property="type"/>
-        <result column="name" property="name"/>
+        <result column="type_name" property="typeName"/>
+        <result column="goods_name" property="goodsName"/>
         <result column="price" property="price"/>
         <result column="counter" property="counter"/>
         <result column="bid" property="bid"/>
@@ -20,7 +20,7 @@
 
     <!-- dg_goods table all fields -->
     <sql id="base_column_list">
-        uuid,type_uuid,name,price,counter,bid,create_time,update_time,status,remark
+        uuid,type_uuid,goods_name,price,counter,bid,create_time,update_time,status,remark
     </sql>
 
     <!-- 查询条件 -->
@@ -33,8 +33,8 @@
             <if test="typeUuid != null and typeUuid != ''">
                 and type_uuid = #{typeUuid}
             </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name = #{goodsName}
             </if>
             <if test="price != null">
                 and price = #{price}
@@ -68,8 +68,8 @@
             <if test="typeUuid != null  and typeUuid != '' ">
                 type_uuid,
             </if>
-            <if test="name != null  and name != '' ">
-                name,
+            <if test="goodsName != null  and goodsName != '' ">
+                goods_name,
             </if>
             <if test="price != null  ">
                 price,
@@ -94,8 +94,8 @@
             <if test="typeUuid != null  and typeUuid != '' ">
                 #{typeUuid},
             </if>
-            <if test="name != null  and name != '' ">
-                #{name},
+            <if test="goodsName != null  and goodsName != '' ">
+                #{goodsName},
             </if>
             <if test="price != null  ">
                 #{price},
@@ -119,7 +119,7 @@
 
     <!-- 根据id，修改记录-->
     <update id="update" parameterType="com.daigou.core.domain.Goods">
-        update dg_goods set type_uuid=#{typeUuid},name=#{name},price=#{price},counter=#{counter},bid=#{bid},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
+        update dg_goods set type_uuid=#{typeUuid},goods_name=#{goodsName},price=#{price},counter=#{counter},bid=#{bid},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
     </update>
 
     <!-- 删除记录 -->
@@ -130,8 +130,9 @@
     <!-- 根据id查询 商品表 -->
     <select id="getByUuid" resultMap="baseResultMap" parameterType="String">
         select
-        <include refid="base_column_list"/>
-        from dg_goods where uuid = #{uuid}
+        g.uuid,g.type_uuid,g.goods_name,g.price,g.counter,g.bid,g.create_time,g.update_time,g.status,g.remark,t.type_name
+        from dg_goods g left join dg_goods_type t on g.type_uuid = t.uuid
+        where g.uuid = #{uuid}
     </select>
 
     <!-- 商品表 列表总数-->
@@ -143,11 +144,11 @@
     <!-- 根据pages查询 -->
     <select id="getListByPages" resultMap="baseResultMap" parameterType="com.daigou.core.util.Pages">
         select
-        g.uuid,g.type_uuid,g.name,g.price,g.counter,g.bid,g.create_time,g.update_time,g.status,g.remark,t.type
+        g.uuid,g.type_uuid,g.goods_name,g.price,g.counter,g.bid,g.create_time,g.update_time,g.status,g.remark,t.type_name
         from dg_goods g left join dg_goods_type t on g.type_uuid = t.uuid
         where 1=1  and g.status != 0
         <if test="search != null and search != ''">
-            and (g.name like CONCAT('%','${search}','%' ) or t.type=#{search} )
+            and (g.name like CONCAT('%','${search}','%' ) or t.type_name=#{search} )
         </if>
         <if test="startTime != null and startTime != '' ">
             and DATE(g.create_time) &gt;= DATE(#{startTime})

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <#include "../include/resources.html" />
+    <title>用户新增页面</title>
+    <#include "../include/navbar.html" />
+    <link rel="stylesheet" href="/themes/css/bootstrap-table.min.css">
+    <script src="/themes/js/bootstrap-table.min.js"></script>
+    <script src="/themes/js/order.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>用户新增页面</h2>
+    <form class="form-horizontal" id="orderForm">
+        <div class="form-group">
+            <label for="userName" class="col-sm-2 control-label">客户</label>
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <input type="text" name="userName" class="form-control" id="userName" placeholder="userName" readonly>
+                    <input type="hidden" name="userUuid" id="userUuid">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userModal">客户列表</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="account" class="col-sm-2 control-label">总价</label>
+            <div class="col-sm-10">
+                <input type="text" name="account" class="form-control" id="account" placeholder="account">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="remark" class="col-sm-2 control-label">备注</label>
+            <div class="col-sm-10">
+                <input type="text" name="remark" class="form-control" id="remark" placeholder="remark">
+            </div>
+        </div>
+        <div class="alert" role="alert" id="msgTip" style="display: none;"></div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-primary" onclick="addOrder()">保存</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="userModalLabel">用户列表</h4>
+            </div>
+            <div class="modal-body">
+                <table id="selectUserTable"></table>
+            </div>
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">选择</button>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#userModal').on('show.bs.modal', function (e) {
+        initSelectUserTable()
+    })
+</script>
+</body>
+</html>

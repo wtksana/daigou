@@ -48,7 +48,7 @@ Date.prototype.format = function (format) {
         "s+": this.getSeconds(), //second
         "q+": Math.floor((this.getMonth() + 3) / 3),  //quarter
         "S": this.getMilliseconds() //millisecond
-    }
+    };
     if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
         (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (var k in o) if (new RegExp("(" + k + ")").test(format))
@@ -56,4 +56,41 @@ Date.prototype.format = function (format) {
             RegExp.$1.length == 1 ? o[k] :
                 ("00" + o[k]).substr(("" + o[k]).length));
     return format;
+};
+
+
+function responseHandlerPage(res) {
+    // console.log(res);
+    if (res.result) {
+        var rsp = {
+            rows: res.data.data,
+            total: res.data.total
+        };
+        return rsp
+    }
+    return null;
+}
+
+function responseHandlerList(res) {
+    // console.log(res);
+    if (res.result) {
+        var rsp = {
+            rows: res.data,
+            total: res.data.length
+        };
+        return rsp
+    }
+    return null;
+}
+
+function queryParams(params) {
+    // console.log(params);
+    var offset = parseInt(params.offset) / parseInt(params.limit);
+    offset++;
+    var temp = {
+        pageSize: params.limit,
+        pageNum: offset,
+        search: params.search
+    };
+    return temp
 }
