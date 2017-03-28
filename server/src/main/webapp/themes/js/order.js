@@ -156,9 +156,9 @@ function initSelectUserTable() {
 
 }
 
-function setUser(userName, userUUid) {
+function setUser(userName, userUuid) {
     $('#userName').val(userName);
-    $('#userUUid').val(userUUid);
+    $('#userUuid').val(userUuid);
     $('#userModal').modal('hide')
 }
 
@@ -208,7 +208,7 @@ function initSelectGoodsTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = "<button type=\"button\" class=\"btn btn-primary\" onclick=\'addSelectGoods(\"" + JSON.stringify(row) + "\")\'>选择</button>";
+                var e = '<button type="button" class="btn btn-primary" onclick="addSelectGoods(\'' + row.uuid + '\',\'' + row.goodsName + '\',\'' + row.price + '\')">选择</button> ';
 //                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
                 return e;
             },
@@ -218,8 +218,27 @@ function initSelectGoodsTable() {
 
 }
 
-function addSelectGoods(row) {
-    console.log(row)
+function addSelectGoods(goodsUuid, goodsName, price) {
+    var data = $('#addOrderDetailTable').bootstrapTable('getData');
+    var after = data.filter(function (obj) {
+        return 'goodsUuid' in obj && obj.goodsUuid == goodsUuid;
+    });
+    if (after.length == 0) {
+        data.push(
+            {
+                goodsUuid: goodsUuid,
+                goodsName: goodsName,
+                account: Number(price),
+                quantity: 1
+            }
+        )
+    } else {
+        after[0].quantity += 1;
+        after[0].account = (Number(after[0].account) + Number(price)).toFixed(2)
+    }
+    $('#addOrderDetailTable').bootstrapTable('load', data);
+    $('#detail').val($.base64.btoa(JSON.stringify(data), true));
+    $('#goodsModal').modal('hide')
 }
 
 function initAddOrderDetailTable() {

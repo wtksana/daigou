@@ -4,6 +4,7 @@
     <#include "../include/resources.html" />
     <title>订单新增页面</title>
     <#include "../include/navbar.html" />
+    <script src="/themes/js/jquery.base64.js"></script>
     <link rel="stylesheet" href="/themes/css/bootstrap-table.min.css">
     <script src="/themes/js/bootstrap-table.min.js"></script>
     <script src="/themes/js/order.js"></script>
@@ -31,6 +32,7 @@
             <div class="col-sm-10">
                 <table id="addOrderDetailTable"></table>
             </div>
+            <input type="hidden" name="detail" id="detail">
         </div>
         <div class="form-group">
             <label for="account" class="col-sm-2 control-label">总价</label>
