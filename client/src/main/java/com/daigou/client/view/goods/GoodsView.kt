@@ -28,7 +28,7 @@ class GoodsView : Fragment() {
                     textfield {
                         prefWidth = 80.0
                         isEditable = false
-                        bind(newGoods.type)
+                        bind(newGoods.typeName)
                         validator {
                             if (it.isNullOrEmpty()) {
                                 error("请选择类型")
@@ -45,7 +45,7 @@ class GoodsView : Fragment() {
                 }
                 field("名称：") {
                     textfield {
-                        bind(newGoods.name)
+                        bind(newGoods.goodsName)
                         validator {
                             if (it.isNullOrEmpty()) {
                                 error("请输入名称")

@@ -59,7 +59,7 @@ class OrderView : Fragment() {
                         if (list.isEmpty()) {
                             val new = OrderDetail()
                             new.goodsUuid = row.item.uuid
-                            new.goodsName = row.item.name
+                            new.goodsName = row.item.goodsName
                             new.account = row.item.price
                             new.quantity = 1
                             detail.items.add(new)

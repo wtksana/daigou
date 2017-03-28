@@ -22,12 +22,12 @@ class GoodsTypeView(var t: GoodsModel) : Fragment() {
 
     val typeTable = tableview<GoodsType> {
         isEditable = true
-        column("类别", GoodsType::type).useTextField {
-            it.rowValue.type = it.newValue
+        column("类别", GoodsType::typeName).useTextField {
+            it.rowValue.typeName = it.newValue
         }
         onEditCommit {
             selectedType.commit()
-            goodsCtrl.editGoodsType(it.uuid, it.type.orEmpty())
+            goodsCtrl.editGoodsType(it.uuid, it.typeName.orEmpty())
         }
         bindSelected(selectedType)
         columnResizePolicy = SmartResize.POLICY
@@ -46,7 +46,7 @@ class GoodsTypeView(var t: GoodsModel) : Fragment() {
             disableProperty().bind(type.textProperty().isEmpty)
             setOnAction {
                 val newType = GoodsType()
-                newType.type = type.text
+                newType.typeName = type.text
                 newType.uuid = UUID.randomUUID().toString().replace("-", "")
                 runAsync {
                     goodsCtrl.addGoodsType(newType)
@@ -64,7 +64,7 @@ class GoodsTypeView(var t: GoodsModel) : Fragment() {
             disableProperty().bind(selectedType.empty)
             setOnAction {
                 t.typeUuid.value = selectedType.uuid.value
-                t.type.value = selectedType.type.value
+                t.typeName.value = selectedType.typeName.value
                 close()
             }
         }

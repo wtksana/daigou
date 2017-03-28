@@ -24,8 +24,8 @@ class GoodsPagesView : View() {
     init {
         title = "商品列表"
         with(tableView) {
-            column("名称", Goods::name).weigthedWidth(1)
-            column("类别", Goods::type)
+            column("名称", Goods::goodsName).weigthedWidth(1)
+            column("类别", Goods::typeName)
             column("售价", Goods::price)
             column("专柜价", Goods::counter)
             column("进价", Goods::bid)

@@ -13,8 +13,8 @@ import java.util.*
 class GoodsModel : ItemViewModel<Goods>() {
     val uuid = bind { SimpleStringProperty(item?.uuid) }
     val typeUuid = bind { SimpleStringProperty(item?.typeUuid) }
-    val type = bind { SimpleStringProperty(item?.type) }
-    val name = bind { SimpleStringProperty(item?.name) }
+    val typeName = bind { SimpleStringProperty(item?.typeName) }
+    val goodsName = bind { SimpleStringProperty(item?.goodsName) }
     val price = bind { SimpleDoubleProperty(item?.price ?: 0.00) }
     val counter = bind { SimpleDoubleProperty(item?.counter ?: 0.00) }
     val bid = bind { SimpleDoubleProperty(item?.bid ?: 0.00) }

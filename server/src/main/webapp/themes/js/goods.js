@@ -52,7 +52,7 @@ function initGoodsTable() {
 function editGoods() {
     $.ajax({
         type: "post",
-        url: "/order/orderEdit.html",
+        url: "/goods/goodsEdit.html",
         dataType: 'json',
         data: $('#goodsForm').serialize(),
         success: function (data) {
@@ -68,13 +68,13 @@ function editGoods() {
 function addGoods() {
     $.ajax({
         type: "post",
-        url: "/order/orderAdd.html",
+        url: "/goods/goodsAdd.html",
         dataType: 'json',
         data: $('#goodsForm').serialize(),
         success: function (data) {
             if (data.result) {
                 $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);
-                setTimeout("window.location.href='/order/listPage.html'", 1000)
+                setTimeout("window.location.href='/goods/listPage.html'", 1000)
             } else {
                 $("#msgTip").removeClass('alert-success').addClass('alert-danger').show().html(data.msg);
             }
@@ -109,7 +109,7 @@ function initSelectTypeTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<button type="button" class="btn btn-primary" onclick="setType(\'' + row.type + '\',\'' + row.uuid + '\')">选择</button> ';
+                var e = '<button type="button" class="btn btn-primary" onclick="setType(\'' + row.typeName + '\',\'' + row.uuid + '\')">选择</button> ';
 //                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
                 return e;
             },

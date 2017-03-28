@@ -56,7 +56,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
     fun addGoods(model: GoodsModel): Boolean {
         val data = hashMapOf<String, String>()
         data.put("typeUuid", model.typeUuid.value)
-        data.put("name", model.name.value)
+        data.put("goodsName", model.goodsName.value)
         data.put("price", model.price.value.toString())
         data.put("bid", model.bid.value.toString())
         data.put("counter", model.counter.value.toString())
@@ -70,7 +70,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
         val data = hashMapOf<String, String>()
         data.put("uuid", model.uuid.value)
         data.put("typeUuid", model.typeUuid.value)
-        data.put("name", model.name.value)
+        data.put("goodsName", model.goodsName.value)
         data.put("price", model.price.value.toString())
         data.put("bid", model.bid.value.toString())
         data.put("counter", model.counter.value.toString())
@@ -112,7 +112,7 @@ class GoodsCtrl : BaseCtrl<Goods>() {
     fun addGoodsType(type: GoodsType): Boolean {
         val data = hashMapOf<String, String>()
         data.put("uuid", type.uuid)
-        data.put("type", type.type ?: "")
+        data.put("typeName", type.typeName ?: "")
         val params = mapToParams(data)
         val response = api.post(UrlConstant.goods_type_add + params)
         return result(response).result

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <#include "../include/resources.html" />
-    <title>用户新增页面</title>
+    <title>订单新增页面</title>
     <#include "../include/navbar.html" />
     <link rel="stylesheet" href="/themes/css/bootstrap-table.min.css">
     <script src="/themes/js/bootstrap-table.min.js"></script>
@@ -10,13 +10,13 @@
 </head>
 <body>
 <div class="container">
-    <h2>用户新增页面</h2>
+    <h2>订单新增页面</h2>
     <form class="form-horizontal" id="orderForm">
         <div class="form-group">
             <label for="userName" class="col-sm-2 control-label">客户</label>
             <div class="col-sm-10">
                 <div class="input-group">
-                    <input type="text" name="userName" class="form-control" id="userName" placeholder="userName" readonly>
+                    <input type="text" name="userName" class="form-control" id="userName" placeholder="" readonly>
                     <input type="hidden" name="userUuid" id="userUuid">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userModal">客户列表</button>
@@ -25,15 +25,28 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-2 control-label">商品列表
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#goodsModal">添加</button>
+            </label>
+            <div class="col-sm-10">
+                <table id="addOrderDetailTable"></table>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="account" class="col-sm-2 control-label">总价</label>
             <div class="col-sm-10">
-                <input type="text" name="account" class="form-control" id="account" placeholder="account">
+                <div class="input-group">
+                    <input type="text" name="account" class="form-control" id="account" placeholder="">
+                    <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" onclick="calculateAccount()">计算</button>
+                </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label for="remark" class="col-sm-2 control-label">备注</label>
             <div class="col-sm-10">
-                <input type="text" name="remark" class="form-control" id="remark" placeholder="remark">
+                <input type="text" name="remark" class="form-control" id="remark" placeholder="">
             </div>
         </div>
         <div class="alert" role="alert" id="msgTip" style="display: none;"></div>
@@ -65,9 +78,31 @@
     </div>
 </div>
 
+<div class="modal fade" id="goodsModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="goodsModalLabel">商品列表</h4>
+            </div>
+            <div class="modal-body">
+                <table id="selectGoodsTable"></table>
+            </div>
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">选择</button>
+            </div>-->
+        </div>
+    </div>
+</div>
+
 <script>
+    initAddOrderDetailTable();
     $('#userModal').on('show.bs.modal', function (e) {
         initSelectUserTable()
+    });
+    $('#goodsModal').on('show.bs.modal', function (e) {
+        initSelectGoodsTable()
     })
 </script>
 </body>

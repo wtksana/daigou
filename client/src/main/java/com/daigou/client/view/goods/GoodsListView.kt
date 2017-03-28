@@ -52,7 +52,7 @@ class GoodsListView : View() {
                     textfield {
                         prefWidth = 80.0
                         isEditable = false
-                        bind(selectedGoods.type)
+                        bind(selectedGoods.typeName)
                         validator {
                             if (it.isNullOrEmpty()) {
                                 error("请选择类型")
@@ -69,7 +69,7 @@ class GoodsListView : View() {
                 }
                 field("名称：") {
                     textfield {
-                        bind(selectedGoods.name)
+                        bind(selectedGoods.goodsName)
                         validator {
                             if (it.isNullOrEmpty()) {
                                 error("请输入名称")

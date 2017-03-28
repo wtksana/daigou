@@ -13,7 +13,7 @@ import java.util.*
  */
 class GoodsTypeModel : ItemViewModel<GoodsType>() {
     val uuid = bind { SimpleStringProperty(item?.uuid) }
-    val type = bind { SimpleStringProperty(item?.type) }
+    val typeName = bind { SimpleStringProperty(item?.typeName) }
     val status = bind { SimpleIntegerProperty(item?.status ?: 1) }
     val createTime = bind { SimpleObjectProperty<Date>(item?.createTime) }
 }
