@@ -7,7 +7,7 @@ import com.daigou.core.domain.Operator
  */
 interface OperatorService {
 
-    fun findOperatorByUuid(uuid: String): Operator?
+    fun getByUuid(uuid: String): Operator?
 
     fun login(userName: String, pwd: String): Operator?
 

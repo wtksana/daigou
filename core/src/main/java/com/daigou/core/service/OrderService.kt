@@ -1,5 +1,6 @@
 package com.daigou.core.service
 
+import com.daigou.core.domain.Operator
 import com.daigou.core.domain.Order
 import com.daigou.core.domain.OrderDetail
 import com.daigou.core.util.Pages
@@ -9,11 +10,13 @@ import com.daigou.core.util.Pages
  */
 interface OrderService {
 
-    fun save(model: Order): Boolean
+    fun save(model: Order, operator: Operator): Boolean
 
-    fun update(model: Order): Boolean
+    fun update(model: Order, operator: Operator): Boolean
 
-    fun deleteByUuid(uuid: String): Boolean
+    fun deleteByUuid(uuid: String, operator: Operator): Boolean
+
+    fun orderDone(uuid: String, operator: Operator): Boolean
 
     fun getByUuid(uuid: String): Order?
 

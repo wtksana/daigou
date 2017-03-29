@@ -40,7 +40,7 @@ function initUserTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<a class="btn btn-primary" role="button" href="/user/editPage.html?uuid=' + row.uuid + '" >编辑</a> ';
+                var e = '<a class="btn btn-primary btn-xs" role="button" href="/user/editPage.html?uuid=' + row.uuid + '" >编辑</a> ';
 //                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
                 return e;
             },
@@ -58,6 +58,7 @@ function editUser() {
         success: function (data) {
             if (data.result) {
                 $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);
+                setTimeout("window.location.href='/user/listPage.html'", 1000)
             } else {
                 $("#msgTip").removeClass('alert-success').addClass('alert-danger').show().html(data.msg);
             }

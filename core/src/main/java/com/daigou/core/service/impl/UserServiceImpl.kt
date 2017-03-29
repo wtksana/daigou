@@ -1,6 +1,7 @@
 package com.daigou.core.service.impl
 
 import com.daigou.core.dao.UserMapper
+import com.daigou.core.domain.Operator
 import com.daigou.core.domain.User
 import com.daigou.core.service.UserService
 import com.daigou.core.util.Pages
@@ -19,7 +20,7 @@ open class UserServiceImpl : UserService {
     @Autowired
     private val mapper: UserMapper? = null
 
-    override fun save(model: User): Boolean {
+    override fun save(model: User, operator: Operator): Boolean {
         if (model.userName.isNullOrBlank()) {
             return false
         }
@@ -28,7 +29,7 @@ open class UserServiceImpl : UserService {
         return true
     }
 
-    override fun update(model: User): Boolean {
+    override fun update(model: User, operator: Operator): Boolean {
         if (model.uuid.isNullOrBlank() || model.userName.isNullOrBlank()) {
             return false
         }
@@ -36,7 +37,7 @@ open class UserServiceImpl : UserService {
         return true
     }
 
-    override fun deleteByUuid(uuid: String): Boolean {
+    override fun deleteByUuid(uuid: String, operator: Operator): Boolean {
         if (uuid.isBlank()) {
             return false
         }

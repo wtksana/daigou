@@ -1,6 +1,8 @@
 package com.daigou.server.controller.user
 
+import com.daigou.common.constant.Constant
 import com.daigou.common.constant.UrlConstant
+import com.daigou.core.domain.Operator
 import com.daigou.core.domain.User
 import com.daigou.core.service.UserService
 import com.daigou.core.util.Pages
@@ -43,7 +45,8 @@ class UserController : BaseController() {
     @RequestMapping(UrlConstant.user_add)
     @ResponseBody
     fun userAdd(user: User): Any {
-        val rs = service!!.save(user)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.save(user, operator)
         if (rs) {
             return success()
         } else {
@@ -61,7 +64,8 @@ class UserController : BaseController() {
     @RequestMapping(UrlConstant.user_edit)
     @ResponseBody
     fun userEdit(user: User): Any {
-        val rs = service!!.update(user)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.update(user, operator)
         if (rs) {
             return success()
         } else {
@@ -72,7 +76,8 @@ class UserController : BaseController() {
     @RequestMapping(UrlConstant.user_delete)
     @ResponseBody
     fun userDelete(uuid: String): Any {
-        val rs = service!!.deleteByUuid(uuid)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.deleteByUuid(uuid, operator)
         if (rs) {
             return success()
         } else {

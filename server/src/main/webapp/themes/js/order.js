@@ -41,8 +41,8 @@ function initOrderTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<a class="btn btn-primary" role="button" href="/order/editPage.html?uuid=' + row.uuid + '" >编辑</a> ';
-//                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
+                var e = '<a class="btn btn-primary btn-xs" role="button" href="/order/editPage.html?uuid=' + row.uuid + '">编辑</a>';
+                // var d = '<a class="btn btn-primary" role="button" href="#" onclick="done(\'' + row.uuid + '\')">删除</a> ';
                 return e;
             },
             width: '10%'
@@ -59,6 +59,7 @@ function editOrder() {
         success: function (data) {
             if (data.result) {
                 $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);
+                setTimeout("window.location.href='/order/listPage.html'", 1000)
             } else {
                 $("#msgTip").removeClass('alert-success').addClass('alert-danger').show().html(data.msg);
             }
@@ -146,7 +147,7 @@ function initSelectUserTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<button type="button" class="btn btn-primary" onclick="setUser(\'' + row.userName + '\',\'' + row.uuid + '\')">选择</button> ';
+                var e = '<button type="button" class="btn btn-primary btn-xs" onclick="setUser(\'' + row.userName + '\',\'' + row.uuid + '\')">选择</button> ';
 //                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
                 return e;
             },
@@ -162,12 +163,12 @@ function setUser(userName, userUuid) {
     $('#userModal').modal('hide')
 }
 
-function calculateAccount() {
-    var data = $('#orderDetailTable').bootstrapTable('getData');
-    var sum = 0.00;
+function calculateAccount(table) {
+    var data = $('#' + table + '').bootstrapTable('getData');
+    var sum = Number(0);
     if (data.length > 0) {
         for (var i in data) {
-            sum += data[i].account
+            sum += Number(data[i].account)
         }
     }
     $('#account').val(sum)
@@ -208,7 +209,7 @@ function initSelectGoodsTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<button type="button" class="btn btn-primary" onclick="addSelectGoods(\'' + row.uuid + '\',\'' + row.goodsName + '\',\'' + row.price + '\')">选择</button> ';
+                var e = '<button type="button" class="btn btn-primary btn-xs" onclick="addSelectGoods(\'' + row.uuid + '\',\'' + row.goodsName + '\',\'' + row.price + '\')">选择</button> ';
 //                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
                 return e;
             },
@@ -262,5 +263,23 @@ function initAddOrderDetailTable() {
             title: '价格',
             width: '30%'
         }]
+    });
+}
+
+function doneOrder() {
+    var uuid = $('#uuid').val();
+    $.ajax({
+        type: "post",
+        url: "/order/orderDone.html",
+        dataType: 'json',
+        data: "uuid="+uuid,
+        success: function (data) {
+            if (data.result) {
+                $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);
+                setTimeout("window.location.href='/order/listPage.html'", 1000)
+            } else {
+                $("#msgTip").removeClass('alert-success').addClass('alert-danger').show().html(data.msg);
+            }
+        }
     });
 }

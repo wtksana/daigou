@@ -119,7 +119,7 @@
 
     <!-- 根据id，修改记录-->
     <update id="update" parameterType="com.daigou.core.domain.Order">
-        update dg_order set user_uuid=#{userUuid},account=#{account},op_uuid=#{opUuid},done_time=#{doneTime},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
+        update dg_order set user_uuid=#{userUuid},account=#{account},op_uuid=#{opUuid},update_time=now(),status=#{status},remark=#{remark} where uuid=#{uuid}
     </update>
 
     <!-- 删除记录 -->
@@ -159,7 +159,7 @@
         o.uuid,o.user_uuid,o.account,o.op_uuid,o.status,o.remark,o.done_time,o.create_time,o.update_time,u.user_name
         from dg_order o
         left join dg_user u on u.uuid = o.user_uuid
-        where 1=1 and o.status = 1
+        where 1=1 and o.status != 0
         <if test="search != null and search != ''">
             and u.user_name like CONCAT('%','${search}','%' )
         </if>
@@ -180,4 +180,7 @@
         WHERE d.order_uuid = #{uuid}
     </select>
 
+    <select id="orderDone" parameterType="String">
+        update dg_order set status=2,done_time=now() where uuid = #{uuid}
+    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.daigou.core.service.impl
 import com.alibaba.fastjson.JSONArray
 import com.daigou.core.dao.OrderDetailMapper
 import com.daigou.core.dao.OrderMapper
+import com.daigou.core.domain.Operator
 import com.daigou.core.domain.Order
 import com.daigou.core.domain.OrderDetail
 import com.daigou.core.service.OrderService
@@ -24,7 +25,7 @@ open class OrderServiceImpl : OrderService {
     @Autowired
     private val orderDetailMapper: OrderDetailMapper? = null
 
-    override fun save(model: Order): Boolean {
+    override fun save(model: Order, operator: Operator): Boolean {
         if (model.userUuid.isNullOrBlank() || model.account < 0) {
             return false
         }
@@ -43,7 +44,7 @@ open class OrderServiceImpl : OrderService {
         return true
     }
 
-    override fun update(model: Order): Boolean {
+    override fun update(model: Order, operator: Operator): Boolean {
         if (model.uuid.isNullOrBlank() || model.userUuid.isNullOrBlank() || model.account < 0) {
             return false
         }
@@ -51,11 +52,19 @@ open class OrderServiceImpl : OrderService {
         return true
     }
 
-    override fun deleteByUuid(uuid: String): Boolean {
+    override fun deleteByUuid(uuid: String, operator: Operator): Boolean {
         if (uuid.isBlank()) {
             return false
         }
         mapper!!.deleteByUuid(uuid)
+        return true
+    }
+
+    override fun orderDone(uuid: String, operator: Operator): Boolean {
+        if (uuid.isBlank()) {
+            return false
+        }
+        mapper!!.orderDone(uuid)
         return true
     }
 

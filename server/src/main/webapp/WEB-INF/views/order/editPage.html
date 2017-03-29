@@ -30,7 +30,7 @@
                 <div class="input-group">
                     <input type="text" name="account" class="form-control" id="account" placeholder="" value="${model.account!''}">
                     <span class="input-group-btn">
-                    <button type="button" class="btn btn-primary" onclick="calculateAccount()">计算</button>
+                    <button type="button" class="btn btn-primary" onclick="calculateAccount('editOrderDetailTable')">计算</button>
                 </span>
                 </div>
             </div>
@@ -47,6 +47,8 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="button" class="btn btn-primary" onclick="editOrder()">保存</button>
+                <button type="button" class="btn btn-warning buttonSpacing" onclick="window.location.href='/order/listPage.html'">返回</button>
+                <button type="button" class="btn btn-success buttonSpacing" onclick="doneOrder()">完成订单</button>
             </div>
         </div>
     </form>

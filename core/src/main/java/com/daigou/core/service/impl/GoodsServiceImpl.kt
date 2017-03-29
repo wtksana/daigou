@@ -2,6 +2,7 @@ package com.daigou.core.service.impl
 
 import com.daigou.core.dao.GoodsMapper
 import com.daigou.core.domain.Goods
+import com.daigou.core.domain.Operator
 import com.daigou.core.service.GoodsService
 import com.daigou.core.util.Pages
 import com.github.pagehelper.Page
@@ -18,7 +19,7 @@ open class GoodsServiceImpl : GoodsService {
     @Autowired
     private val mapper: GoodsMapper? = null
 
-    override fun save(model: Goods): Boolean {
+    override fun save(model: Goods, operator: Operator): Boolean {
         if (model.goodsName.isNullOrBlank()) {
             return false
         }
@@ -29,7 +30,7 @@ open class GoodsServiceImpl : GoodsService {
         return true
     }
 
-    override fun update(model: Goods): Boolean {
+    override fun update(model: Goods, operator: Operator): Boolean {
         if (model.uuid.isNullOrBlank() || model.goodsName.isNullOrBlank()) {
             return false
         }
@@ -37,7 +38,7 @@ open class GoodsServiceImpl : GoodsService {
         return true
     }
 
-    override fun deleteByUuid(uuid: String): Boolean {
+    override fun deleteByUuid(uuid: String, operator: Operator): Boolean {
         if (uuid.isBlank()) {
             return false
         }

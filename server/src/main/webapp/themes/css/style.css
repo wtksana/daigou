@@ -38,3 +38,8 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+/*按钮与前一个按钮的间距*/
+.buttonSpacing{
+    margin-left: 30px;
+}

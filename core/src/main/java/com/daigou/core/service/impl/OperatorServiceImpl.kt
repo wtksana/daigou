@@ -15,8 +15,8 @@ open class OperatorServiceImpl : OperatorService {
     @Autowired
     private val mapper: OperatorMapper? = null
 
-    override fun findOperatorByUuid(uuid: String): Operator? {
-        return mapper!!.findOperatorByUuid(uuid)
+    override fun getByUuid(uuid: String): Operator? {
+        return mapper!!.getByUuid(uuid)
     }
 
     override fun login(userName: String, pwd: String): Operator? {

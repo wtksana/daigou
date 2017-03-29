@@ -13,4 +13,6 @@ interface OrderMapper : BaseMapper<Order> {
 
     fun getOrderDetailListByOrderUuid(uuid: String): List<OrderDetail>
 
+    fun orderDone(uuid: String)
+
 }

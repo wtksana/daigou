@@ -1,7 +1,9 @@
 package com.daigou.server.controller.goods
 
+import com.daigou.common.constant.Constant
 import com.daigou.common.constant.UrlConstant
 import com.daigou.core.domain.Goods
+import com.daigou.core.domain.Operator
 import com.daigou.core.service.GoodsService
 import com.daigou.core.util.Pages
 import com.daigou.server.controller.BaseController
@@ -43,7 +45,8 @@ class GoodsController : BaseController() {
     @RequestMapping(UrlConstant.goods_add)
     @ResponseBody
     fun goodsAdd(model: Goods): Any {
-        val rs = service!!.save(model)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.save(model, operator)
         if (rs) {
             return success()
         } else {
@@ -61,7 +64,8 @@ class GoodsController : BaseController() {
     @RequestMapping(UrlConstant.goods_edit)
     @ResponseBody
     fun goodsEdit(model: Goods): Any {
-        val rs = service!!.update(model)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.update(model, operator)
         if (rs) {
             return success()
         } else {
@@ -72,7 +76,8 @@ class GoodsController : BaseController() {
     @RequestMapping(UrlConstant.goods_delete)
     @ResponseBody
     fun goodsDelete(uuid: String): Any {
-        val rs = service!!.deleteByUuid(uuid)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.deleteByUuid(uuid, operator)
         if (rs) {
             return success()
         } else {

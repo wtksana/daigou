@@ -1,5 +1,6 @@
 package com.daigou.core.service
 
+import com.daigou.core.domain.Operator
 import com.daigou.core.domain.User
 import com.daigou.core.util.Pages
 
@@ -8,11 +9,11 @@ import com.daigou.core.util.Pages
  */
 interface UserService {
 
-    fun save(model: User): Boolean
+    fun save(model: User, operator: Operator): Boolean
 
-    fun update(model: User): Boolean
+    fun update(model: User, operator: Operator): Boolean
 
-    fun deleteByUuid(uuid: String): Boolean
+    fun deleteByUuid(uuid: String, operator: Operator): Boolean
 
     fun getByUuid(uuid: String): User?
 

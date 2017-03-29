@@ -1,7 +1,9 @@
 package com.daigou.server.controller.goods
 
+import com.daigou.common.constant.Constant
 import com.daigou.common.constant.UrlConstant
 import com.daigou.core.domain.GoodsType
+import com.daigou.core.domain.Operator
 import com.daigou.core.service.GoodsTypeService
 import com.daigou.server.controller.BaseController
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,7 +34,8 @@ class GoodsTypeController : BaseController() {
     @RequestMapping(UrlConstant.goods_type_edit)
     @ResponseBody
     fun goodsTypeEdit(goodsType: GoodsType): Any {
-        val rs = service!!.update(goodsType)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.update(goodsType, operator)
         if (rs) {
             return success()
         } else {
@@ -43,7 +46,8 @@ class GoodsTypeController : BaseController() {
     @RequestMapping(UrlConstant.goods_type_add)
     @ResponseBody
     fun goodsTypeAdd(goodsType: GoodsType): Any {
-        val rs = service!!.save(goodsType)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.save(goodsType, operator)
         if (rs) {
             return success()
         } else {

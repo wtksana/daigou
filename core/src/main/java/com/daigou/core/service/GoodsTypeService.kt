@@ -1,6 +1,7 @@
 package com.daigou.core.service
 
 import com.daigou.core.domain.GoodsType
+import com.daigou.core.domain.Operator
 import com.daigou.core.util.Pages
 
 /**
@@ -8,11 +9,11 @@ import com.daigou.core.util.Pages
  */
 interface GoodsTypeService {
 
-    fun save(model: GoodsType): Boolean
+    fun save(model: GoodsType, operator: Operator): Boolean
 
-    fun update(model: GoodsType): Boolean
+    fun update(model: GoodsType, operator: Operator): Boolean
 
-    fun deleteByUuid(uuid: String): Boolean
+    fun deleteByUuid(uuid: String, operator: Operator): Boolean
 
     fun getByUuid(uuid: String): GoodsType?
 

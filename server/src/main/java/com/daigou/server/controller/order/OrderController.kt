@@ -1,6 +1,8 @@
 package com.daigou.server.controller.order
 
+import com.daigou.common.constant.Constant
 import com.daigou.common.constant.UrlConstant
+import com.daigou.core.domain.Operator
 import com.daigou.core.domain.Order
 import com.daigou.core.service.OrderService
 import com.daigou.core.util.Pages
@@ -43,7 +45,8 @@ class OrderController : BaseController() {
     @RequestMapping(UrlConstant.order_add)
     @ResponseBody
     fun orderAdd(model: Order): Any {
-        val rs = service!!.save(model)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.save(model, operator)
         if (rs) {
             return success()
         } else {
@@ -62,7 +65,8 @@ class OrderController : BaseController() {
     @RequestMapping(UrlConstant.order_edit)
     @ResponseBody
     fun orderEdit(model: Order): Any {
-        val rs = service!!.update(model)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.update(model, operator)
         if (rs) {
             return success()
         } else {
@@ -73,7 +77,20 @@ class OrderController : BaseController() {
     @RequestMapping(UrlConstant.order_delete)
     @ResponseBody
     fun orderDelete(uuid: String): Any {
-        val rs = service!!.deleteByUuid(uuid)
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.deleteByUuid(uuid, operator)
+        if (rs) {
+            return success()
+        } else {
+            return fail()
+        }
+    }
+
+    @RequestMapping(UrlConstant.order_done)
+    @ResponseBody
+    fun orderDone(uuid: String): Any {
+        val operator = session.getAttribute(Constant.OPERATOR_SESSION) as Operator
+        val rs = service!!.orderDone(uuid, operator)
         if (rs) {
             return success()
         } else {
