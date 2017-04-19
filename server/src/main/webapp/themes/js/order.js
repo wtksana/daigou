@@ -41,9 +41,9 @@ function initOrderTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<a class="btn btn-primary btn-xs" role="button" href="/order/editPage.html?uuid=' + row.uuid + '">编辑</a>';
-                // var d = '<a class="btn btn-primary" role="button" href="#" onclick="done(\'' + row.uuid + '\')">删除</a> ';
-                return e;
+                var e = '<a class="btn btn-primary btn-xs" role="button" href="/order/editPage.html?uuid=' + row.uuid + '">编辑</a>&nbsp;';
+                var d = '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#msgModal" data-uuid="' + row.uuid + '" data-name="' + row.userName + '">删除</button>';
+                return e+d;
             },
             width: '10%'
         }]
@@ -267,12 +267,28 @@ function initAddOrderDetailTable() {
 }
 
 function doneOrder() {
-    var uuid = $('#uuid').val();
     $.ajax({
         type: "post",
         url: "/order/orderDone.html",
         dataType: 'json',
-        data: "uuid="+uuid,
+        data: "uuid="+$('#uuid').val(),
+        success: function (data) {
+            if (data.result) {
+                $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);
+                setTimeout("window.location.href='/order/listPage.html'", 1000)
+            } else {
+                $("#msgTip").removeClass('alert-success').addClass('alert-danger').show().html(data.msg);
+            }
+        }
+    });
+}
+
+function deleteOrder() {
+    $.ajax({
+        type: "post",
+        url: "/order/orderDelete.html",
+        dataType: 'json',
+        data: "uuid=" + $('#deleteUuid').val(),
         success: function (data) {
             if (data.result) {
                 $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);

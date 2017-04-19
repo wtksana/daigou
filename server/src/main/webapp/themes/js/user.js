@@ -40,9 +40,9 @@ function initUserTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<a class="btn btn-primary btn-xs" role="button" href="/user/editPage.html?uuid=' + row.uuid + '" >编辑</a> ';
-//                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
-                return e;
+                var e = '<a class="btn btn-primary btn-xs" role="button" href="/user/editPage.html?uuid=' + row.uuid + '" >编辑</a>&nbsp;';
+                var d = '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#msgModal" data-uuid="' + row.uuid + '" data-name="' + row.userName + '">删除</button>';
+                return e + d;
             },
             width: '10%'
         }]
@@ -72,6 +72,23 @@ function addUser() {
         url: "/user/userAdd.html",
         dataType: 'json',
         data: $('#userForm').serialize(),
+        success: function (data) {
+            if (data.result) {
+                $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);
+                setTimeout("window.location.href='/user/listPage.html'", 1000)
+            } else {
+                $("#msgTip").removeClass('alert-success').addClass('alert-danger').show().html(data.msg);
+            }
+        }
+    });
+}
+
+function deleteUser() {
+    $.ajax({
+        type: "post",
+        url: "/user/userDelete.html",
+        dataType: 'json',
+        data: "uuid=" + $('#deleteUuid').val(),
         success: function (data) {
             if (data.result) {
                 $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);

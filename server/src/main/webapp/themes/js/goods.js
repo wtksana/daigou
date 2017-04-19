@@ -40,9 +40,9 @@ function initGoodsTable() {
             title: '操作',
             field: 'uuid',
             formatter: function (value, row, index) {
-                var e = '<a class="btn btn-primary btn-xs" role="button" href="/goods/editPage.html?uuid=' + row.uuid + '" >编辑</a> ';
-//                var d = '<a href="#" onclick="del(\'' + row.uuid + '\')">删除</a> ';
-                return e;
+                var e = '<a class="btn btn-primary btn-xs" role="button" href="/goods/editPage.html?uuid=' + row.uuid + '" >编辑</a>&nbsp;';
+                var d = '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#msgModal" data-uuid="' + row.uuid + '" data-name="' + row.goodsName + '">删除</button>';
+                return e+d;
             },
             width: '10%'
         }]
@@ -124,4 +124,21 @@ function setType(type, uuid) {
     $('#typeName').val(type);
     $('#typeUuid').val(uuid);
     $('#typeModal').modal('hide')
+}
+
+function deleteGoods() {
+    $.ajax({
+        type: "post",
+        url: "/goods/goodsDelete.html",
+        dataType: 'json',
+        data: "uuid=" + $('#deleteUuid').val(),
+        success: function (data) {
+            if (data.result) {
+                $("#msgTip").removeClass('alert-danger').addClass('alert-success').show().html(data.msg);
+                setTimeout("window.location.href='/goods/listPage.html'", 1000)
+            } else {
+                $("#msgTip").removeClass('alert-success').addClass('alert-danger').show().html(data.msg);
+            }
+        }
+    });
 }

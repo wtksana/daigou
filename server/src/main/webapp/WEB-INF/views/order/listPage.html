@@ -17,8 +17,39 @@
     </div>
     <table id="orderTable"></table>
 </div>
+
+
+<div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="msgModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="msgModalLabel">消息框</h4>
+            </div>
+            <div class="modal-body">
+                <p>确定要删除用户 <strong id="deleteName"></strong> 的订单吗</p>
+                <input type="hidden" id="deleteUuid" name="uuid">
+                <div class="alert" role="alert" id="msgTip" style="display: none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="deleteOrder()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     initOrderTable();
+    $('#msgModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var uuid = button.data('uuid'); // Extract info from data-* attributes
+        var name = button.data('name'); // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('#deleteName').text(name);
+        modal.find('#deleteUuid').val(uuid)
+    });
 </script>
 
 </body>
